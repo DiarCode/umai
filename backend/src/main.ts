@@ -101,11 +101,11 @@ async function bootstrap() {
     await app.register(fastifySwagger, {
       openapi: {
         info: {
-          title: 'JINAQ API',
-          description: 'JINAQ API Documentation',
+          title: 'umai API',
+          description: 'umai API Documentation',
           version: '1.0.0',
         },
-        tags: [{ name: 'jinaq', description: 'JINAQ endpoints' }],
+        tags: [{ name: 'umai', description: 'umai endpoints' }],
         components: {
           securitySchemes: {
             bearerAuth: {

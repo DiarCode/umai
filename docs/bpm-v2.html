@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BPM — AR Dining Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:          #f0f2f5;
+  --surface:     #ffffff;
+  --surface-2:   #f7f8fa;
+  --border:      #dde1e8;
+  --border-dark: #c4c9d4;
+  --text:        #1a1d23;
+  --text-mid:    #4b5563;
+  --text-dim:    #9ca3af;
+  --shadow:      0 1px 3px rgba(0,0,0,.08), 0 4px 12px rgba(0,0,0,.05);
+  --shadow-sm:   0 1px 2px rgba(0,0,0,.06);
+
+  /* Lane colors — soft pastels */
+  --lane-customer:   #eff6ff;
+  --lane-system:     #f0fdf4;
+  --lane-restaurant: #faf5ff;
+  --lane-kitchen:    #fff7ed;
+  --lane-payment:    #fff1f2;
+  --lane-admin:      #f8fafc;
+  --lane-ar:         #fefce8;
+
+  /* Accent palette */
+  --blue:   #2563eb;
+  --green:  #16a34a;
+  --purple: #7c3aed;
+  --orange: #ea580c;
+  --red:    #dc2626;
+  --yellow: #ca8a04;
+  --teal:   #0d9488;
+  --pink:   #db2777;
+  --slate:  #475569;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  padding-bottom: 80px;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 36px 52px 28px;
+}
+.header-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--blue);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.header h1 {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+.header-sub {
+  font-size: 13px;
+  color: var(--text-mid);
+  margin-top: 5px;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.leg { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--text-mid); }
+
+/* ── Process wrapper ── */
+.proc { margin: 28px 32px 0; }
+.proc-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.proc-num {
+  width: 24px; height: 24px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content:center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+}
+.proc-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--text-mid);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Diagram card ── */
+.diagram {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Pool header */
+.pool-hd {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 20px;
+  background: var(--surface-2);
+  border-bottom: 2px solid var(--border);
+}
+.pool-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink:0; }
+.pool-hd h3 { font-size: 13px; font-weight: 700; color: var(--text); }
+.pool-hd span { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: var(--text-dim); letter-spacing: 1.5px; }
+
+/* ── Swimlane layout ── */
+.lanes { display: flex; }
+
+.lane-labels {
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+  width: 110px;
+  border-right: 2px solid var(--border);
+}
+.lane-lbl {
+  display: flex; align-items: center; justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace;
+  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+}
+.lane-lbl:last-child { border-bottom: none; }
+
+.lane-bodies { flex: 1; display: flex; flex-direction: column; overflow-x: auto; }
+
+.lane-body {
+  border-bottom: 1px solid var(--border);
+  padding: 18px 24px;
+  min-height: 96px;
+  display: flex;
+  align-items: center;
+}
+.lane-body:last-child { border-bottom: none; }
+
+/* colour classes for lanes */
+.lc { background: var(--lane-customer); }
+.ls { background: var(--lane-system); }
+.lr { background: var(--lane-restaurant); }
+.lk { background: var(--lane-kitchen); }
+.lp { background: var(--lane-payment); }
+.la { background: var(--lane-admin); }
+.lar{ background: var(--lane-ar); }
+
+.lbl-c { color: var(--blue); }
+.lbl-s { color: var(--green); }
+.lbl-r { color: var(--purple); }
+.lbl-k { color: var(--orange); }
+.lbl-p { color: var(--red); }
+.lbl-a { color: var(--slate); }
+.lbl-ar{ color: var(--yellow); }
+
+/* ── BPMN shapes ── */
+
+/* Flow row */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  white-space: nowrap;
+}
+
+/* Events */
+.ev {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ev-start { border: 2.5px solid var(--green); background: #dcfce7; }
+.ev-start::after { content:''; width:10px;height:10px;border-radius:50%;background:var(--green); }
+.ev-end   { border: 4px solid var(--red); background: #fee2e2; }
+.ev-end::after   { content:''; width:11px;height:11px;border-radius:50%;background:var(--red); }
+.ev-mid   { border: 2px solid var(--orange); outline: 2px solid var(--orange); outline-offset: 2px; background: #fff7ed; }
+
+/* Tasks */
+.task {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border-dark);
+  background: var(--surface);
+  font-size: 10.5px; font-weight: 500; line-height: 1.4;
+  min-width: 100px; max-width: 128px;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+}
+.task-icon { font-size: 15px; margin-bottom: 4px; }
+
+.task-u { border-color: #93c5fd; background: #eff6ff; }          /* user */
+.task-s { border-color: #86efac; background: #f0fdf4; }          /* system/auto */
+.task-sv{ border-color: #c4b5fd; background: #faf5ff; }          /* service */
+.task-m { border-color: #fdba74; background: #fff7ed; }          /* manual */
+.task-ai{ border-color: #67e8f9; background: #ecfeff; }          /* AI */
+
+/* Gateway */
+.gw-wrap { display: flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; }
+.gw {
+  width: 42px; height: 42px;
+  transform: rotate(45deg);
+  border: 2px solid var(--yellow);
+  background: #fefce8;
+  display: flex; align-items:center; justify-content:center;
+  flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
+}
+.gw-sym { transform: rotate(-45deg); font-weight: 800; font-size: 16px; color: var(--yellow); font-family: 'JetBrains Mono', monospace; }
+.gw-and { border-color: var(--teal); background: #f0fdfa; }
+.gw-and .gw-sym { color: var(--teal); }
+.gw-label { font-size: 9px; font-weight: 600; color: var(--text-mid); text-align:center; max-width:72px; font-family:'JetBrains Mono',monospace; }
+
+/* Arrows */
+.arr { display:flex; align-items:center; flex-shrink:0; position: relative; }
+.arr-line { height:1.5px; background:#94a3b8; }
+.arr-line-s  { width:18px; }
+.arr-line-m  { width:30px; }
+.arr-line-l  { width:50px; }
+.arr-line-xl { width:72px; }
+.arr-head { width:0;height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:7px solid #94a3b8; }
+
+/* Branch arrows */
+.arr-yes .arr-line, .arr-yes .arr-head { background:#16a34a; border-left-color:#16a34a; }
+.arr-no  .arr-line, .arr-no  .arr-head { background:#dc2626; border-left-color:#dc2626; }
+
+/* Arrow branch labels */
+.arr-tag {
+  position: absolute;
+  top: -17px; left: 4px;
+  font-size: 9px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.arr-tag-yes { color: #16a34a; background: #dcfce7; }
+.arr-tag-no  { color: #dc2626; background: #fee2e2; }
+.arr-tag-alt { color: var(--blue); background: #dbeafe; }
+
+/* Node wrapper (shape + label below) */
+.nd { display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0; }
+.nd-lbl { font-size:9px;color:var(--text-dim);text-align:center;max-width:88px;line-height:1.35;font-family:'JetBrains Mono',monospace; }
+
+/* Down-arrow (cross-lane) */
+.arr-dn {
+  display:flex;flex-direction:column;align-items:center;
+  flex-shrink:0; width:16px;
+}
+.arr-dn-line { width:1.5px; background:#94a3b8; flex:1; min-height:14px; }
+.arr-dn-head { width:0;height:0;border-left:4px solid transparent;border-right:4px solid transparent;border-top:6px solid #94a3b8; }
+
+/* Annotation note */
+.note {
+  border: 1px dashed var(--border-dark);
+  border-radius: 6px;
+  padding: 6px 9px;
+  background: #fffbeb;
+  font-size: 9.5px; color: var(--text-mid);
+  max-width: 110px; line-height:1.4;
+  flex-shrink:0;
+}
+
+/* Empty space filler */
+.sp { flex-shrink:0; }
+
+/* Vertical flow column inside a lane (for branching) */
+.vflow { display:flex; flex-direction:column; align-items:center; gap:0; }
+
+/* Branch block — horizontal split after a gateway */
+.branch-block { display:flex; flex-direction:column; gap:14px; flex-shrink:0; }
+.branch-row { display:flex; align-items:center; gap:0; }
+.branch-label {
+  font-size: 9px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 2px 6px; border-radius: 3px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+.bl-yes { color: #16a34a; background: #dcfce7; }
+.bl-no  { color: #dc2626; background: #fee2e2; }
+.bl-alt { color: #2563eb; background: #dbeafe; }
+
+/* Role badge on tasks */
+.role-badge {
+  font-size: 8px; font-weight: 700; letter-spacing:.5px;
+  padding: 1px 5px; border-radius: 10px;
+  margin-top: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+}
+.rb-c  { background:#dbeafe; color:#1d4ed8; }
+.rb-s  { background:#dcfce7; color:#15803d; }
+.rb-r  { background:#ede9fe; color:#6d28d9; }
+.rb-k  { background:#ffedd5; color:#c2410c; }
+.rb-p  { background:#fee2e2; color:#b91c1c; }
+.rb-a  { background:#f1f5f9; color:#475569; }
+.rb-ai { background:#cffafe; color:#0e7490; }
+
+/* Divider between processes */
+.divider { height:1px; background:var(--border); margin:28px 32px 0; }
+
+/* Scrollable lane body */
+.lane-scroll { overflow-x: auto; }
+.lane-scroll::-webkit-scrollbar { height:3px; }
+.lane-scroll::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius:2px; }
+
+/* Loop back annotation */
+.loop-note {
+  font-size: 9px; color: var(--orange);
+  font-family: 'JetBrains Mono', monospace;
+  border: 1px solid #fed7aa;
+  background: #fff7ed;
+  padding: 2px 7px; border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Subprocess box */
+.sub {
+  border: 1.5px dashed #c4c9d4;
+  border-radius: 8px;
+  background: rgba(248,250,252,.7);
+  padding: 10px 14px;
+  display: flex; flex-direction:column; align-items:center;
+  gap:6px; min-width:100px; text-align:center; flex-shrink:0;
+  font-size:10px; color:var(--text-mid);
+}
+.sub-title { font-weight:700; font-size:10.5px; color:var(--text); }
+.sub-plus { font-size:14px; color:var(--text-dim); margin-top:2px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<div class="header">
+  <div class="header-eyebrow">BPMN 2.0 · AR Dining Platform · v2</div>
+  <h1>Диаграммы бизнес-процессов</h1>
+  <div class="header-sub">Полная архитектура процессов системы AR-меню ресторана — 6 процессов</div>
+
+  <div class="legend">
+    <div class="leg">
+      <svg width="22" height="22"><circle cx="11" cy="11" r="8" fill="#dcfce7" stroke="#16a34a" stroke-width="2.5"/><circle cx="11" cy="11" r="3.5" fill="#16a34a"/></svg>
+      Старт
+    </div>
+    <div class="leg">
+      <svg width="22" height="22"><circle cx="11" cy="11" r="8" fill="#fee2e2" stroke="#dc2626" stroke-width="4"/><circle cx="11" cy="11" r="3.5" fill="#dc2626"/></svg>
+      Конец
+    </div>
+    <div class="leg">
+      <svg width="52" height="22"><rect x="1" y="3" width="50" height="17" rx="4" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/><text x="26" y="14" text-anchor="middle" fill="#1e40af" font-size="9" font-family="Inter" font-weight="600">Задача</text></svg>
+      Задача пользователя
+    </div>
+    <div class="leg">
+      <svg width="52" height="22"><rect x="1" y="3" width="50" height="17" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/><text x="26" y="14" text-anchor="middle" fill="#15803d" font-size="9" font-family="Inter" font-weight="600">Авто</text></svg>
+      Системная задача
+    </div>
+    <div class="leg">
+      <svg width="52" height="22"><rect x="1" y="3" width="50" height="17" rx="4" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.5"/><text x="26" y="14" text-anchor="middle" fill="#6d28d9" font-size="9" font-family="Inter" font-weight="600">Сервис</text></svg>
+      Сервисная задача
+    </div>
+    <div class="leg">
+      <svg width="28" height="28"><rect x="4" y="4" width="20" height="20" fill="#fefce8" stroke="#ca8a04" stroke-width="2" transform="rotate(45 14 14)"/><text x="14" y="18" text-anchor="middle" fill="#ca8a04" font-size="12" font-weight="800">×</text></svg>
+      Шлюз XOR (выбор)
+    </div>
+    <div class="leg">
+      <svg width="28" height="28"><rect x="4" y="4" width="20" height="20" fill="#f0fdfa" stroke="#0d9488" stroke-width="2" transform="rotate(45 14 14)"/><text x="14" y="18" text-anchor="middle" fill="#0d9488" font-size="12" font-weight="800">+</text></svg>
+      Шлюз AND (параллельно)
+    </div>
+    <div class="leg">
+      <svg width="40" height="16"><line x1="0" y1="8" x2="30" y2="8" stroke="#16a34a" stroke-width="1.5"/><polygon points="30,4 40,8 30,12" fill="#16a34a"/><text x="2" y="6" fill="#16a34a" font-size="8" font-family="JetBrains Mono" font-weight="700">ДА</text></svg>
+      Ветка ДА
+    </div>
+    <div class="leg">
+      <svg width="40" height="16"><line x1="0" y1="8" x2="30" y2="8" stroke="#dc2626" stroke-width="1.5"/><polygon points="30,4 40,8 30,12" fill="#dc2626"/><text x="2" y="6" fill="#dc2626" font-size="8" font-family="JetBrains Mono" font-weight="700">НЕТ</text></svg>
+      Ветка НЕТ
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ПРОЦЕСС 1 — QR СКАНИРОВАНИЕ И ПРОСМОТР МЕНЮ
+══════════════════════════════════════════════════════════════════ -->
+<div class="proc">
+  <div class="proc-label">
+    <div class="proc-num" style="background:var(--blue);">1</div>
+    <div class="proc-title">QR-Сканирование и просмотр меню</div>
+  </div>
+
+  <div class="diagram">
+    <div class="pool-hd">
+      <div class="pool-dot" style="background:var(--blue);"></div>
+      <h3>Вход в платформу через QR-код</h3>
+      <span>POOL · КЛИЕНТ + СИСТЕМА</span>
+    </div>
+
+    <div class="lanes">
+      <div class="lane-labels">
+        <div class="lane-lbl lbl-c" style="flex:1.1;">Клиент</div>
+        <div class="lane-lbl lbl-s" style="flex:1;">Система</div>
+      </div>
+
+      <div class="lane-bodies lane-scroll">
+
+        <!-- КЛИЕНТ -->
+        <div class="lane-body lc">
+          <div class="flow">
+            <div class="nd">
+              <div class="ev ev-start"></div>
+              <div class="nd-lbl">Приход<br>в ресторан</div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">📱</span>
+                Сканирует QR-код<br>камерой
+                <span class="role-badge rb-c">Клиент</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+
+            <!-- XOR: QR валиден? -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">QR<br>валиден?</div>
+            </div>
+
+            <!-- YES branch -->
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u">
+                    <span class="task-icon">📋</span>
+                    Просматривает<br>категории меню
+                    <span class="role-badge rb-c">Клиент</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u">
+                    <span class="task-icon">🔍</span>
+                    Выбирает блюдо
+                    <span class="role-badge rb-c">Клиент</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <!-- XOR: есть AR? -->
+                <div class="nd">
+                  <div class="gw"><div class="gw-sym">×</div></div>
+                  <div class="nd-lbl">Есть AR-<br>модель?</div>
+                </div>
+                <div class="branch-block" style="margin-left:8px;">
+                  <div class="branch-row">
+                    <div class="branch-label bl-yes">ДА</div>
+                    <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="nd">
+                      <div class="task task-u">
+                        <span class="task-icon">🥽</span>
+                        Смотрит блюдо<br>в AR / 3D
+                        <span class="role-badge rb-c">Клиент</span>
+                      </div>
+                    </div>
+                    <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="nd">
+                      <div class="ev ev-end"></div>
+                      <div class="nd-lbl">→ Заказ</div>
+                    </div>
+                  </div>
+                  <div class="branch-row">
+                    <div class="branch-label bl-no">НЕТ</div>
+                    <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="nd">
+                      <div class="task task-u">
+                        <span class="task-icon">🖼️</span>
+                        Смотрит фото<br>и описание
+                        <span class="role-badge rb-c">Клиент</span>
+                      </div>
+                    </div>
+                    <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="nd">
+                      <div class="ev ev-end"></div>
+                      <div class="nd-lbl">→ Заказ</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row" style="margin-top:4px;">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u" style="border-color:#fca5a5;">
+                    <span class="task-icon">❌</span>
+                    Видит ошибку<br>"QR недействителен"
+                    <span class="role-badge rb-c">Клиент</span>
+                  </div>
+                </div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="ev ev-end" style="border-color:#f97316;background:#fff7ed;"></div>
+                  <div class="nd-lbl">Конец<br>(ошибка)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СИСТЕМА -->
+        <div class="lane-body ls">
+          <div class="flow">
+            <div class="sp" style="width:172px;"></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">✅</span>
+                Валидирует<br>QRCode.code<br>→ restaurant+table
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">🪑</span>
+                Создаёт<br>CustomerSession<br>+ привязывает стол
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv">
+                <span class="task-icon">🗄️</span>
+                Загружает<br>Category + Product<br>для ресторана
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">📦</span>
+                Отдаёт URL<br>ARModel (.glb/.usdz)<br>или null
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ПРОЦЕСС 2 — ЖИЗНЕННЫЙ ЦИКЛ ЗАКАЗА
+══════════════════════════════════════════════════════════════════ -->
+<div class="proc">
+  <div class="proc-label">
+    <div class="proc-num" style="background:var(--purple);">2</div>
+    <div class="proc-title">Жизненный цикл заказа (Order Lifecycle)</div>
+  </div>
+
+  <div class="diagram">
+    <div class="pool-hd">
+      <div class="pool-dot" style="background:var(--purple);"></div>
+      <h3>Создание → Подтверждение → Кухня → Подача → Оплата</h3>
+      <span>POOL · КЛИЕНТ · СИСТЕМА · РЕСТОРАН · КУХНЯ · ПЛАТЁЖ</span>
+    </div>
+
+    <div class="lanes">
+      <div class="lane-labels">
+        <div class="lane-lbl lbl-c" style="flex:1.3;">Клиент</div>
+        <div class="lane-lbl lbl-s" style="flex:1.4;">Система</div>
+        <div class="lane-lbl lbl-r" style="flex:1.5;">Менеджер / Официант</div>
+        <div class="lane-lbl lbl-k" style="flex:1.2;">Кухня</div>
+        <div class="lane-lbl lbl-p" style="flex:1.3;">Платёжный шлюз</div>
+      </div>
+
+      <div class="lane-bodies lane-scroll">
+
+        <!-- КЛИЕНТ -->
+        <div class="lane-body lc">
+          <div class="flow">
+            <div class="nd">
+              <div class="ev ev-start"></div>
+              <div class="nd-lbl">Корзина<br>готова</div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">🛒</span>
+                Подтверждает<br>заказ + инструкции
+                <span class="role-badge rb-c">Клиент</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">👁️</span>
+                Отслеживает<br>статус заказа
+                <span class="role-badge rb-c">Клиент</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">💳</span>
+                Выбирает способ<br>и платит
+                <span class="role-badge rb-c">Клиент</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="ev ev-end"></div>
+              <div class="nd-lbl">Заказ<br>завершён</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СИСТЕМА -->
+        <div class="lane-body ls">
+          <div class="flow">
+            <div class="sp" style="width:36px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">🔢</span>
+                Создаёт Order<br>+ OrderItems<br>(снапшоты цен)<br>status=PLACED
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv">
+                <span class="task-icon">🔔</span>
+                Пуш на панель<br>ресторана
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">📝</span>
+                Пишет<br>OrderStatusHistory<br>при каждом<br>переходе
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv">
+                <span class="task-icon">🏦</span>
+                Создаёт Payment<br>status=PENDING<br>→ шлюз
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">✅</span>
+                Order.status<br>= COMPLETED
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- МЕНЕДЖЕР / ОФИЦИАНТ -->
+        <div class="lane-body lr">
+          <div class="flow">
+            <div class="sp" style="width:258px;"></div>
+            <div class="nd">
+              <div class="task task-m">
+                <span class="task-icon">👨‍💼</span>
+                Видит новый<br>заказ в дашборде
+                <span class="role-badge rb-r">Менеджер</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <!-- XOR: принять/отклонить -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Принять<br>заказ?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m">
+                    <span class="task-icon">🎯</span>
+                    Подтверждает<br>status=CONFIRMED<br>+ ETA
+                    <span class="role-badge rb-r">Менеджер</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-l"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m">
+                    <span class="task-icon">🍽️</span>
+                    Официант<br>подаёт блюда<br>status=SERVED
+                    <span class="role-badge rb-r">Официант</span>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m" style="border-color:#fca5a5;">
+                    <span class="task-icon">❌</span>
+                    Отклоняет<br>status=CANCELLED<br>+ причина
+                    <span class="role-badge rb-r">Менеджер</span>
+                  </div>
+                </div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="ev ev-end" style="border-color:#f97316;background:#fff7ed;"></div>
+                  <div class="nd-lbl">Отменён<br>→ возврат</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- КУХНЯ -->
+        <div class="lane-body lk">
+          <div class="flow">
+            <div class="sp" style="width:424px;"></div>
+            <div class="nd">
+              <div class="task task-m" style="border-color:#fdba74;">
+                <span class="task-icon">👨‍🍳</span>
+                Видит тикет<br>в KDS<br>status=PREPARING
+                <span class="role-badge rb-k">Кухня</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <!-- XOR: готово? -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Готово?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m" style="border-color:#fdba74;">
+                    <span class="task-icon">🔔</span>
+                    Отмечает готовность<br>status=READY
+                    <span class="role-badge rb-k">Кухня</span>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">СТОП</div>
+                <div class="arr"><div class="arr-line arr-line-s" style="background:#ca8a04;"></div><div class="arr-head" style="border-left-color:#ca8a04;"></div></div>
+                <div class="nd">
+                  <div class="task task-m" style="border-color:#fde68a;">
+                    <span class="task-icon">⚠️</span>
+                    Сообщает о<br>нехватке позиции
+                    <span class="role-badge rb-k">Кухня</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="loop-note">↩ к менеджеру<br>на пересмотр</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ПЛАТЁЖНЫЙ ШЛЮЗ -->
+        <div class="lane-body lp">
+          <div class="flow">
+            <div class="sp" style="width:480px;"></div>
+            <div class="nd">
+              <div class="task task-sv" style="border-color:#fca5a5;">
+                <span class="task-icon">🔐</span>
+                Stripe / Terminal<br>обрабатывает<br>транзакцию
+                <span class="role-badge rb-p">Шлюз</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <!-- XOR: успешно? -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Платёж<br>прошёл?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-s" style="border-color:#86efac;">
+                    <span class="task-icon">💚</span>
+                    Payment.status<br>= SUCCEEDED<br>Чек на email
+                    <span class="role-badge rb-s">Авто</span>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-sv" style="border-color:#fca5a5;">
+                    <span class="task-icon">🔄</span>
+                    Payment.status<br>= FAILED<br>Повтор (3×)
+                    <span class="role-badge rb-p">Шлюз</span>
+                  </div>
+                </div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="loop-note">↩ смена способа<br>оплаты</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- lane-bodies -->
+    </div><!-- lanes -->
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ПРОЦЕСС 3 — AI ГОЛОСОВОЙ АССИСТЕНТ
+══════════════════════════════════════════════════════════════════ -->
+<div class="proc">
+  <div class="proc-label">
+    <div class="proc-num" style="background:var(--teal);">3</div>
+    <div class="proc-title">AI голосовой ассистент — рекомендации и заказ</div>
+  </div>
+
+  <div class="diagram">
+    <div class="pool-hd">
+      <div class="pool-dot" style="background:var(--teal);"></div>
+      <h3>Виртуальный официант (AI Voice Assistant)</h3>
+      <span>POOL · КЛИЕНТ + AI-СИСТЕМА</span>
+    </div>
+
+    <div class="lanes">
+      <div class="lane-labels">
+        <div class="lane-lbl lbl-c" style="flex:1;">Клиент</div>
+        <div class="lane-lbl lbl-ai" style="flex:1.4;color:var(--teal);">AI Ассистент</div>
+      </div>
+
+      <div class="lane-bodies lane-scroll">
+
+        <!-- КЛИЕНТ -->
+        <div class="lane-body lc">
+          <div class="flow">
+            <div class="nd">
+              <div class="ev ev-start"></div>
+              <div class="nd-lbl">Нажимает<br>"AI помощник"</div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">🎤</span>
+                Говорит запрос<br>("без глютена,<br>не острое")
+                <span class="role-badge rb-c">Клиент</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">👂</span>
+                Слушает<br>рекомендации<br>ассистента
+                <span class="role-badge rb-c">Клиент</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <!-- XOR: добавить? -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Добавить<br>в корзину?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u">
+                    <span class="task-icon">✅</span>
+                    Подтверждает<br>голосом
+                    <span class="role-badge rb-c">Клиент</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="ev ev-end"></div>
+                  <div class="nd-lbl">Товар<br>в корзине</div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u">
+                    <span class="task-icon">🔁</span>
+                    Уточняет запрос<br>("другой вариант")
+                    <span class="role-badge rb-c">Клиент</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="loop-note">↩ повтор<br>диалога</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI АССИСТЕНТ -->
+        <div class="lane-body" style="background:#f0fdfc;">
+          <div class="flow">
+            <div class="sp" style="width:36px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s" style="background:var(--teal);"></div><div class="arr-head" style="border-left-color:var(--teal);"></div></div>
+            <div class="nd">
+              <div class="task task-sv" style="border-color:#5eead4;">
+                <span class="task-icon">🔊</span>
+                Speech-to-Text<br>(Whisper / Google)<br>→ текст запроса
+                <span class="role-badge rb-ai">AI</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv" style="border-color:#5eead4;">
+                <span class="task-icon">🧠</span>
+                LLM анализирует:<br>аллергены + теги<br>из Customer.prefs
+                <span class="role-badge rb-ai">AI</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s" style="border-color:#5eead4;">
+                <span class="task-icon">🔎</span>
+                Фильтрует Products<br>по dietaryTags<br>и allergens
+                <span class="role-badge rb-ai">AI</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv" style="border-color:#5eead4;">
+                <span class="task-icon">🗣️</span>
+                Text-to-Speech<br>→ озвучивает<br>3 рекомендации
+                <span class="role-badge rb-ai">AI</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s" style="border-color:#5eead4;">
+                <span class="task-icon">🛒</span>
+                Добавляет OrderItem<br>в сессию корзины
+                <span class="role-badge rb-ai">AI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ПРОЦЕСС 4 — ЗАГРУЗКА БЛЮДА С AR-МОДЕЛЬЮ
+══════════════════════════════════════════════════════════════════ -->
+<div class="proc">
+  <div class="proc-label">
+    <div class="proc-num" style="background:var(--orange);">4</div>
+    <div class="proc-title">Управление меню — загрузка блюда с AR-моделью</div>
+  </div>
+
+  <div class="diagram">
+    <div class="pool-hd">
+      <div class="pool-dot" style="background:var(--orange);"></div>
+      <h3>Менеджер создаёт Product + 3D-конвертация (async)</h3>
+      <span>POOL · МЕНЕДЖЕР · СИСТЕМА · AR PIPELINE</span>
+    </div>
+
+    <div class="lanes">
+      <div class="lane-labels">
+        <div class="lane-lbl lbl-r" style="flex:1.1;">Менеджер</div>
+        <div class="lane-lbl lbl-s" style="flex:1.2;">Система</div>
+        <div class="lane-lbl lbl-ar" style="flex:1.3;">AR Pipeline (async)</div>
+      </div>
+
+      <div class="lane-bodies lane-scroll">
+
+        <!-- МЕНЕДЖЕР -->
+        <div class="lane-body lr">
+          <div class="flow">
+            <div class="nd">
+              <div class="ev ev-start"></div>
+              <div class="nd-lbl">Открывает<br>редактор меню</div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-m">
+                <span class="task-icon">📂</span>
+                Создаёт категорию<br>(название,<br>сортировка, фото)
+                <span class="role-badge rb-r">Менеджер</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-m">
+                <span class="task-icon">🍕</span>
+                Заполняет Product<br>(цена, аллергены,<br>диет. теги)
+                <span class="role-badge rb-r">Менеджер</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Есть фото<br>для AR?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m">
+                    <span class="task-icon">🖼️</span>
+                    Загружает фото<br>блюда для 3D
+                    <span class="role-badge rb-r">Менеджер</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m">
+                    <span class="task-icon">👓</span>
+                    Просматривает<br>AR preview<br>в редакторе
+                    <span class="role-badge rb-r">Менеджер</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="gw"><div class="gw-sym">×</div></div>
+                  <div class="nd-lbl">Публи-<br>ковать?</div>
+                </div>
+                <div class="branch-block" style="margin-left:8px;">
+                  <div class="branch-row">
+                    <div class="branch-label bl-yes">ДА</div>
+                    <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="nd">
+                      <div class="ev ev-end"></div>
+                      <div class="nd-lbl">Блюдо<br>в меню</div>
+                    </div>
+                  </div>
+                  <div class="branch-row">
+                    <div class="branch-label bl-no">НЕТ</div>
+                    <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="loop-note">↩ редактирование</div>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m">
+                    <span class="task-icon">📌</span>
+                    Публикует без AR<br>(только фото)
+                    <span class="role-badge rb-r">Менеджер</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="ev ev-end"></div>
+                  <div class="nd-lbl">Блюдо<br>(без AR)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СИСТЕМА -->
+        <div class="lane-body ls">
+          <div class="flow">
+            <div class="sp" style="width:166px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">💾</span>
+                Сохраняет Product<br>в PostgreSQL<br>isAvailable=false
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv">
+                <span class="task-icon">☁️</span>
+                Загружает фото<br>в S3/MinIO<br>→ MediaAsset
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">🔗</span>
+                ARModel.status<br>=READY<br>→ ProductAsset
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">✅</span>
+                Product.isAvailable<br>= true
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AR PIPELINE -->
+        <div class="lane-body lar">
+          <div class="flow">
+            <div class="sp" style="width:300px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s" style="background:var(--orange);"></div><div class="arr-head" style="border-left-color:var(--orange);"></div></div>
+            <div class="nd">
+              <div class="task task-sv" style="border-color:#fed7aa;">
+                <span class="task-icon">⚙️</span>
+                Ставит задачу<br>в очередь<br>ARModel=PENDING
+                <span class="role-badge" style="background:#ffedd5;color:#c2410c;">Pipeline</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv" style="border-color:#fed7aa;">
+                <span class="task-icon">🎲</span>
+                Image → 3D<br>Генерация<br>.glb / .usdz / web
+                <span class="role-badge" style="background:#ffedd5;color:#c2410c;">Pipeline</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Конверсия<br>успешна?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-sv" style="border-color:#fed7aa;">
+                    <span class="task-icon">📤</span>
+                    Загружает модели<br>в CDN<br>Webhook → API
+                    <span class="role-badge" style="background:#ffedd5;color:#c2410c;">Pipeline</span>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-sv" style="border-color:#fca5a5;">
+                    <span class="task-icon">🚨</span>
+                    ARModel.status<br>=FAILED<br>Алерт менеджеру
+                    <span class="role-badge" style="background:#ffedd5;color:#c2410c;">Pipeline</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ПРОЦЕСС 5 — ОНБОРДИНГ РЕСТОРАНА
+══════════════════════════════════════════════════════════════════ -->
+<div class="proc">
+  <div class="proc-label">
+    <div class="proc-num" style="background:var(--pink);">5</div>
+    <div class="proc-title">Онбординг ресторана на платформе</div>
+  </div>
+
+  <div class="diagram">
+    <div class="pool-hd">
+      <div class="pool-dot" style="background:var(--pink);"></div>
+      <h3>Регистрация → Модерация → Настройка → Запуск</h3>
+      <span>POOL · ДИРЕКТОР · PLATFORM ADMIN · СИСТЕМА</span>
+    </div>
+
+    <div class="lanes">
+      <div class="lane-labels">
+        <div class="lane-lbl lbl-r" style="flex:1.2;">Директор</div>
+        <div class="lane-lbl lbl-a" style="flex:1.1;">Platform Admin</div>
+        <div class="lane-lbl lbl-s" style="flex:1.1;">Система</div>
+      </div>
+
+      <div class="lane-bodies lane-scroll">
+
+        <!-- ДИРЕКТОР -->
+        <div class="lane-body lr">
+          <div class="flow">
+            <div class="nd">
+              <div class="ev ev-start"></div>
+              <div class="nd-lbl">Заявка на<br>регистрацию</div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">📝</span>
+                Заполняет профиль<br>(slug, контакты,<br>адрес, часы работы)
+                <span class="role-badge rb-r">Директор</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">⏳</span>
+                Ожидает<br>модерации
+                <span class="role-badge rb-r">Директор</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">👥</span>
+                Добавляет<br>сотрудников<br>(роли + права)
+                <span class="role-badge rb-r">Директор</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">🪑</span>
+                Настраивает<br>столы + печатает<br>QR-коды
+                <span class="role-badge rb-r">Директор</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="ev ev-end"></div>
+              <div class="nd-lbl">Ресторан<br>активен</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLATFORM ADMIN -->
+        <div class="lane-body la">
+          <div class="flow">
+            <div class="sp" style="width:188px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-m" style="border-color:#cbd5e1;">
+                <span class="task-icon">🔎</span>
+                Проверяет данные<br>ресторана<br>в admin panel
+                <span class="role-badge rb-a">Admin</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <!-- XOR: одобрить? -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Одобрить?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m" style="border-color:#cbd5e1;">
+                    <span class="task-icon">✅</span>
+                    Одобряет<br>Restaurant.status<br>= ACTIVE
+                    <span class="role-badge rb-a">Admin</span>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-m" style="border-color:#fca5a5;">
+                    <span class="task-icon">🚫</span>
+                    Отклоняет<br>+ причина<br>на email
+                    <span class="role-badge rb-a">Admin</span>
+                  </div>
+                </div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="ev ev-end" style="border-color:#f97316;background:#fff7ed;"></div>
+                  <div class="nd-lbl">Заявка<br>отклонена</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СИСТЕМА -->
+        <div class="lane-body ls">
+          <div class="flow">
+            <div class="sp" style="width:154px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">💾</span>
+                Создаёт Restaurant<br>status=PENDING<br>+ валидация slug
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv">
+                <span class="task-icon">📧</span>
+                Email директору<br>"Ресторан одобрен"<br>+ инструкции
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">📌</span>
+                Генерирует<br>QRCode (UUID)<br>для каждого стола
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════
+     ПРОЦЕСС 6 — ГОСТЕВОЙ ЗАКАЗ И ПРИВЯЗКА К АККАУНТУ
+══════════════════════════════════════════════════════════════════ -->
+<div class="proc">
+  <div class="proc-label">
+    <div class="proc-num" style="background:var(--green);">6</div>
+    <div class="proc-title">Гостевой заказ и опциональная привязка аккаунта</div>
+  </div>
+
+  <div class="diagram">
+    <div class="pool-hd">
+      <div class="pool-dot" style="background:var(--green);"></div>
+      <h3>Заказ без регистрации → Ретроактивная привязка истории</h3>
+      <span>POOL · ГОСТЬ + СИСТЕМА</span>
+    </div>
+
+    <div class="lanes">
+      <div class="lane-labels">
+        <div class="lane-lbl lbl-c" style="flex:1.1;">Гость / Клиент</div>
+        <div class="lane-lbl lbl-s" style="flex:1.2;">Система</div>
+      </div>
+
+      <div class="lane-bodies lane-scroll">
+
+        <!-- ГОСТЬ -->
+        <div class="lane-body lc">
+          <div class="flow">
+            <div class="nd">
+              <div class="ev ev-start"></div>
+              <div class="nd-lbl">Открывает меню<br>(без входа)</div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-u">
+                <span class="task-icon">🛒</span>
+                Делает заказ<br>(имя/телефон<br>опционально)
+                <span class="role-badge rb-c">Гость</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <!-- XOR: регистрация? -->
+            <div class="nd">
+              <div class="gw"><div class="gw-sym">×</div></div>
+              <div class="nd-lbl">Хочет<br>зарегистри-<br>роваться?</div>
+            </div>
+            <div class="branch-block" style="margin-left:8px;">
+              <div class="branch-row">
+                <div class="branch-label bl-yes">ДА</div>
+                <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u">
+                    <span class="task-icon">📧</span>
+                    Регистрирует<br>аккаунт<br>(email / phone)
+                    <span class="role-badge rb-c">Гость</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="gw"><div class="gw-sym">×</div></div>
+                  <div class="nd-lbl">Email<br>подтверждён?</div>
+                </div>
+                <div class="branch-block" style="margin-left:8px;">
+                  <div class="branch-row">
+                    <div class="branch-label bl-yes">ДА</div>
+                    <div class="arr arr-yes"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="nd">
+                      <div class="ev ev-end"></div>
+                      <div class="nd-lbl">История<br>заказов<br>сохранена</div>
+                    </div>
+                  </div>
+                  <div class="branch-row">
+                    <div class="branch-label bl-no">НЕТ</div>
+                    <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                    <div class="loop-note">↩ письмо<br>повторно</div>
+                  </div>
+                </div>
+              </div>
+              <div class="branch-row">
+                <div class="branch-label bl-no">НЕТ</div>
+                <div class="arr arr-no"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="task task-u">
+                    <span class="task-icon">✌️</span>
+                    Продолжает<br>как гость<br>(история в cookie)
+                    <span class="role-badge rb-c">Гость</span>
+                  </div>
+                </div>
+                <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+                <div class="nd">
+                  <div class="ev ev-end"></div>
+                  <div class="nd-lbl">Заказ<br>выполнен</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СИСТЕМА -->
+        <div class="lane-body ls">
+          <div class="flow">
+            <div class="sp" style="width:36px;"></div>
+            <div class="arr"><div class="arr-line arr-line-s"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">🔑</span>
+                Создаёт guestToken<br>(UUID → cookie)<br>CustomerSession<br>customerId=null
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">📦</span>
+                Order.sessionToken<br>=guestToken<br>customerId=null
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-xl"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-sv">
+                <span class="task-icon">📤</span>
+                Отправляет письмо<br>с подтверждением<br>email
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+            <div class="arr"><div class="arr-line arr-line-m"></div><div class="arr-head"></div></div>
+            <div class="nd">
+              <div class="task task-s">
+                <span class="task-icon">🔗</span>
+                Привязывает все<br>Orders по guestToken<br>→ customer.id
+                <span class="role-badge rb-s">Авто</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -103,7 +103,7 @@ export class AppConfigService {
       region: this.get('S3_REGION', 'ap-northeast-2'),
       accessKeyId: this.get('S3_ACCESS_KEY', 'minio'),
       secretAccessKey: this.get('S3_SECRET_KEY', 'minio123'),
-      bucket: this.get('S3_BUCKET', 'jinaq-media'),
+      bucket: this.get('S3_BUCKET', 'umai-media'),
       imagePrefix: this.get('S3_IMAGE_PREFIX', 'images'),
       usePathStyle: this.get<boolean>('S3_PATH_STYLE', true),
     };

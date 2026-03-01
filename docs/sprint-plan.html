@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint Plan — AR Dining Platform MVP</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --bg:        #f4f5f7;
+  --surface:   #ffffff;
+  --surface2:  #f8f9fb;
+  --border:    #e3e6ec;
+  --border2:   #cdd2dc;
+  --text:      #111827;
+  --text-mid:  #4b5563;
+  --text-dim:  #9ca3af;
+  --shadow:    0 1px 3px rgba(0,0,0,.07), 0 6px 20px rgba(0,0,0,.05);
+
+  /* Developer color identity */
+  --d1: #2563eb;   --d1-lt: #dbeafe;   --d1-mid: #93c5fd;
+  --d2: #7c3aed;   --d2-lt: #ede9fe;   --d2-mid: #c4b5fd;
+  --d3: #059669;   --d3-lt: #d1fae5;   --d3-mid: #6ee7b7;
+  --d4: #dc2626;   --d4-lt: #fee2e2;   --d4-mid: #fca5a5;
+
+  /* Sprint colors */
+  --s1: #1d4ed8;   --s1-lt: #eff6ff;
+  --s2: #7c3aed;   --s2-lt: #faf5ff;
+
+  /* Priority */
+  --p-must:   #dc2626;
+  --p-should: #d97706;
+  --p-nice:   #16a34a;
+
+  /* Task type */
+  --t-ui:     #0891b2;
+  --t-logic:  #7c3aed;
+  --t-api:    #16a34a;
+  --t-int:    #ea580c;
+  --t-setup:  #6b7280;
+}
+
+body{
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* ── HEADER ── */
+.header{
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 56px 32px;
+  position: sticky; top:0; z-index:100;
+}
+.header-top{
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 24px;
+}
+.header-eyebrow{
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--d1); margin-bottom: 8px;
+}
+.header h1{
+  font-family: 'Syne', sans-serif;
+  font-size: 28px; font-weight: 800;
+  letter-spacing: -0.5px; line-height: 1.1;
+}
+.header-meta{
+  font-size: 12px; color: var(--text-mid); margin-top: 5px;
+}
+.sprint-pills{
+  display: flex; gap: 8px; margin-top: 4px;
+}
+.sprint-pill{
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 16px; border-radius: 100px;
+  font-size: 12px; font-weight: 600;
+  border: 1.5px solid;
+}
+.sp1{ border-color: var(--s1); background: var(--s1-lt); color: var(--s1); }
+.sp2{ border-color: var(--s2); background: var(--s2-lt); color: var(--s2); }
+
+/* ── LEGEND ROW ── */
+.legend-row{
+  display: flex; flex-wrap: wrap; gap: 6px 20px;
+  margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.leg{ display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-mid); }
+.leg-dot{ width:8px;height:8px;border-radius:50%;flex-shrink:0; }
+.leg-pill{
+  padding: 1px 7px; border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px; font-weight: 500;
+}
+
+/* ── SUMMARY STATS ── */
+.stats-bar{
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 12px; margin: 24px 56px 0;
+}
+.stat-card{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  box-shadow: var(--shadow);
+}
+.stat-label{ font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; font-family:'DM Mono',monospace; }
+.stat-value{ font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; }
+.stat-sub{ font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+/* ── DEVELOPER SECTION ── */
+.dev-section{ margin: 28px 56px 0; }
+.dev-header{
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 14px;
+}
+.dev-avatar{
+  width: 42px; height: 42px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 800; color: #fff;
+  flex-shrink: 0;
+}
+.dev-info{}
+.dev-role{ font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
+.dev-focus{ font-size: 11px; color: var(--text-mid); margin-top: 2px; font-family:'DM Mono',monospace; }
+.dev-total{
+  margin-left: auto;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+}
+.dev-pts{
+  font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800;
+}
+.dev-pts-label{ font-size: 10px; color: var(--text-dim); font-family:'DM Mono',monospace; letter-spacing: 1px; }
+
+/* Sprint columns */
+.sprints-grid{
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.sprint-col{
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.sprint-col-hd{
+  padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2px solid;
+}
+.sprint-col-hd h3{
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 700;
+}
+.sprint-col-hd .sprint-pts{
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500;
+  padding: 3px 10px; border-radius: 100px;
+}
+
+/* Sprint 1 */
+.sprint-col.s1 .sprint-col-hd{ border-color: var(--s1); background: var(--s1-lt); }
+.sprint-col.s1 .sprint-col-hd h3{ color: var(--s1); }
+.sprint-col.s1 .sprint-pts{ background: var(--s1); color: #fff; }
+
+/* Sprint 2 */
+.sprint-col.s2 .sprint-col-hd{ border-color: var(--s2); background: var(--s2-lt); }
+.sprint-col.s2 .sprint-col-hd h3{ color: var(--s2); }
+.sprint-col.s2 .sprint-pts{ background: var(--s2); color: #fff; }
+
+/* Sprint goal */
+.sprint-goal{
+  padding: 8px 18px 10px;
+  font-size: 11px; color: var(--text-mid); font-style: italic;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface2);
+}
+.sprint-goal strong{ color: var(--text); font-style: normal; }
+
+/* Progress bar */
+.sprint-progress{
+  height: 3px;
+  background: var(--border);
+  margin: 0 18px 2px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.sprint-progress-fill{
+  height: 100%; border-radius: 2px;
+}
+
+/* Tasks list */
+.tasks-list{ padding: 10px 12px 14px; display: flex; flex-direction: column; gap: 7px; }
+
+/* Task card */
+.task{
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: box-shadow .15s;
+  cursor: default;
+}
+.task:hover{ box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+
+.task-left{ display:flex;flex-direction:column;align-items:center;gap:5px;flex-shrink:0; }
+
+/* Task ID */
+.task-id{
+  font-family: 'DM Mono', monospace;
+  font-size: 9px; font-weight: 500;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+/* Type badge */
+.task-type{
+  padding: 2px 6px; border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .4px;
+  white-space: nowrap;
+}
+.tt-ui    { background:#e0f2fe; color:var(--t-ui); }
+.tt-logic { background:#ede9fe; color:var(--t-logic); }
+.tt-api   { background:#d1fae5; color:var(--t-api); }
+.tt-int   { background:#ffedd5; color:var(--t-int); }
+.tt-setup { background:#f1f5f9; color:var(--t-setup); }
+.tt-test  { background:#fef9c3; color:#854d0e; }
+
+.task-body{ flex:1; min-width:0; }
+.task-name{ font-size: 12.5px; font-weight: 600; line-height: 1.4; color: var(--text); }
+.task-desc{ font-size: 11px; color: var(--text-mid); margin-top: 3px; line-height: 1.4; }
+
+/* Subtasks */
+.task-subs{
+  margin-top: 6px; display: flex; flex-direction: column; gap: 2px;
+}
+.task-sub{
+  display: flex; align-items: baseline; gap: 5px;
+  font-size: 10.5px; color: var(--text-dim);
+}
+.task-sub::before{ content:'↳'; font-size:9px; color:var(--border2); flex-shrink:0; }
+
+/* Tags */
+.task-tags{ display:flex;flex-wrap:wrap;gap:4px;margin-top:6px; }
+.tag{
+  padding: 1px 6px; border-radius: 3px;
+  font-family:'DM Mono',monospace;
+  font-size: 9px; color: var(--text-mid);
+  background: var(--surface2); border: 1px solid var(--border);
+}
+
+/* Story points */
+.task-pts{
+  flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+}
+.pts-val{
+  font-family: 'Syne', sans-serif;
+  font-size: 18px; font-weight: 800;
+  line-height: 1;
+}
+.pts-label{
+  font-family: 'DM Mono', monospace;
+  font-size: 8px; color: var(--text-dim); letter-spacing: .5px;
+  text-align: center;
+}
+
+/* Priority dot */
+.prio{
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink:0; margin-top: 2px;
+}
+.p-must  { background: var(--p-must); }
+.p-should{ background: var(--p-should); }
+.p-nice  { background: var(--p-nice); }
+
+/* Dependency badge */
+.dep{
+  font-size: 9px; font-family:'DM Mono',monospace;
+  padding: 1px 5px; border-radius: 3px;
+  background: #f1f5f9; color: #475569;
+  border: 1px dashed #cbd5e1;
+  margin-top: 4px; display: inline-block;
+}
+
+/* Total row */
+.sprint-total{
+  margin: 0 12px 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px; font-weight: 600;
+}
+.s1 .sprint-total{ background: var(--s1-lt); color: var(--s1); }
+.s2 .sprint-total{ background: var(--s2-lt); color: var(--s2); }
+
+/* Divider */
+.divider{ height:1px;background:var(--border);margin:24px 56px 0; }
+
+/* Risk note */
+.risk{
+  margin: 10px 56px 0;
+  padding: 10px 16px;
+  background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+  font-size: 11.5px; color: #92400e;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.risk-icon{ flex-shrink:0; }
+
+/* Timeline visual */
+.timeline{
+  margin: 28px 56px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+}
+.timeline h2{
+  font-family: 'Syne', sans-serif;
+  font-size: 14px; font-weight: 700; margin-bottom: 16px;
+}
+.tl-row{
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 10px;
+}
+.tl-dev{ width: 170px; flex-shrink:0; font-size:11px;font-weight:600; }
+.tl-dev-role{ font-size:9px;color:var(--text-dim);font-family:'DM Mono',monospace; }
+.tl-bar-wrap{
+  flex:1; display:flex;gap:3px;align-items:center;
+}
+.tl-bar{
+  height: 26px; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600;
+  color: #fff; white-space: nowrap;
+  padding: 0 8px; overflow: hidden;
+  position: relative;
+}
+.tl-days{
+  display: flex; gap: 0;
+  position: absolute; left: 24px; right: 0;
+  bottom: 0; height: 3px;
+}
+.tl-day{ flex:1; border-right:1px solid rgba(255,255,255,.2); }
+.tl-pct{
+  font-family:'DM Mono',monospace;
+  font-size:9px;margin-left:8px;color:var(--text-dim);
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-eyebrow">AR Dining Platform · MVP Sprint Plan</div>
+      <h1>2-Sprint Delivery Plan<br>4 Developers · 28 Days</h1>
+      <div class="header-meta">Each sprint = 14 calendar days (10 working days) · Story points = days · Beginner velocity</div>
+    </div>
+    <div>
+      <div class="sprint-pills">
+        <div class="sprint-pill sp1">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#1d4ed8" stroke-width="1.5"/><path d="M6 3v3l2 2" stroke="#1d4ed8" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Sprint 1 · Days 1–14 · Foundation
+        </div>
+        <div class="sprint-pill sp2">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#7c3aed" stroke-width="1.5"/><path d="M3 6l2 2 4-4" stroke="#7c3aed" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Sprint 2 · Days 15–28 · Integration
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legend-row">
+    <div class="leg"><div class="leg-dot" style="background:var(--d1);"></div>Dev 1 — FE Customer App</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--d2);"></div>Dev 2 — FE Admin Panel</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--d3);"></div>Dev 3 — BE Admin/Employee</div>
+    <div class="leg"><div class="leg-dot" style="background:var(--d4);"></div>Dev 4 — BE Core/Orders</div>
+    <div style="width:1px;height:14px;background:var(--border);"></div>
+    <div class="leg"><div class="prio p-must"></div>Must-have</div>
+    <div class="leg"><div class="prio p-should"></div>Should-have</div>
+    <div class="leg"><div class="prio p-nice"></div>Nice-to-have</div>
+    <div style="width:1px;height:14px;background:var(--border);"></div>
+    <div class="leg"><span class="leg-pill tt-ui">UI</span> UI Component</div>
+    <div class="leg"><span class="leg-pill tt-logic">Logic</span> State/Logic</div>
+    <div class="leg"><span class="leg-pill tt-api">API</span> API Endpoint</div>
+    <div class="leg"><span class="leg-pill tt-int">Integration</span> Integration</div>
+    <div class="leg"><span class="leg-pill tt-setup">Setup</span> Setup/Config</div>
+    <div class="leg"><span class="leg-pill tt-test">Test</span> Testing</div>
+  </div>
+</div>
+
+<!-- ══════════════════════ STATS ══════════════════════ -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-label">Total Story Points</div>
+    <div class="stat-value" style="color:var(--d1);">80</div>
+    <div class="stat-sub">20 pts per developer</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Duration</div>
+    <div class="stat-value" style="color:var(--d3);">28</div>
+    <div class="stat-sub">calendar days · 2 sprints</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Total Tasks</div>
+    <div class="stat-value" style="color:var(--d2);">48</div>
+    <div class="stat-sub">12 tasks per developer</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">MVP Outcome</div>
+    <div class="stat-value" style="color:var(--d4);">✓</div>
+    <div class="stat-sub">Full working product</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     TIMELINE OVERVIEW
+══════════════════════════════════════════════════ -->
+<div class="timeline">
+  <h2>📅 Timeline Overview — All 4 Developers</h2>
+
+  <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;padding-left:182px;">
+    <div style="flex:1;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;color:var(--text-dim);">
+      <span>Day 1</span><span>Day 3</span><span>Day 5</span><span>Day 7</span><span>Day 9</span><span>Day 11</span><span>Day 14</span><span style="color:var(--s2);font-weight:700;">SPRINT 2</span><span>Day 17</span><span>Day 19</span><span>Day 21</span><span>Day 24</span><span>Day 28</span>
+    </div>
+  </div>
+
+  <!-- DEV1 -->
+  <div class="tl-row">
+    <div class="tl-dev">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:28px;height:28px;border-radius:7px;background:var(--d1);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:12px;">D1</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;">FE: Customer App</div>
+          <div class="tl-dev-role">Menu + Orders</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-bar-wrap">
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#2563eb,#3b82f6);font-size:10px;">S1 — Foundation: QR, Menu, Cart, AR</div>
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#6366f1,#8b5cf6);font-size:10px;">S2 — Checkout, Tracking, API Connect</div>
+    </div>
+  </div>
+
+  <!-- DEV2 -->
+  <div class="tl-row">
+    <div class="tl-dev">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:28px;height:28px;border-radius:7px;background:var(--d2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:12px;">D2</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;">FE: Admin Panel</div>
+          <div class="tl-dev-role">Restaurant + Employee</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-bar-wrap">
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#7c3aed,#8b5cf6);font-size:10px;">S1 — Auth, Layout, Menu CRUD, Categories</div>
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#a855f7,#c084fc);font-size:10px;">S2 — Orders Board, Tables, QR, Employees</div>
+    </div>
+  </div>
+
+  <!-- DEV3 -->
+  <div class="tl-row">
+    <div class="tl-dev">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:28px;height:28px;border-radius:7px;background:var(--d3);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:12px;">D3</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;">BE: Admin/Employee</div>
+          <div class="tl-dev-role">REST API + Auth</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-bar-wrap">
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#059669,#10b981);font-size:10px;">S1 — Auth (Admin+Emp), Restaurant, Menu APIs</div>
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#0d9488,#14b8a6);font-size:10px;">S2 — Employees, Tables/QR, Moderation, Files</div>
+    </div>
+  </div>
+
+  <!-- DEV4 -->
+  <div class="tl-row">
+    <div class="tl-dev">
+      <div style="display:flex;align-items:center;gap:7px;">
+        <div style="width:28px;height:28px;border-radius:7px;background:var(--d4);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;color:#fff;font-size:12px;">D4</div>
+        <div>
+          <div style="font-size:11px;font-weight:700;">BE: Core/Orders</div>
+          <div class="tl-dev-role">Menu + Ordering API</div>
+        </div>
+      </div>
+    </div>
+    <div class="tl-bar-wrap">
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#dc2626,#ef4444);font-size:10px;">S1 — DB Setup, QR Session, Public Menu, Cart</div>
+      <div class="tl-bar" style="width:50%;background:linear-gradient(90deg,#e11d48,#f43f5e);font-size:10px;">S2 — Order Lifecycle, Payment, Guest, Notifs</div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;padding:10px 14px;background:#f8f9fb;border-radius:8px;border:1px solid var(--border);font-size:11px;color:var(--text-mid);">
+    <strong style="color:var(--text);">🔗 Sync points:</strong>
+    Day 5 — D3+D4 finish auth APIs → D1+D2 can start integration · 
+    Day 10 — D4 finishes menu APIs → D1 connects live data · 
+    Day 14 — Sprint 1 review + handoff · 
+    Day 22 — D3+D4 finish BE → D1+D2 full integration testing · 
+    Day 28 — MVP demo
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     DEV 1 — FRONTEND: CUSTOMER APP
+══════════════════════════════════════════════════ -->
+<div class="dev-section">
+  <div class="dev-header">
+    <div class="dev-avatar" style="background:var(--d1);">D1</div>
+    <div class="dev-info">
+      <div class="dev-role">Frontend Developer 1 — Customer App</div>
+      <div class="dev-focus">Customer Menu · AR Viewer · Cart · Order Tracking · Guest Checkout</div>
+    </div>
+    <div class="dev-total">
+      <div class="dev-pts" style="color:var(--d1);">20 pts</div>
+      <div class="dev-pts-label">TOTAL DAYS</div>
+    </div>
+  </div>
+
+  <div class="sprints-grid">
+
+    <!-- S1 -->
+    <div class="sprint-col s1">
+      <div class="sprint-col-hd">
+        <h3>🔨 Sprint 1 — Foundation</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> QR landing, full menu browsing, product detail, AR viewer, cart state all working with mock data</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s1);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-01</span>
+            <span class="task-type tt-setup">Setup</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Project bootstrap & core infrastructure</div>
+            <div class="task-desc">Next.js 14 (App Router), TailwindCSS, shadcn/ui install, folder structure, API client (axios/fetch), env config, mobile-first layout shell</div>
+            <div class="task-tags"><span class="tag">Next.js</span><span class="tag">Tailwind</span><span class="tag">shadcn/ui</span></div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">1</div>
+            <div class="pts-label">day</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-02</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">QR Landing Page + Restaurant info screen</div>
+            <div class="task-desc">Page that receives <code>?code=</code> param, shows restaurant name/logo/status, triggers session creation. Error state for invalid QR.</div>
+            <div class="task-subs">
+              <div class="task-sub">QR param parsing + redirect logic</div>
+              <div class="task-sub">Loading state + invalid QR error UI</div>
+              <div class="task-sub">Restaurant welcome card</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">1</div>
+            <div class="pts-label">day</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-03</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Menu page — Category tabs + Product grid</div>
+            <div class="task-desc">Horizontal sticky category tabs, scrollable product grid/list, search bar, dietary filter chips (vegan/halal/gluten-free), out-of-stock state</div>
+            <div class="task-subs">
+              <div class="task-sub">Category tab scroll-snap navigation</div>
+              <div class="task-sub">Product card component (image, name, price, badges)</div>
+              <div class="task-sub">Filter logic (client-side on dietaryTags)</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-04</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Product detail bottom sheet / modal</div>
+            <div class="task-desc">Full product view: gallery, description, allergens, nutrition accordion, modifier groups (size/extras), quantity selector, "Add to Cart" CTA</div>
+            <div class="task-subs">
+              <div class="task-sub">Modifier group UI (radio / checkbox)</div>
+              <div class="task-sub">Allergen icon pills</div>
+              <div class="task-sub">Price calculation with modifiers</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-05</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-should"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">AR Viewer integration (<code>&lt;model-viewer&gt;</code>)</div>
+            <div class="task-desc">Embed Google's <code>model-viewer</code> web component. Toggle between photo and 3D view. Show AR launch button (iOS USDZ / Android intent). Spinner while loading GLB. Fallback to photo if ARModel is null.</div>
+            <div class="task-tags"><span class="tag">model-viewer</span><span class="tag">.glb</span><span class="tag">.usdz</span></div>
+            <div class="dep">⚡ Depends: D4-04 (AR model URLs in API)</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-06</span>
+            <span class="task-type tt-logic">Logic</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Cart — global state management</div>
+            <div class="task-desc">Zustand store for cart items (productId, modifiers, quantity, snapshots). Persist to sessionStorage. Cart icon badge. Floating cart button. Cart bottom sheet with item list, remove, edit quantity.</div>
+            <div class="task-subs">
+              <div class="task-sub">Add/remove/update item actions</div>
+              <div class="task-sub">Cart summary (subtotal calculation)</div>
+              <div class="task-sub">Cart sheet UI component</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 1 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="sprint-col s2">
+      <div class="sprint-col-hd">
+        <h3>🚀 Sprint 2 — Integration & Completion</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> Live APIs connected, full order placement + tracking, guest checkout, mobile-polished, production-ready</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s2);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-07</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Guest checkout form + order notes</div>
+            <div class="task-desc">Optional name/phone/email fields, special instructions textarea, order type selector (dine-in pre-filled from QR, takeaway). Validation. Submit → calls order API.</div>
+            <div class="task-subs">
+              <div class="task-sub">Form validation (react-hook-form)</div>
+              <div class="task-sub">Order summary before submit</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-08</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Order placed confirmation page</div>
+            <div class="task-desc">Success screen with order number, estimated time, items summary, table number. "Track my order" CTA. Share/save receipt option.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">1</div>
+            <div class="pts-label">day</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-09</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Real-time order status tracking screen</div>
+            <div class="task-desc">Visual stepper (Placed → Confirmed → Preparing → Ready → Served). Poll order status every 10s. Status-change animation. ETA countdown. Kitchen note display.</div>
+            <div class="task-subs">
+              <div class="task-sub">Polling hook with 10s interval</div>
+              <div class="task-sub">Step progress component</div>
+              <div class="task-sub">Status-to-label/icon mapping</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-10</span>
+            <span class="task-type tt-int">Integration</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Connect all API endpoints (live data)</div>
+            <div class="task-desc">Replace all mock data with real API calls. Menu fetch, session init, cart → order POST, order status GET. Handle auth headers (session token in cookie).</div>
+            <div class="dep">⚡ Depends: D4-02, D4-03, D4-05</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-11</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-should"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Loading skeletons, error states, empty states</div>
+            <div class="task-desc">Skeleton loaders for menu, product cards, order tracker. Error boundaries with retry. Empty category state. Network error toast. Offline indicator.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D1-12</span>
+            <span class="task-type tt-test">Test</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">E2E flow testing + mobile responsive polish</div>
+            <div class="task-desc">Full happy-path testing on iOS Safari + Android Chrome. Fix touch targets, scroll issues, keyboard push. Lighthouse perf audit. Fix critical bugs.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 2 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════
+     DEV 2 — FRONTEND: ADMIN + EMPLOYEE PANEL
+══════════════════════════════════════════════════ -->
+<div class="dev-section">
+  <div class="dev-header">
+    <div class="dev-avatar" style="background:var(--d2);">D2</div>
+    <div class="dev-info">
+      <div class="dev-role">Frontend Developer 2 — Admin + Employee Panel</div>
+      <div class="dev-focus">Restaurant Config · Menu Editor · Orders Board · Table & QR Management · Employee Roles</div>
+    </div>
+    <div class="dev-total">
+      <div class="dev-pts" style="color:var(--d2);">20 pts</div>
+      <div class="dev-pts-label">TOTAL DAYS</div>
+    </div>
+  </div>
+
+  <div class="sprints-grid">
+
+    <div class="sprint-col s1">
+      <div class="sprint-col-hd">
+        <h3>🔨 Sprint 1 — Foundation</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> Auth working, dashboard shell, full menu editor (categories + products + image upload) functional</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s1);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-01</span>
+            <span class="task-type tt-setup">Setup</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Project bootstrap + auth guard + sidebar layout</div>
+            <div class="task-desc">Next.js dashboard project, protected routes (JWT in localStorage), sidebar navigation with role-based menu items, responsive collapsed sidebar, breadcrumb, topbar with user avatar/logout</div>
+            <div class="task-tags"><span class="tag">Next.js</span><span class="tag">JWT</span><span class="tag">Role guard</span></div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-02</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Login pages — PlatformAdmin + RestaurantEmployee</div>
+            <div class="task-desc">Two separate login screens (different branding). Email + password form. JWT token storage. Redirect to correct dashboard by role. "Forgot password" placeholder. Error messages.</div>
+            <div class="task-subs">
+              <div class="task-sub">Admin login → /admin/dashboard</div>
+              <div class="task-sub">Employee login → /employee/orders</div>
+              <div class="task-sub">Role-based redirect after login</div>
+            </div>
+            <div class="dep">⚡ Depends: D3-01, D3-02</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-03</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Category management — full CRUD</div>
+            <div class="task-desc">List page with drag-and-drop reorder (dnd-kit). Create/edit modal (name, slug auto-gen, image upload, active toggle). Delete with confirmation. Empty state.</div>
+            <div class="task-subs">
+              <div class="task-sub">Drag-to-reorder with optimistic update</div>
+              <div class="task-sub">Slug auto-generation from name</div>
+              <div class="task-sub">Image upload preview</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-04</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Product form — create & edit (full fields)</div>
+            <div class="task-desc">Multi-step or tabbed form: Basic (name, slug, desc, price, category), Media (image upload, AR upload + status badge), Details (allergens multi-select, dietary tags, nutrition JSON), Availability (status, sort order)</div>
+            <div class="task-subs">
+              <div class="task-sub">Multi-image upload with preview grid</div>
+              <div class="task-sub">AR file upload + PENDING/READY status badge</div>
+              <div class="task-sub">Allergen tag multi-select checkboxes</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">3</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-05</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-should"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Product list page with status management</div>
+            <div class="task-desc">Table view with search, filter by category/status. Quick toggle active/inactive. Bulk actions. Sortable columns. Pagination.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d1);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 1 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+    <div class="sprint-col s2">
+      <div class="sprint-col-hd">
+        <h3>🚀 Sprint 2 — Integration & Completion</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> Live orders board, table/QR management, employee CRUD, platform admin moderation, all APIs wired</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s2);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-06</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Live orders dashboard (Kanban board)</div>
+            <div class="task-desc">Kanban-style columns: New → Confirmed → Preparing → Ready → Served. Order card shows items, table, time elapsed, urgency color. Auto-refresh every 15s. Audio ping on new order.</div>
+            <div class="task-subs">
+              <div class="task-sub">Kanban column layout with drag (optional)</div>
+              <div class="task-sub">Time-since badge with color (green/yellow/red)</div>
+              <div class="task-sub">Polling with 15s refresh</div>
+            </div>
+            <div class="dep">⚡ Depends: D4-05, D4-06</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-07</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Order detail + status action buttons</div>
+            <div class="task-desc">Full order detail panel/drawer. Status transition buttons (Confirm / Mark Preparing / Mark Ready / Mark Served / Cancel). Item list with modifiers. Assign waiter dropdown. Print kitchen ticket.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-08</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Table management + QR code viewer</div>
+            <div class="task-desc">Floor plan grid with table cards (label, capacity, zone, active status). Add/edit table modal. View QR code in modal (downloadable PNG). "Regenerate QR" button with confirmation warning.</div>
+            <div class="task-subs">
+              <div class="task-sub">QRCode.react component for display</div>
+              <div class="task-sub">Download QR as PNG</div>
+              <div class="task-sub">Bulk print all QR codes as PDF</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-09</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Employee management — list, create, roles</div>
+            <div class="task-desc">Employee list table (name, email, role badges, active status). Invite new employee form. Role assignment (multi-select: DIRECTOR/MANAGER/WAITER/CASHIER/KITCHEN). Deactivate toggle.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D2-10</span>
+            <span class="task-type tt-ui">UI</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Platform Admin — restaurant moderation list</div>
+            <div class="task-desc">Table of all restaurants with status badge (PENDING/ACTIVE/SUSPENDED). Approve / Suspend / Reject actions with reason modal. Search + filter by status. Restaurant detail drawer.</div>
+            <div class="task-subs">
+              <div class="task-sub">Only visible for PlatformAdmin role</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 2 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════
+     DEV 3 — BACKEND: ADMIN + EMPLOYEE PANEL
+══════════════════════════════════════════════════ -->
+<div class="dev-section">
+  <div class="dev-header">
+    <div class="dev-avatar" style="background:var(--d3);">D3</div>
+    <div class="dev-info">
+      <div class="dev-role">Backend Developer 3 — Admin + Employee APIs</div>
+      <div class="dev-focus">Auth (Admin + Employee) · Restaurant CRUD · Menu APIs · Employee Roles · File Upload · QR Generation</div>
+    </div>
+    <div class="dev-total">
+      <div class="dev-pts" style="color:var(--d3);">20 pts</div>
+      <div class="dev-pts-label">TOTAL DAYS</div>
+    </div>
+  </div>
+
+  <div class="sprints-grid">
+
+    <div class="sprint-col s1">
+      <div class="sprint-col-hd">
+        <h3>🔨 Sprint 1 — Foundation</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> Both auth systems working, restaurant + category + product APIs ready for D2 to consume</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s1);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-01</span>
+            <span class="task-type tt-setup">Setup</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">NestJS project + Prisma + DB migrations</div>
+            <div class="task-desc">NestJS bootstrap, Prisma client setup, run initial migration from schema, seed script (1 admin + 1 restaurant + sample data), Swagger/OpenAPI auto-docs, global validation pipes, exception filters</div>
+            <div class="task-tags"><span class="tag">NestJS</span><span class="tag">Prisma</span><span class="tag">PostgreSQL</span></div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d3);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-02</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">PlatformAdmin auth — login + JWT guard</div>
+            <div class="task-desc"><code>POST /auth/admin/login</code> — bcrypt verify, issue JWT (role=ADMIN). JWT strategy guard. <code>GET /auth/admin/me</code>. Refresh token. Rate limiting on login (5 req/min).</div>
+            <div class="task-subs">
+              <div class="task-sub">Passport-jwt strategy</div>
+              <div class="task-sub">AdminGuard decorator</div>
+              <div class="task-sub">Role checker (SUPER_ADMIN vs ANALYST)</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d3);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-03</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">RestaurantEmployee auth + role-based guard</div>
+            <div class="task-desc"><code>POST /auth/employee/login</code> — verify email+password scoped to restaurantId. JWT payload includes restaurantId + roles[]. EmployeeGuard. <code>@Roles()</code> decorator for DIRECTOR/MANAGER/WAITER etc.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d3);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-04</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Restaurant CRUD + settings + operating hours</div>
+            <div class="task-desc">
+              <code>GET/POST /restaurants</code> (admin),
+              <code>GET/PATCH /restaurants/:id</code>,
+              <code>PUT /restaurants/:id/hours</code>. Slug uniqueness validation. Feature flags toggle (isArEnabled etc). Soft delete.
+            </div>
+            <div class="task-subs">
+              <div class="task-sub">Slug auto-generate + collision check</div>
+              <div class="task-sub">Operating hours bulk upsert</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d3);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-05</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Category + Product CRUD APIs</div>
+            <div class="task-desc">
+              Category: <code>GET/POST/PATCH/DELETE /restaurants/:id/categories</code>, reorder endpoint.<br>
+              Product: <code>GET/POST/PATCH/DELETE /restaurants/:id/products</code>. ProductCategory assignment. Status toggle. Soft delete. Guards: must belong to employee's restaurant.
+            </div>
+            <div class="task-subs">
+              <div class="task-sub">Restaurant ownership guard on all endpoints</div>
+              <div class="task-sub">Category sort order reorder (PATCH /categories/reorder)</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d3);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-06</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">File upload — product images + AR model upload</div>
+            <div class="task-desc">Multipart file upload via Multer. S3/MinIO storage service. Returns MediaAsset record. <code>POST /products/:id/images</code>, <code>POST /products/:id/ar-source</code>. Creates ARModel with status=PENDING. File type + size validation (images: 5MB, models: 50MB).</div>
+            <div class="task-tags"><span class="tag">Multer</span><span class="tag">S3/MinIO</span><span class="tag">ARModel</span></div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d3);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 1 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+    <div class="sprint-col s2">
+      <div class="sprint-col-hd">
+        <h3>🚀 Sprint 2 — Integration & Completion</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> Employee CRUD, table/QR APIs, restaurant moderation flow, AR webhook receiver, integration tests</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s2);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-07</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Employee CRUD + role assignment APIs</div>
+            <div class="task-desc"><code>GET/POST/PATCH/DELETE /restaurants/:id/employees</code>. Create employee (hash password). Assign/remove roles via <code>PUT /employees/:id/roles</code>. Only DIRECTOR/MANAGER can manage employees. Deactivate (isActive=false) instead of delete.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-08</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Table management + QR code generation</div>
+            <div class="task-desc"><code>GET/POST/PATCH/DELETE /restaurants/:id/tables</code>. On table create: auto-generate QRCode record (UUID code). <code>GET /tables/:id/qr</code> returns QR image URL. <code>POST /tables/:id/qr/regenerate</code> deactivates old, creates new. scanCount tracking.</div>
+            <div class="task-subs">
+              <div class="task-sub">UUID generation for QR code value</div>
+              <div class="task-sub">QR image generation (qrcode lib) + S3 upload</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-09</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Platform Admin — restaurant moderation APIs</div>
+            <div class="task-desc"><code>GET /admin/restaurants</code> (paginated, filter by status). <code>POST /admin/restaurants/:id/approve</code> → status=ACTIVE + send email. <code>POST /admin/restaurants/:id/suspend</code> with reason. AdminActivityLog entries for all actions.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-10</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-should"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">AR model webhook receiver + status update</div>
+            <div class="task-desc"><code>POST /webhooks/ar-pipeline</code> — receives job result from 3D pipeline (modelUrl, iosModelUrl, webModelUrl). Updates ARModel status=READY or FAILED. Verifies HMAC signature. Notifies manager if FAILED.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">1.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D3-11</span>
+            <span class="task-type tt-test">Test</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Integration tests + API documentation review</div>
+            <div class="task-desc">Jest integration tests for auth flows, CRUD happy paths, guard enforcement (unauthorized access returns 403). Verify Swagger docs complete. Fix schema validation errors found by D2 during integration.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2.5</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 2 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="divider"></div>
+
+
+<!-- ══════════════════════════════════════════════════
+     DEV 4 — BACKEND: CORE MENU + ORDERING
+══════════════════════════════════════════════════ -->
+<div class="dev-section">
+  <div class="dev-header">
+    <div class="dev-avatar" style="background:var(--d4);">D4</div>
+    <div class="dev-info">
+      <div class="dev-role">Backend Developer 4 — Core Menu + Ordering APIs</div>
+      <div class="dev-focus">QR Session · Public Menu · Cart · Order Lifecycle · Payment · Guest Token · Notifications</div>
+    </div>
+    <div class="dev-total">
+      <div class="dev-pts" style="color:var(--d4);">20 pts</div>
+      <div class="dev-pts-label">TOTAL DAYS</div>
+    </div>
+  </div>
+
+  <div class="sprints-grid">
+
+    <div class="sprint-col s1">
+      <div class="sprint-col-hd">
+        <h3>🔨 Sprint 1 — Foundation</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> QR → session → menu → cart → order creation fully working end-to-end</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s1);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-01</span>
+            <span class="task-type tt-setup">Setup</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">DB setup, Prisma migrations, seed data</div>
+            <div class="task-desc">Share DB with D3 (same NestJS monorepo or separate service). Run all migrations. Seed: 2 restaurants, 5 categories, 15 products, 3 tables with QR codes, 1 active order. Verify all relations with Prisma Studio.</div>
+            <div class="task-tags"><span class="tag">Prisma</span><span class="tag">Seed</span><span class="tag">Migrations</span></div>
+            <div class="dep">⚡ Coordinate with D3-01 on schema</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d4);">1</div>
+            <div class="pts-label">day</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-02</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">QR validation + CustomerSession creation</div>
+            <div class="task-desc"><code>POST /sessions/qr</code> — body: <code>{code}</code>. Validates QRCode, finds restaurant + table, creates CustomerSession (guestToken UUID, expiresAt +4h). Returns session token in HttpOnly cookie + restaurant/table info. <code>GET /sessions/me</code> to restore session.</div>
+            <div class="task-subs">
+              <div class="task-sub">guestToken UUID → cookie (HttpOnly, SameSite)</div>
+              <div class="task-sub">QR.scanCount increment + lastScannedAt</div>
+              <div class="task-sub">Expired/inactive QR → 400 error</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d4);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-03</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Public menu API — categories + products</div>
+            <div class="task-desc"><code>GET /menu/:restaurantSlug</code> — returns all active categories with sorted products, ARModel URLs, dietaryTags, allergens. No auth required. <code>GET /menu/:slug/products/:id</code> detail. Filter by <code>?category=</code>, <code>?dietary=</code>. Cache headers (60s).</div>
+            <div class="task-subs">
+              <div class="task-sub">Exclude inactive/archived products</div>
+              <div class="task-sub">Include ARModel.status + URLs</div>
+              <div class="task-sub">Response serialization (no passwordHash leaks)</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d4);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-04</span>
+            <span class="task-type tt-logic">Logic</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Cart session — server-side state</div>
+            <div class="task-desc">Cart stored in Redis (or Postgres JSON on session) keyed by sessionToken. <code>GET/POST/PATCH/DELETE /cart</code>. Add item with modifierIds → validate against ProductModifierGroup rules (required, min/max). Price calculation. Cart cleared on order placement.</div>
+            <div class="task-subs">
+              <div class="task-sub">Modifier validation (required groups checked)</div>
+              <div class="task-sub">Price recalculation on each add</div>
+              <div class="task-sub">Cart TTL = session expiry</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d4);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-05</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Order creation endpoint (core)</div>
+            <div class="task-desc"><code>POST /orders</code> — reads cart from session, creates Order with frozen OrderItem snapshots (nameSnapshot, unitPriceSnapshot, totalPriceSnapshot), calculates tax/serviceCharge, generates orderNumber (auto-increment per restaurant), status=PLACED. Clears cart. Returns order.</div>
+            <div class="task-subs">
+              <div class="task-sub">Price snapshot: copy at creation time</div>
+              <div class="task-sub">orderNumber: restaurant-scoped sequence</div>
+              <div class="task-sub">Write first OrderStatusHistory entry</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--d4);">3</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 1 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+    <div class="sprint-col s2">
+      <div class="sprint-col-hd">
+        <h3>🚀 Sprint 2 — Integration & Completion</h3>
+        <span class="sprint-pts">10 pts</span>
+      </div>
+      <div class="sprint-goal"><strong>Goal:</strong> Full order lifecycle, Stripe payment, guest token linking, push notification, complete E2E flow</div>
+      <div class="sprint-progress"><div class="sprint-progress-fill" style="width:100%;background:var(--s2);"></div></div>
+
+      <div class="tasks-list">
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-06</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Order status transitions + status history</div>
+            <div class="task-desc"><code>PATCH /orders/:id/status</code> — validates allowed transitions (PLACED→CONFIRMED, CONFIRMED→PREPARING etc). Writes OrderStatusHistory. Returns updated order. Employee-only transitions (CONFIRMED+). Customer can only CANCEL if PLACED.</div>
+            <div class="task-subs">
+              <div class="task-sub">State machine: enforce valid transitions only</div>
+              <div class="task-sub">changedBy = employeeId or "CUSTOMER"</div>
+              <div class="task-sub">GET /orders/:id/history — timeline for frontend</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-07</span>
+            <span class="task-type tt-int">Integration</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Stripe payment integration (basic)</div>
+            <div class="task-desc"><code>POST /payments/intent</code> — creates Stripe PaymentIntent for order.totalAmount. Returns clientSecret. <code>POST /payments/webhook</code> — Stripe webhook: on payment_intent.succeeded → Payment.status=SUCCEEDED + Order.status=COMPLETED. Handle payment_intent.payment_failed.</div>
+            <div class="task-tags"><span class="tag">Stripe</span><span class="tag">PaymentIntent</span><span class="tag">Webhook</span></div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">3</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-08</span>
+            <span class="task-type tt-logic">Logic</span>
+            <div class="prio p-must"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Guest token system + optional registration link</div>
+            <div class="task-desc">Customer registration: <code>POST /auth/customer/register</code> (email+password). On register, find CustomerSession by guestToken cookie, set customerId. Update all Orders where sessionToken=guestToken to link customerId. <code>POST /auth/customer/login</code>.</div>
+            <div class="task-subs">
+              <div class="task-sub">Retroactive order linking on registration</div>
+              <div class="task-sub">Email verification token (send email)</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-09</span>
+            <span class="task-type tt-api">API</span>
+            <div class="prio p-should"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Order list + detail APIs for customer + employee</div>
+            <div class="task-desc"><code>GET /orders</code> — for session/customer: their orders. For employee: restaurant orders with ?status= filter, ?tableId=. <code>GET /orders/:id</code> full detail with items + modifiers + history. Pagination. Response includes all snapshot fields.</div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">1</div>
+            <div class="pts-label">day</div>
+          </div>
+        </div>
+
+        <div class="task">
+          <div class="task-left">
+            <span class="task-id">D4-10</span>
+            <span class="task-type tt-int">Integration</span>
+            <div class="prio p-should"></div>
+          </div>
+          <div class="task-body">
+            <div class="task-name">Server-Sent Events (SSE) for order status push</div>
+            <div class="task-desc"><code>GET /orders/:id/stream</code> — SSE endpoint. Employee dashboard subscribes per-restaurant. When order status changes (from PATCH endpoint), emit event to relevant streams. Replaces polling in D2 orders board.</div>
+            <div class="task-subs">
+              <div class="task-sub">NestJS EventEmitter + SSE stream</div>
+              <div class="task-sub">Customer tracking screen reconnect on disconnect</div>
+            </div>
+          </div>
+          <div class="task-pts">
+            <div class="pts-val" style="color:var(--s2);">2</div>
+            <div class="pts-label">days</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="sprint-total">
+        <span>Sprint 2 Total</span><span>10 days</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════ RISK & NOTES ══════════════════════ -->
+<div class="risk" style="margin-top:28px;">
+  <div class="risk-icon">⚠️</div>
+  <div>
+    <strong>Critical dependency risks for beginner devs:</strong>
+    D3+D4 must deliver auth APIs by Day 5 or D1+D2 cannot integrate. Plan: D4-01 and D3-01 work in parallel on Day 1 together to align Prisma schema and DB access.
+    Stripe (D4-07) can be mocked with manual payment confirmation until Day 18 — don't block D1 checkout testing on this.
+    AR viewer (D1-05) can run with static GLB fixtures until real pipeline is wired — keep a sample <code>.glb</code> file in <code>/public</code> for testing.
+  </div>
+</div>
+
+<div class="risk" style="background:#f0fdf4;border-color:#86efac;color:#14532d;">
+  <div class="risk-icon">✅</div>
+  <div>
+    <strong>Definition of Done for MVP:</strong>
+    Customer can scan QR → browse menu with AR → place order (guest or registered) → track order live → pay. Restaurant employee can see orders in dashboard, confirm, mark ready. Manager can create/edit products with images. Platform admin can approve restaurants.
+  </div>
+</div>
+
+</body>
+</html>
