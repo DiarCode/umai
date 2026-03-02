@@ -18,7 +18,72 @@ export { Prisma }
 export * as $Enums from './enums.js'
 export * from './enums.js';
 /**
- * Model Menu
+ * Model PlatformAdmin
  * 
  */
-export type Menu = Prisma.MenuModel
+export type PlatformAdmin = Prisma.PlatformAdminModel
+/**
+ * Model Customer
+ * 
+ */
+export type Customer = Prisma.CustomerModel
+/**
+ * Model Restaurant
+ * 
+ */
+export type Restaurant = Prisma.RestaurantModel
+/**
+ * Model RestaurantOperatingHours
+ * 
+ */
+export type RestaurantOperatingHours = Prisma.RestaurantOperatingHoursModel
+/**
+ * Model RestaurantEmployee
+ * 
+ */
+export type RestaurantEmployee = Prisma.RestaurantEmployeeModel
+/**
+ * Model RestaurantEmployeeRole
+ * 
+ */
+export type RestaurantEmployeeRole = Prisma.RestaurantEmployeeRoleModel
+/**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
+ * Model Product
+ * 
+ */
+export type Product = Prisma.ProductModel
+/**
+ * Model MediaAsset
+ * 
+ */
+export type MediaAsset = Prisma.MediaAssetModel
+/**
+ * Model ProductAsset
+ * 
+ */
+export type ProductAsset = Prisma.ProductAssetModel
+/**
+ * Model RestaurantTable
+ * 
+ */
+export type RestaurantTable = Prisma.RestaurantTableModel
+/**
+ * Model Order
+ * 
+ */
+export type Order = Prisma.OrderModel
+/**
+ * Model OrderItem
+ * 
+ */
+export type OrderItem = Prisma.OrderItemModel
+/**
+ * Model Payment
+ * 
+ */
+export type Payment = Prisma.PaymentModel

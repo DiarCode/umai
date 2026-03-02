@@ -9,7 +9,99 @@
 * 🟢 You can import this file directly.
 */
 
+export const PlatformAdminRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  ANALYST: 'ANALYST',
+  SUPPORT: 'SUPPORT'
+} as const
+
+export type PlatformAdminRole = (typeof PlatformAdminRole)[keyof typeof PlatformAdminRole]
 
 
-// This file is empty because there are no enums in the schema.
-export {}
+export const EmployeeRoleName = {
+  DIRECTOR: 'DIRECTOR',
+  MANAGER: 'MANAGER',
+  WAITER: 'WAITER',
+  CASHIER: 'CASHIER',
+  KITCHEN: 'KITCHEN'
+} as const
+
+export type EmployeeRoleName = (typeof EmployeeRoleName)[keyof typeof EmployeeRoleName]
+
+
+export const OrderChannel = {
+  DINE_IN: 'DINE_IN',
+  TAKEAWAY: 'TAKEAWAY',
+  DELIVERY: 'DELIVERY',
+  ONLINE: 'ONLINE'
+} as const
+
+export type OrderChannel = (typeof OrderChannel)[keyof typeof OrderChannel]
+
+
+export const OrderStatus = {
+  PLACED: 'PLACED',
+  ACCEPTED: 'ACCEPTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  READY: 'READY',
+  SERVED: 'SERVED',
+  CANCELLED: 'CANCELLED',
+  COMPLETED: 'COMPLETED'
+} as const
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const PaymentProvider = {
+  ONLINE: 'ONLINE',
+  CASH: 'CASH',
+  OTHER: 'OTHER'
+} as const
+
+export type PaymentProvider = (typeof PaymentProvider)[keyof typeof PaymentProvider]
+
+
+export const PaymentStatus = {
+  REQUIRES_PAYMENT_METHOD: 'REQUIRES_PAYMENT_METHOD',
+  REQUIRES_CONFIRMATION: 'REQUIRES_CONFIRMATION',
+  PROCESSING: 'PROCESSING',
+  SUCCEEDED: 'SUCCEEDED',
+  CANCELED: 'CANCELED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+  PARTIALLY_REFUNDED: 'PARTIALLY_REFUNDED'
+} as const
+
+export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
+
+
+export const MediaAssetType = {
+  IMAGE: 'IMAGE',
+  MODEL_3D: 'MODEL_3D',
+  VIDEO: 'VIDEO',
+  AUDIO: 'AUDIO'
+} as const
+
+export type MediaAssetType = (typeof MediaAssetType)[keyof typeof MediaAssetType]
+
+
+export const ProductAssetKind = {
+  PHOTO: 'PHOTO',
+  MODEL_3D: 'MODEL_3D',
+  THUMBNAIL: 'THUMBNAIL'
+} as const
+
+export type ProductAssetKind = (typeof ProductAssetKind)[keyof typeof ProductAssetKind]
+
+
+export const DayOfWeek = {
+  MON: 'MON',
+  TUE: 'TUE',
+  WED: 'WED',
+  THU: 'THU',
+  FRI: 'FRI',
+  SAT: 'SAT',
+  SUN: 'SUN'
+} as const
+
+export type DayOfWeek = (typeof DayOfWeek)[keyof typeof DayOfWeek]
