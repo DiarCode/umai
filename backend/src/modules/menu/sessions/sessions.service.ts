@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../common/prisma/prisma.service';
 import { randomUUID } from 'crypto';
 
@@ -6,8 +10,7 @@ import { randomUUID } from 'crypto';
 export class SessionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-async createFromQr(code: string) {
-  try {
+  async createFromQr(code: string) {
     const table = await this.prisma.restaurantTable.findUnique({
       where: { qrCode: code },
       include: { restaurant: true },
@@ -18,7 +21,7 @@ async createFromQr(code: string) {
     }
 
     if (!table.isActive) {
-      throw new ForbiddenException('Table is inactive');
+      throw new ForbiddenException('Table inactive');
     }
 
     const expiresAt = new Date();
@@ -33,11 +36,33 @@ async createFromQr(code: string) {
       },
     });
 
-    return { session, restaurant: table.restaurant, table };
-
-  } catch (error) {
-    console.error('REAL ERROR:', error);
-    throw error;
+    return {
+      session,
+      restaurant: table.restaurant,
+      table,
+    };
   }
-}
+
+  async getSession(token: string) {
+    const session = await this.prisma.customerSession.findUnique({
+      where: { guestToken: token },
+      include: {
+        restaurant: true,
+        table: true,
+      },
+    });
+
+    if (!session) {
+      throw new NotFoundException('Session not found');
+    }
+
+    if (session.expiresAt < new Date()) {
+      throw new ForbiddenException('Session expired');
+    }
+
+    return {
+      restaurant: session.restaurant,
+      table: session.table,
+    };
+  }
 }

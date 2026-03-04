@@ -6,15 +6,13 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class PrismaService extends PrismaClient {
   constructor(config: ConfigService) {
-    console.log('DATABASE_URL:', process.env.DATABASE_URL);
-    console.log("TYPE:", typeof process.env.DATABASE_URL)
     const url = config.get<string>('DATABASE_URL');
 
     if (!url) {
       throw new Error('DATABASE_URL is undefined');
     }
 
-    const adapter = new PrismaPg({ url });
+    const adapter = new PrismaPg({ connectionString: url });
 
     super({ adapter });
   }
