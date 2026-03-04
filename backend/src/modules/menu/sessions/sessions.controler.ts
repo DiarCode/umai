@@ -5,6 +5,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { SessionsService } from './sessions.service';
+import { CreateSessionFromQrDto } from './dto/sessions.dto';
 import type { FastifyReply } from 'fastify';
 
 @Controller('sessions')
@@ -13,7 +14,7 @@ export class SessionsController {
 
   @Post('qr')
   async createSession(
-    @Body() body: { code: string },
+    @Body() body: CreateSessionFromQrDto,
     @Res({ passthrough: true }) reply: FastifyReply,
   ) {
     const result = await this.sessionsService.createFromQr(body.code);
