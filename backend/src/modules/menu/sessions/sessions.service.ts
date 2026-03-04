@@ -5,12 +5,14 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../common/prisma/prisma.service';
 import { randomUUID } from 'crypto';
+import { QrResponse } from './sessions.types';
+import { mapToQrResponse } from './sessions.mapper';
 
 @Injectable()
 export class SessionsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createFromQr(code: string) {
+  async createFromQr(code: string): Promise<QrResponse> {
     const table = await this.prisma.restaurantTable.findUnique({
       where: { qrCode: code },
       include: { restaurant: true },
@@ -36,14 +38,10 @@ export class SessionsService {
       },
     });
 
-    return {
-      session,
-      restaurant: table.restaurant,
-      table,
-    };
+    return mapToQrResponse(table, session.guestToken);
   }
 
-  async getSession(token: string) {
+  async getSession(token: string): Promise<QrResponse> {
     const session = await this.prisma.customerSession.findUnique({
       where: { guestToken: token },
       include: {
@@ -61,8 +59,15 @@ export class SessionsService {
     }
 
     return {
-      restaurant: session.restaurant,
-      table: session.table,
+      guestToken: session.guestToken,
+      restaurant: {
+        id: session.restaurant.id,
+        name: session.restaurant.name,
+      },
+      table: {
+        id: session.table.id,
+        label: session.table.label,
+      },
     };
   }
 }

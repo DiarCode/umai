@@ -1,7 +1,7 @@
 services:
   postgres:
     container_name: umai-postgres
-    image: postgres:15
+    image: postgres:latest
     restart: unless-stopped
     ports:
       - '${DB_PORT:-5434}:5432'
