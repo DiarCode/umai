@@ -6,13 +6,14 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class PrismaService extends PrismaClient {
   constructor(config: ConfigService) {
+
     const url = config.get<string>('DATABASE_URL');
 
     if (!url) {
       throw new Error('DATABASE_URL is undefined');
     }
 
-    const adapter = new PrismaPg({ connectionString: url });
+    const adapter = new PrismaPg({ url });
 
     super({ adapter });
   }

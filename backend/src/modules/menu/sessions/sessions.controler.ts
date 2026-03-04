@@ -1,17 +1,17 @@
 import { Body, Controller, Get, Post, Req, Res, NotFoundException} from '@nestjs/common';
 import { SessionsService } from './sessions.service';
-import type { FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest} from 'fastify';
 
 @Controller('sessions')
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
   @Post('qr')
-async createSession(
-  @Body('code') code: string,
-  @Res({ passthrough: true }) reply: FastifyReply,
-) {
-  const result = await this.sessionsService.createFromQr(code);
+  async createSession(
+    @Body() body: { code: string },
+    @Res({ passthrough: true }) reply: FastifyReply,
+  ) {
+    const result = await this.sessionsService.createFromQr(body.code);
 
   reply.setCookie('guest_token', result.session.guestToken, {
     httpOnly: true,
