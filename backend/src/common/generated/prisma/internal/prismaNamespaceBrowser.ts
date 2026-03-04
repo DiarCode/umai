@@ -62,6 +62,7 @@ export const ModelName = {
   MediaAsset: 'MediaAsset',
   ProductAsset: 'ProductAsset',
   RestaurantTable: 'RestaurantTable',
+  CustomerSession: 'CustomerSession',
   Order: 'Order',
   OrderItem: 'OrderItem',
   Payment: 'Payment'
@@ -244,6 +245,20 @@ export const RestaurantTableScalarFieldEnum = {
 } as const
 
 export type RestaurantTableScalarFieldEnum = (typeof RestaurantTableScalarFieldEnum)[keyof typeof RestaurantTableScalarFieldEnum]
+
+
+export const CustomerSessionScalarFieldEnum = {
+  id: 'id',
+  restaurantId: 'restaurantId',
+  tableId: 'tableId',
+  guestToken: 'guestToken',
+  expiresAt: 'expiresAt',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CustomerSessionScalarFieldEnum = (typeof CustomerSessionScalarFieldEnum)[keyof typeof CustomerSessionScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {

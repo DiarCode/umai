@@ -216,8 +216,8 @@ export type ProductAssetWhereInput = {
   assetId?: Prisma.UuidFilter<"ProductAsset"> | string
   kind?: Prisma.EnumProductAssetKindFilter<"ProductAsset"> | $Enums.ProductAssetKind
   sortOrder?: Prisma.IntFilter<"ProductAsset"> | number
-  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   asset?: Prisma.XOR<Prisma.MediaAssetScalarRelationFilter, Prisma.MediaAssetWhereInput>
+  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
 export type ProductAssetOrderByWithRelationInput = {
@@ -226,8 +226,8 @@ export type ProductAssetOrderByWithRelationInput = {
   assetId?: Prisma.SortOrder
   kind?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
-  product?: Prisma.ProductOrderByWithRelationInput
   asset?: Prisma.MediaAssetOrderByWithRelationInput
+  product?: Prisma.ProductOrderByWithRelationInput
 }
 
 export type ProductAssetWhereUniqueInput = Prisma.AtLeast<{
@@ -240,8 +240,8 @@ export type ProductAssetWhereUniqueInput = Prisma.AtLeast<{
   assetId?: Prisma.UuidFilter<"ProductAsset"> | string
   kind?: Prisma.EnumProductAssetKindFilter<"ProductAsset"> | $Enums.ProductAssetKind
   sortOrder?: Prisma.IntFilter<"ProductAsset"> | number
-  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
   asset?: Prisma.XOR<Prisma.MediaAssetScalarRelationFilter, Prisma.MediaAssetWhereInput>
+  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id" | "productId_assetId_kind">
 
 export type ProductAssetOrderByWithAggregationInput = {
@@ -272,8 +272,8 @@ export type ProductAssetCreateInput = {
   id?: string
   kind: $Enums.ProductAssetKind
   sortOrder?: number
-  product: Prisma.ProductCreateNestedOneWithoutAssetsInput
   asset: Prisma.MediaAssetCreateNestedOneWithoutProductLinksInput
+  product: Prisma.ProductCreateNestedOneWithoutAssetsInput
 }
 
 export type ProductAssetUncheckedCreateInput = {
@@ -288,8 +288,8 @@ export type ProductAssetUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   kind?: Prisma.EnumProductAssetKindFieldUpdateOperationsInput | $Enums.ProductAssetKind
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
-  product?: Prisma.ProductUpdateOneRequiredWithoutAssetsNestedInput
   asset?: Prisma.MediaAssetUpdateOneRequiredWithoutProductLinksNestedInput
+  product?: Prisma.ProductUpdateOneRequiredWithoutAssetsNestedInput
 }
 
 export type ProductAssetUncheckedUpdateInput = {
@@ -613,8 +613,8 @@ export type ProductAssetSelect<ExtArgs extends runtime.Types.Extensions.Internal
   assetId?: boolean
   kind?: boolean
   sortOrder?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   asset?: boolean | Prisma.MediaAssetDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productAsset"]>
 
 export type ProductAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -623,8 +623,8 @@ export type ProductAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
   assetId?: boolean
   kind?: boolean
   sortOrder?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   asset?: boolean | Prisma.MediaAssetDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productAsset"]>
 
 export type ProductAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -633,8 +633,8 @@ export type ProductAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
   assetId?: boolean
   kind?: boolean
   sortOrder?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   asset?: boolean | Prisma.MediaAssetDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productAsset"]>
 
 export type ProductAssetSelectScalar = {
@@ -647,23 +647,23 @@ export type ProductAssetSelectScalar = {
 
 export type ProductAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "assetId" | "kind" | "sortOrder", ExtArgs["result"]["productAsset"]>
 export type ProductAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   asset?: boolean | Prisma.MediaAssetDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 export type ProductAssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   asset?: boolean | Prisma.MediaAssetDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 export type ProductAssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
   asset?: boolean | Prisma.MediaAssetDefaultArgs<ExtArgs>
+  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 
 export type $ProductAssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "ProductAsset"
   objects: {
-    product: Prisma.$ProductPayload<ExtArgs>
     asset: Prisma.$MediaAssetPayload<ExtArgs>
+    product: Prisma.$ProductPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1065,8 +1065,8 @@ readonly fields: ProductAssetFieldRefs;
  */
 export interface Prisma__ProductAssetClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   asset<T extends Prisma.MediaAssetDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MediaAssetDefaultArgs<ExtArgs>>): Prisma.Prisma__MediaAssetClient<runtime.Types.Result.GetResult<Prisma.$MediaAssetPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

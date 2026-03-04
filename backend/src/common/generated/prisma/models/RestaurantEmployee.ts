@@ -214,9 +214,9 @@ export type RestaurantEmployeeWhereInput = {
   isActive?: Prisma.BoolFilter<"RestaurantEmployee"> | boolean
   createdAt?: Prisma.DateTimeFilter<"RestaurantEmployee"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RestaurantEmployee"> | Date | string
+  createdOrders?: Prisma.OrderListRelationFilter
   restaurant?: Prisma.XOR<Prisma.RestaurantScalarRelationFilter, Prisma.RestaurantWhereInput>
   roles?: Prisma.RestaurantEmployeeRoleListRelationFilter
-  createdOrders?: Prisma.OrderListRelationFilter
 }
 
 export type RestaurantEmployeeOrderByWithRelationInput = {
@@ -229,9 +229,9 @@ export type RestaurantEmployeeOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  createdOrders?: Prisma.OrderOrderByRelationAggregateInput
   restaurant?: Prisma.RestaurantOrderByWithRelationInput
   roles?: Prisma.RestaurantEmployeeRoleOrderByRelationAggregateInput
-  createdOrders?: Prisma.OrderOrderByRelationAggregateInput
 }
 
 export type RestaurantEmployeeWhereUniqueInput = Prisma.AtLeast<{
@@ -248,9 +248,9 @@ export type RestaurantEmployeeWhereUniqueInput = Prisma.AtLeast<{
   isActive?: Prisma.BoolFilter<"RestaurantEmployee"> | boolean
   createdAt?: Prisma.DateTimeFilter<"RestaurantEmployee"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"RestaurantEmployee"> | Date | string
+  createdOrders?: Prisma.OrderListRelationFilter
   restaurant?: Prisma.XOR<Prisma.RestaurantScalarRelationFilter, Prisma.RestaurantWhereInput>
   roles?: Prisma.RestaurantEmployeeRoleListRelationFilter
-  createdOrders?: Prisma.OrderListRelationFilter
 }, "id" | "restaurantId_email">
 
 export type RestaurantEmployeeOrderByWithAggregationInput = {
@@ -292,9 +292,9 @@ export type RestaurantEmployeeCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
+  createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByEmployeeInput
   restaurant: Prisma.RestaurantCreateNestedOneWithoutEmployeesInput
   roles?: Prisma.RestaurantEmployeeRoleCreateNestedManyWithoutEmployeeInput
-  createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByEmployeeInput
 }
 
 export type RestaurantEmployeeUncheckedCreateInput = {
@@ -307,8 +307,8 @@ export type RestaurantEmployeeUncheckedCreateInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RestaurantEmployeeRoleUncheckedCreateNestedManyWithoutEmployeeInput
   createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByEmployeeInput
+  roles?: Prisma.RestaurantEmployeeRoleUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type RestaurantEmployeeUpdateInput = {
@@ -320,9 +320,9 @@ export type RestaurantEmployeeUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByEmployeeNestedInput
   restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutEmployeesNestedInput
   roles?: Prisma.RestaurantEmployeeRoleUpdateManyWithoutEmployeeNestedInput
-  createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByEmployeeNestedInput
 }
 
 export type RestaurantEmployeeUncheckedUpdateInput = {
@@ -335,8 +335,8 @@ export type RestaurantEmployeeUncheckedUpdateInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RestaurantEmployeeRoleUncheckedUpdateManyWithoutEmployeeNestedInput
   createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByEmployeeNestedInput
+  roles?: Prisma.RestaurantEmployeeRoleUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type RestaurantEmployeeCreateManyInput = {
@@ -516,8 +516,8 @@ export type RestaurantEmployeeCreateWithoutRestaurantInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RestaurantEmployeeRoleCreateNestedManyWithoutEmployeeInput
   createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByEmployeeInput
+  roles?: Prisma.RestaurantEmployeeRoleCreateNestedManyWithoutEmployeeInput
 }
 
 export type RestaurantEmployeeUncheckedCreateWithoutRestaurantInput = {
@@ -529,8 +529,8 @@ export type RestaurantEmployeeUncheckedCreateWithoutRestaurantInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  roles?: Prisma.RestaurantEmployeeRoleUncheckedCreateNestedManyWithoutEmployeeInput
   createdOrders?: Prisma.OrderUncheckedCreateNestedManyWithoutCreatedByEmployeeInput
+  roles?: Prisma.RestaurantEmployeeRoleUncheckedCreateNestedManyWithoutEmployeeInput
 }
 
 export type RestaurantEmployeeCreateOrConnectWithoutRestaurantInput = {
@@ -583,8 +583,8 @@ export type RestaurantEmployeeCreateWithoutRolesInput = {
   isActive?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  restaurant: Prisma.RestaurantCreateNestedOneWithoutEmployeesInput
   createdOrders?: Prisma.OrderCreateNestedManyWithoutCreatedByEmployeeInput
+  restaurant: Prisma.RestaurantCreateNestedOneWithoutEmployeesInput
 }
 
 export type RestaurantEmployeeUncheckedCreateWithoutRolesInput = {
@@ -625,8 +625,8 @@ export type RestaurantEmployeeUpdateWithoutRolesInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutEmployeesNestedInput
   createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByEmployeeNestedInput
+  restaurant?: Prisma.RestaurantUpdateOneRequiredWithoutEmployeesNestedInput
 }
 
 export type RestaurantEmployeeUncheckedUpdateWithoutRolesInput = {
@@ -730,8 +730,8 @@ export type RestaurantEmployeeUpdateWithoutRestaurantInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RestaurantEmployeeRoleUpdateManyWithoutEmployeeNestedInput
   createdOrders?: Prisma.OrderUpdateManyWithoutCreatedByEmployeeNestedInput
+  roles?: Prisma.RestaurantEmployeeRoleUpdateManyWithoutEmployeeNestedInput
 }
 
 export type RestaurantEmployeeUncheckedUpdateWithoutRestaurantInput = {
@@ -743,8 +743,8 @@ export type RestaurantEmployeeUncheckedUpdateWithoutRestaurantInput = {
   isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  roles?: Prisma.RestaurantEmployeeRoleUncheckedUpdateManyWithoutEmployeeNestedInput
   createdOrders?: Prisma.OrderUncheckedUpdateManyWithoutCreatedByEmployeeNestedInput
+  roles?: Prisma.RestaurantEmployeeRoleUncheckedUpdateManyWithoutEmployeeNestedInput
 }
 
 export type RestaurantEmployeeUncheckedUpdateManyWithoutRestaurantInput = {
@@ -764,13 +764,13 @@ export type RestaurantEmployeeUncheckedUpdateManyWithoutRestaurantInput = {
  */
 
 export type RestaurantEmployeeCountOutputType = {
-  roles: number
   createdOrders: number
+  roles: number
 }
 
 export type RestaurantEmployeeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  roles?: boolean | RestaurantEmployeeCountOutputTypeCountRolesArgs
   createdOrders?: boolean | RestaurantEmployeeCountOutputTypeCountCreatedOrdersArgs
+  roles?: boolean | RestaurantEmployeeCountOutputTypeCountRolesArgs
 }
 
 /**
@@ -786,15 +786,15 @@ export type RestaurantEmployeeCountOutputTypeDefaultArgs<ExtArgs extends runtime
 /**
  * RestaurantEmployeeCountOutputType without action
  */
-export type RestaurantEmployeeCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.RestaurantEmployeeRoleWhereInput
+export type RestaurantEmployeeCountOutputTypeCountCreatedOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.OrderWhereInput
 }
 
 /**
  * RestaurantEmployeeCountOutputType without action
  */
-export type RestaurantEmployeeCountOutputTypeCountCreatedOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.OrderWhereInput
+export type RestaurantEmployeeCountOutputTypeCountRolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RestaurantEmployeeRoleWhereInput
 }
 
 
@@ -808,9 +808,9 @@ export type RestaurantEmployeeSelect<ExtArgs extends runtime.Types.Extensions.In
   isActive?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  createdOrders?: boolean | Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs>
   restaurant?: boolean | Prisma.RestaurantDefaultArgs<ExtArgs>
   roles?: boolean | Prisma.RestaurantEmployee$rolesArgs<ExtArgs>
-  createdOrders?: boolean | Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.RestaurantEmployeeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["restaurantEmployee"]>
 
@@ -854,9 +854,9 @@ export type RestaurantEmployeeSelectScalar = {
 
 export type RestaurantEmployeeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "restaurantId" | "email" | "phone" | "passwordHash" | "fullName" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["restaurantEmployee"]>
 export type RestaurantEmployeeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  createdOrders?: boolean | Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs>
   restaurant?: boolean | Prisma.RestaurantDefaultArgs<ExtArgs>
   roles?: boolean | Prisma.RestaurantEmployee$rolesArgs<ExtArgs>
-  createdOrders?: boolean | Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs>
   _count?: boolean | Prisma.RestaurantEmployeeCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type RestaurantEmployeeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -869,9 +869,9 @@ export type RestaurantEmployeeIncludeUpdateManyAndReturn<ExtArgs extends runtime
 export type $RestaurantEmployeePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "RestaurantEmployee"
   objects: {
+    createdOrders: Prisma.$OrderPayload<ExtArgs>[]
     restaurant: Prisma.$RestaurantPayload<ExtArgs>
     roles: Prisma.$RestaurantEmployeeRolePayload<ExtArgs>[]
-    createdOrders: Prisma.$OrderPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1277,9 +1277,9 @@ readonly fields: RestaurantEmployeeFieldRefs;
  */
 export interface Prisma__RestaurantEmployeeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  createdOrders<T extends Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   restaurant<T extends Prisma.RestaurantDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RestaurantDefaultArgs<ExtArgs>>): Prisma.Prisma__RestaurantClient<runtime.Types.Result.GetResult<Prisma.$RestaurantPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   roles<T extends Prisma.RestaurantEmployee$rolesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RestaurantEmployee$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RestaurantEmployeeRolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  createdOrders<T extends Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.RestaurantEmployee$createdOrdersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1714,30 +1714,6 @@ export type RestaurantEmployeeDeleteManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
- * RestaurantEmployee.roles
- */
-export type RestaurantEmployee$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the RestaurantEmployeeRole
-   */
-  select?: Prisma.RestaurantEmployeeRoleSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the RestaurantEmployeeRole
-   */
-  omit?: Prisma.RestaurantEmployeeRoleOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.RestaurantEmployeeRoleInclude<ExtArgs> | null
-  where?: Prisma.RestaurantEmployeeRoleWhereInput
-  orderBy?: Prisma.RestaurantEmployeeRoleOrderByWithRelationInput | Prisma.RestaurantEmployeeRoleOrderByWithRelationInput[]
-  cursor?: Prisma.RestaurantEmployeeRoleWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.RestaurantEmployeeRoleScalarFieldEnum | Prisma.RestaurantEmployeeRoleScalarFieldEnum[]
-}
-
-/**
  * RestaurantEmployee.createdOrders
  */
 export type RestaurantEmployee$createdOrdersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1759,6 +1735,30 @@ export type RestaurantEmployee$createdOrdersArgs<ExtArgs extends runtime.Types.E
   take?: number
   skip?: number
   distinct?: Prisma.OrderScalarFieldEnum | Prisma.OrderScalarFieldEnum[]
+}
+
+/**
+ * RestaurantEmployee.roles
+ */
+export type RestaurantEmployee$rolesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RestaurantEmployeeRole
+   */
+  select?: Prisma.RestaurantEmployeeRoleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the RestaurantEmployeeRole
+   */
+  omit?: Prisma.RestaurantEmployeeRoleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RestaurantEmployeeRoleInclude<ExtArgs> | null
+  where?: Prisma.RestaurantEmployeeRoleWhereInput
+  orderBy?: Prisma.RestaurantEmployeeRoleOrderByWithRelationInput | Prisma.RestaurantEmployeeRoleOrderByWithRelationInput[]
+  cursor?: Prisma.RestaurantEmployeeRoleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RestaurantEmployeeRoleScalarFieldEnum | Prisma.RestaurantEmployeeRoleScalarFieldEnum[]
 }
 
 /**

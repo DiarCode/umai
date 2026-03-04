@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import fastifyCompress from '@fastify/compress';
 import fastifyCookie from '@fastify/cookie';
 import fastifyCors from '@fastify/cors';
