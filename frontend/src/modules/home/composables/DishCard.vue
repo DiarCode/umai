@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useBasketStore } from "@/core/store/basketStore";
 
 const props = defineProps<{
   dish: {
@@ -14,14 +15,11 @@ const props = defineProps<{
 }>();
 
 const router = useRouter()
+const basketStore = useBasketStore();
 
 const navigateToDish = () => {
   router.push(`/dish/${props.dish.id}`)
 };
-
-const addBaskaet = () => {
-  console.log(`Добавлено блюдо ${props.dish.name} в корзину`)
-}
 
 </script>
 
@@ -54,8 +52,8 @@ const addBaskaet = () => {
         <span class="text-xl font-bold">{{ dish.price }} ₸</span>
         
         <button
-          @click.stop="addBaskaet"
           class="bg-black text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-orange-600"
+          @click.stop ="basketStore.addToCart(props.dish)" 
         >
           +
         </button>
