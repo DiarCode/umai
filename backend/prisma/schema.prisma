@@ -128,6 +128,7 @@ model Product {
   currency     String         @db.VarChar(3)
   isAvailable  Boolean        @default(true)
   sortOrder    Int            @default(0)
+  dietaryTags String[] @default([])
   nutrition    Json?
   allergens    Json?
   createdAt    DateTime       @default(now())
