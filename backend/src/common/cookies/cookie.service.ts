@@ -1,5 +1,5 @@
 import { FastifyReply } from 'fastify';
-import { GUEST_TOKEN_COOKIE, SESSION_MAX_AGE } from '../../modules/menu/sessions/constants/session.constants';
+import { GUEST_TOKEN_COOKIE, SESSION_MAX_AGE } from '../../modules/sessions/constants/session.constants';
 
 export class CookieService {
   static assignGuestToken(reply: FastifyReply, token: string) {

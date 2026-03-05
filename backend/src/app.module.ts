@@ -5,7 +5,8 @@ import { SecurityMiddleware } from './common/middleware/security.middleware';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { AppConfigModule } from './common/config/config.module';
 import { LoggerModule } from 'nestjs-pino';
-import { SessionsModule } from './modules/menu/sessions/sessions.module';
+import { SessionsModule } from './modules/sessions/sessions.module';
+import { MenuModule } from './modules/menu/menu.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { SessionsModule } from './modules/menu/sessions/sessions.module';
     AppConfigModule,
     PrismaModule,
     SessionsModule,
+    MenuModule,
   ],
 })
 export class AppModule implements NestModule {

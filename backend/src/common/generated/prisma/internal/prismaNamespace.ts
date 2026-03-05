@@ -1677,6 +1677,7 @@ export const ProductScalarFieldEnum = {
   currency: 'currency',
   isAvailable: 'isAvailable',
   sortOrder: 'sortOrder',
+  dietaryTags: 'dietaryTags',
   nutrition: 'nutrition',
   allergens: 'allergens',
   createdAt: 'createdAt',

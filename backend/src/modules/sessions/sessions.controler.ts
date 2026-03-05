@@ -2,8 +2,7 @@ import { Body, Controller, Get, Post, Req, Res, NotFoundException} from '@nestjs
 import { SessionsService } from './sessions.service';
 import type { FastifyReply, FastifyRequest} from 'fastify';
 import { CreateSessionFromQrDto } from './dto/sessions.dto';
-import { SESSION_MAX_AGE } from './constants/session.constants';
-import { CookieService } from '../../../common/cookies/cookie.service';
+import { CookieService } from '../../common/cookies/cookie.service';
 
 @Controller('sessions')
 export class SessionsController {
