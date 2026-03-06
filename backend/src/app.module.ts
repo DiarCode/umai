@@ -1,10 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
+
 import { SecurityMiddleware } from './common/middleware/security.middleware';
 import { PrismaModule } from './common/prisma/prisma.module';
 import { AppConfigModule } from './common/config/config.module';
 import { LoggerModule } from 'nestjs-pino';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -12,6 +14,7 @@ import { LoggerModule } from 'nestjs-pino';
     LoggerModule.forRoot(),
     AppConfigModule,
     PrismaModule,
+    AuthModule,
   ],
 })
 export class AppModule implements NestModule {
@@ -19,3 +22,6 @@ export class AppModule implements NestModule {
     consumer.apply(SecurityMiddleware).forRoutes('*');
   }
 }
+
+
+
