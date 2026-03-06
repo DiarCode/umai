@@ -93,6 +93,11 @@ export type ProductAsset = Prisma.ProductAssetModel
  */
 export type RestaurantTable = Prisma.RestaurantTableModel
 /**
+ * Model CustomerSession
+ * 
+ */
+export type CustomerSession = Prisma.CustomerSessionModel
+/**
  * Model Order
  * 
  */
