@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { mockMenu } from "../services/menuService";
-import ButtonAdd from "../composables/BtnAddPage.vue";
+import { mockMenu } from "../services/menu.service";
+import ButtonAdd from "../components/btn-add-page.vue";
+import { Box, Sparkles} from 'lucide-vue-next'
+
 
 const router = useRoute();
 const dishId = router.params.id as string;
@@ -10,8 +12,6 @@ const dishId = router.params.id as string;
 const dish = computed(() => {
   return mockMenu.find((d) => String(d.id) === dishId);
 });
-
-
 </script>
 
 <template>
@@ -34,14 +34,14 @@ const dish = computed(() => {
       <button
         class="flex-1 bg-blue-500 text-white rounded-4xl px-4 py-2 flex items-center justify-center"
       >
-        <img src="../../../assets/AI_icon.svg" alt="AI" class="w-6 h-6" />
+        <Sparkles class="w-6 h-6" />
         <span class="ml-2">AI помощник</span>
       </button>
 
       <button
         class="flex-1 bg-black text-white rounded-4xl px-4 py-2 flex items-center justify-center"
       >
-        <img src="../../../assets/3d_icon.svg" alt="3D Model" class="w-6 h-6" />
+        <Box class="w-6 h-6" />
         <span class="ml-2">3D Model</span>
       </button>
     </div>

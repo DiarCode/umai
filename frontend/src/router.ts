@@ -6,17 +6,17 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/core/components/layout/MainLayout.vue'),
+      component: () => import('@/core/components/layout/main-layout.vue'),
       children: [
         {
           path: '',
           name: 'menu',
-          component: () => import('@/modules/home/pages/HomePage.vue'),
+          component: () => import('@/modules/home/pages/home-page.vue'),
         },
         {
           path: 'dish/:id',
           name: 'dish',
-          component: () => import('@/modules/dish/pages/DishPage.vue'),
+          component: () => import('@/modules/dish/pages/dish-page.vue'),
         }
       ]
     }

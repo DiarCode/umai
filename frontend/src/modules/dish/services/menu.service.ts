@@ -1,4 +1,4 @@
-import type { MenuDish } from "../types/Menu";
+import type { MenuDish } from "../types/menu";
 
 export const mockMenu: MenuDish[] = [
   {
