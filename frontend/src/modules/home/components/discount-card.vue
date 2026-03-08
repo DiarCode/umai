@@ -18,10 +18,6 @@
     </div>
 </template>
 
-<script setup lang="ts">
-// DiscountCard component
-</script>
-
 <style scoped>
 .discount-card {
   transition: transform 0.3s ease;

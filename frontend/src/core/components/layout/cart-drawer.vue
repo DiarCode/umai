@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { X } from 'lucide-vue-next'
-import { SheetClose } from '../ui/sheet'
 import { useBasketStore } from "@/core/store/basket-store"
 
 const basket = useBasketStore()
@@ -18,18 +16,13 @@ const handleCheckout = async () => {
 
 <template>
   <div class="flex flex-col h-full">
-    <!-- Заголовок корзины -->
     <div class="flex items-center justify-between p-4 border-b">
       <div>
         <h2 class="font-bold text-lg">Корзина</h2>
         <p class="text-sm text-gray-500">{{ basket.totalCount }} товар(ов)</p>
       </div>
-      <SheetClose class="p-1 hover:bg-gray-100 rounded-lg transition">
-        <X class="w-5 h-5" />
-      </SheetClose>
     </div>
 
-    <!-- Содержимое корзины -->
     <div class="flex-1 overflow-y-auto p-4">
       <div v-if="basket.items.length === 0" class="text-center text-gray-500 py-8">
         Корзина пуста
