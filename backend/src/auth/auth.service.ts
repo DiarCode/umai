@@ -13,6 +13,7 @@ export class AuthService {
   ) {}
 
   async signup(dto: SignupDto) {
+    // QWEN / Z.AI / Kimi
     const hashedPassword = await bcrypt.hash(dto.password, 10)
 
     const admin = await this.prisma.platformAdmin.create({
