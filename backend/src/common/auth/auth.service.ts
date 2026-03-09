@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { PrismaService } from '../common/prisma/prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import * as bcrypt from 'bcrypt'
 import { SignupDto } from './dto/signup.dto'
 import { LoginDto } from './dto/login.dto'
@@ -30,6 +30,19 @@ export class AuthService {
     })
 
     return { admin, token }
+  }
+
+  //me : take from db 
+  async getCurrentAdmin(id: string) {
+    return this.prisma.platformAdmin.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+      },
+    })
   }
 
   async login(dto: LoginDto) {
