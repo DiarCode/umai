@@ -5,23 +5,33 @@ const router = createRouter({
 
   routes: [
     {
-      path: '/',
+      path: '/restaurant/:code',
+      name: 'entry',
+      component: () => import('@/modules/entry/pages/entry-page.vue')
+    },
+    {
+      path: '/restaurant/:code/menu',
       component: () => import('@/core/components/layout/main-layout.vue'),
       children: [
         {
-          path: '',
+          path: '',             
           name: 'menu',
-          component: () => import('@/modules/home/pages/home-page.vue'),
-        },
+          component: () => import('@/modules/home/pages/home-page.vue')
+        }
+      ]
+    },
+    {
+      path: '/restaurant/:code/dish/:id',
+      component: () => import('@/core/components/layout/main-layout.vue'),
+      children: [
         {
-          path: 'dish/:id',
+          path: '',              
           name: 'dish',
-          component: () => import('@/modules/dish/pages/dish-page.vue'),
+          component: () => import('@/modules/dish/pages/dish-page.vue')
         }
       ]
     }
   ],
-
   scrollBehavior() {
     return { top: 0 }
   }
