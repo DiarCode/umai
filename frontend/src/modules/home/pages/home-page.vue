@@ -6,6 +6,16 @@ import CategoriesSlider from "../components/categories-slider.vue";
 import { mockCategories } from "../services/categories.service";
 import { mockMenu } from "../../dish/services/menu.service";
 import {Flame} from 'lucide-vue-next'
+import { onMounted } from "vue";
+
+onMounted(() => {
+  const savedScroll = sessionStorage.getItem("menuScroll");
+
+  if (savedScroll) {
+    window.scrollTo(0, Number(savedScroll));
+    sessionStorage.removeItem("menuScroll");
+  }
+});
 
 const activeCategory = ref("all");
 const dishes = ref(mockMenu);

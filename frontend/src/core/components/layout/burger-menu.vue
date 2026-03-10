@@ -1,13 +1,20 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
+
 const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const handleNavigation = async (path: string) => {
-  await router.push(path)
+const code = route.params.code as string
+
+const handleNavigation = async (routeName: string) => {
+  await router.push({
+    name: routeName,
+    params: { code }
+  })
   emit('close')
 }
 </script>
@@ -21,13 +28,14 @@ const handleNavigation = async (path: string) => {
     <nav class="flex-1 overflow-y-auto">
       <div class="space-y-2 p-4">
         <button
-          @click="handleNavigation('/')"
+          @click="handleNavigation('menu')"
           class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition font-medium"
         >
           Главная страница
         </button>
+
         <button
-          @click="handleNavigation('/contacts')"
+          @click="handleNavigation('contacts')"
           class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition font-medium"
         >
           Наши контакты

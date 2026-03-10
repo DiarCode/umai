@@ -10,7 +10,7 @@ defineProps<{
   <div class="text-center">
     <div
       v-if="restaurantData.logo"
-      class="w-24 h-24 bg-white rounded-full mx-auto mb-4 overflow-hidden border-1"
+      class="w-24 h-24 bg-white rounded-full mx-auto mb-4 overflow-hidden border"
     >
       <img :src="restaurantData.logo" :alt="restaurantData.name" class="w-full h-full object-cover">
     </div>

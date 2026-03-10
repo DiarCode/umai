@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter } from "vue-router";
+import { computed} from 'vue'
+import { useRouter, useRoute } from "vue-router";
 import { useBasketStore } from "@/core/store/basket-store";
 
 const props = defineProps<{
@@ -16,10 +16,19 @@ const props = defineProps<{
 }>();
 
 const router = useRouter();
+const route = useRoute();
 const basketStore = useBasketStore();
 
 const navigateToDish = () => {
-  router.push(`/dish/${props.dish.id}`);
+  sessionStorage.setItem("menuScroll", String(window.scrollY));
+
+  router.push({
+    name: "dish",
+    params: {
+      code: route.params.code,
+      id: props.dish.id
+    }
+  });
 };
 
 const itemQuantityInCart = computed(() => {
