@@ -11,6 +11,7 @@ import { AuthService } from './auth.service'
 import { SignupDto } from './dto/signup.dto'
 import { LoginDto } from './dto/login.dto'
 import { JwtAuthGuard } from './guards/jwt-auth.guard'
+import { CookieService } from '../cookies/cookie.service'
 
 @Controller('auth/admin')
 export class AuthController {
@@ -22,11 +23,7 @@ export class AuthController {
 
     //TODO: CookieService
     // git fetch && git checkout main && git pull && git checkout feature/admin-auth && git merge
-    res.setCookie('access_token', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-    })
+    CookieService.assignAuthToken(res, token)
 
     return admin
   }
@@ -35,11 +32,7 @@ export class AuthController {
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: any) {
     const { admin, token } = await this.authService.login(dto)
 
-    res.setCookie('access_token', token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: 'lax',
-    })
+    CookieService.assignAuthToken(res, token)
 
     return admin
   }
