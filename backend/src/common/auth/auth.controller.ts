@@ -8,8 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-import { SignupDto } from './dto/signup.dto'
-import { LoginDto } from './dto/login.dto'
+import { LoginDto, SignupDto } from './dto/auth.dto'
 import { JwtAuthGuard } from './guards/jwt-auth.guard'
 import { CookieService } from '../cookies/cookie.service'
 
