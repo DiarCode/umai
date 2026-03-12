@@ -58,7 +58,6 @@ const handleCheckout = async () => {
       </div>
     </div>
 
-    <!-- Подвал корзины -->
     <div v-if="basket.items.length > 0" class="border-t p-4 space-y-3">
       <div class="flex justify-between text-sm text-gray-600">
         <span>Всего товаров:</span>

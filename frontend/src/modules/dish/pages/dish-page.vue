@@ -35,13 +35,13 @@ const dish = computed(() => {
       <span v-else class="text-4xl">🍽️</span>
     </div>
 
-    <h1 class="text-xl font-bold mb-1">{{ dish?.name || "Название блюда" }}</h1>
+    <h1 class="text-xl font-bold mb-1 min-[425px]:text-2xl">{{ dish?.name || "Название блюда" }}</h1>
     <h3 class="text-l font-bold mb-4">{{ dish?.weight || "Грамовка" }} гр</h3>
     <div class="flex gap-4 mb-4">
       <ActionButton label="AI помощник" :icon="Sparkles" bgColor="bg-blue-500" />
       <ActionButton label="3D Model" :icon="Box" bgColor="bg-black" />
     </div>
-    <p class="text-gray-500 mb-15">{{ dish?.description || "Описание блюда" }}</p>
+    <p class="text-gray-500 mb-15 min-[425px]:text-lg">{{ dish?.description || "Описание блюда" }}</p>
 
     <ButtonAdd v-if="dish" :dish="dish!" />
   </div>

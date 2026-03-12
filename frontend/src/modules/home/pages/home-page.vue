@@ -7,6 +7,7 @@ import { mockCategories } from "../services/categories.service";
 import { mockMenu } from "../../dish/services/menu.service";
 import {Flame} from 'lucide-vue-next'
 import { onMounted } from "vue";
+import BtnScroll from "../components/btn-scroll.vue";
 
 onMounted(() => {
   const savedScroll = sessionStorage.getItem("menuScroll");
@@ -56,5 +57,6 @@ const filteredDishes = computed(() => {
         <DishCard v-for="dish in filteredDishes" :key="dish.id" :dish="dish" />
       </div>
     </section>
+    <BtnScroll />
   </div>
 </template>
