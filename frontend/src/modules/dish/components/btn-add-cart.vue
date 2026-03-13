@@ -21,7 +21,6 @@ const quantity = computed(() => {
 <template>
   <div class="fixed bottom-4 left-4 right-4 min-[425px]:left-6 min-[425px]:right-6">
     
-    <!-- Кнопка добавить -->
     <div v-if="quantity === 0">
       <button
         class="w-full bg-black text-white 
@@ -34,7 +33,6 @@ const quantity = computed(() => {
       </button>
     </div>
 
-    <!-- Кнопка с количеством -->
     <div
       v-else
       class="flex items-center justify-between 
