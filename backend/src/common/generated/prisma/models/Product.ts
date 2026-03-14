@@ -77,6 +77,7 @@ export type ProductCountAggregateOutputType = {
   currency: number
   isAvailable: number
   sortOrder: number
+  dietaryTags: number
   nutrition: number
   allergens: number
   createdAt: number
@@ -136,6 +137,7 @@ export type ProductCountAggregateInputType = {
   currency?: true
   isAvailable?: true
   sortOrder?: true
+  dietaryTags?: true
   nutrition?: true
   allergens?: true
   createdAt?: true
@@ -240,6 +242,7 @@ export type ProductGroupByOutputType = {
   currency: string
   isAvailable: boolean
   sortOrder: number
+  dietaryTags: string[]
   nutrition: runtime.JsonValue | null
   allergens: runtime.JsonValue | null
   createdAt: Date
@@ -280,6 +283,7 @@ export type ProductWhereInput = {
   currency?: Prisma.StringFilter<"Product"> | string
   isAvailable?: Prisma.BoolFilter<"Product"> | boolean
   sortOrder?: Prisma.IntFilter<"Product"> | number
+  dietaryTags?: Prisma.StringNullableListFilter<"Product">
   nutrition?: Prisma.JsonNullableFilter<"Product">
   allergens?: Prisma.JsonNullableFilter<"Product">
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
@@ -301,6 +305,7 @@ export type ProductOrderByWithRelationInput = {
   currency?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  dietaryTags?: Prisma.SortOrder
   nutrition?: Prisma.SortOrderInput | Prisma.SortOrder
   allergens?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -326,6 +331,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   currency?: Prisma.StringFilter<"Product"> | string
   isAvailable?: Prisma.BoolFilter<"Product"> | boolean
   sortOrder?: Prisma.IntFilter<"Product"> | number
+  dietaryTags?: Prisma.StringNullableListFilter<"Product">
   nutrition?: Prisma.JsonNullableFilter<"Product">
   allergens?: Prisma.JsonNullableFilter<"Product">
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
@@ -347,6 +353,7 @@ export type ProductOrderByWithAggregationInput = {
   currency?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  dietaryTags?: Prisma.SortOrder
   nutrition?: Prisma.SortOrderInput | Prisma.SortOrder
   allergens?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -372,6 +379,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   currency?: Prisma.StringWithAggregatesFilter<"Product"> | string
   isAvailable?: Prisma.BoolWithAggregatesFilter<"Product"> | boolean
   sortOrder?: Prisma.IntWithAggregatesFilter<"Product"> | number
+  dietaryTags?: Prisma.StringNullableListFilter<"Product">
   nutrition?: Prisma.JsonNullableWithAggregatesFilter<"Product">
   allergens?: Prisma.JsonNullableWithAggregatesFilter<"Product">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string
@@ -387,6 +395,7 @@ export type ProductCreateInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -408,6 +417,7 @@ export type ProductUncheckedCreateInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -425,6 +435,7 @@ export type ProductUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -446,6 +457,7 @@ export type ProductUncheckedUpdateInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -465,6 +477,7 @@ export type ProductCreateManyInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -480,6 +493,7 @@ export type ProductUpdateManyMutationInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -497,6 +511,7 @@ export type ProductUncheckedUpdateManyInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -511,6 +526,14 @@ export type ProductListRelationFilter = {
 
 export type ProductOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
 }
 
 export type ProductRestaurantIdSlugCompoundUniqueInput = {
@@ -529,6 +552,7 @@ export type ProductCountOrderByAggregateInput = {
   currency?: Prisma.SortOrder
   isAvailable?: Prisma.SortOrder
   sortOrder?: Prisma.SortOrder
+  dietaryTags?: Prisma.SortOrder
   nutrition?: Prisma.SortOrder
   allergens?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -664,12 +688,21 @@ export type ProductUncheckedUpdateManyWithoutCategoryNestedInput = {
   deleteMany?: Prisma.ProductScalarWhereInput | Prisma.ProductScalarWhereInput[]
 }
 
+export type ProductCreatedietaryTagsInput = {
+  set: string[]
+}
+
 export type DecimalFieldUpdateOperationsInput = {
   set?: runtime.Decimal | runtime.DecimalJsLike | number | string
   increment?: runtime.Decimal | runtime.DecimalJsLike | number | string
   decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string
   multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string
   divide?: runtime.Decimal | runtime.DecimalJsLike | number | string
+}
+
+export type ProductUpdatedietaryTagsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type ProductCreateNestedOneWithoutAssetsInput = {
@@ -709,6 +742,7 @@ export type ProductCreateWithoutRestaurantInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -728,6 +762,7 @@ export type ProductUncheckedCreateWithoutRestaurantInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -776,6 +811,7 @@ export type ProductScalarWhereInput = {
   currency?: Prisma.StringFilter<"Product"> | string
   isAvailable?: Prisma.BoolFilter<"Product"> | boolean
   sortOrder?: Prisma.IntFilter<"Product"> | number
+  dietaryTags?: Prisma.StringNullableListFilter<"Product">
   nutrition?: Prisma.JsonNullableFilter<"Product">
   allergens?: Prisma.JsonNullableFilter<"Product">
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
@@ -791,6 +827,7 @@ export type ProductCreateWithoutCategoryInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -810,6 +847,7 @@ export type ProductUncheckedCreateWithoutCategoryInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -853,6 +891,7 @@ export type ProductCreateWithoutAssetsInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -873,6 +912,7 @@ export type ProductUncheckedCreateWithoutAssetsInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -905,6 +945,7 @@ export type ProductUpdateWithoutAssetsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -925,6 +966,7 @@ export type ProductUncheckedUpdateWithoutAssetsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -941,6 +983,7 @@ export type ProductCreateWithoutOrderItemsInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -961,6 +1004,7 @@ export type ProductUncheckedCreateWithoutOrderItemsInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -993,6 +1037,7 @@ export type ProductUpdateWithoutOrderItemsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1013,6 +1058,7 @@ export type ProductUncheckedUpdateWithoutOrderItemsInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1030,6 +1076,7 @@ export type ProductCreateManyRestaurantInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -1045,6 +1092,7 @@ export type ProductUpdateWithoutRestaurantInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1064,6 +1112,7 @@ export type ProductUncheckedUpdateWithoutRestaurantInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1082,6 +1131,7 @@ export type ProductUncheckedUpdateManyWithoutRestaurantInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1098,6 +1148,7 @@ export type ProductCreateManyCategoryInput = {
   currency: string
   isAvailable?: boolean
   sortOrder?: number
+  dietaryTags?: Prisma.ProductCreatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -1113,6 +1164,7 @@ export type ProductUpdateWithoutCategoryInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1132,6 +1184,7 @@ export type ProductUncheckedUpdateWithoutCategoryInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1150,6 +1203,7 @@ export type ProductUncheckedUpdateManyWithoutCategoryInput = {
   currency?: Prisma.StringFieldUpdateOperationsInput | string
   isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
   sortOrder?: Prisma.IntFieldUpdateOperationsInput | number
+  dietaryTags?: Prisma.ProductUpdatedietaryTagsInput | string[]
   nutrition?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   allergens?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -1207,6 +1261,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   currency?: boolean
   isAvailable?: boolean
   sortOrder?: boolean
+  dietaryTags?: boolean
   nutrition?: boolean
   allergens?: boolean
   createdAt?: boolean
@@ -1229,6 +1284,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   currency?: boolean
   isAvailable?: boolean
   sortOrder?: boolean
+  dietaryTags?: boolean
   nutrition?: boolean
   allergens?: boolean
   createdAt?: boolean
@@ -1248,6 +1304,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   currency?: boolean
   isAvailable?: boolean
   sortOrder?: boolean
+  dietaryTags?: boolean
   nutrition?: boolean
   allergens?: boolean
   createdAt?: boolean
@@ -1267,13 +1324,14 @@ export type ProductSelectScalar = {
   currency?: boolean
   isAvailable?: boolean
   sortOrder?: boolean
+  dietaryTags?: boolean
   nutrition?: boolean
   allergens?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "restaurantId" | "categoryId" | "name" | "slug" | "description" | "price" | "currency" | "isAvailable" | "sortOrder" | "nutrition" | "allergens" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "restaurantId" | "categoryId" | "name" | "slug" | "description" | "price" | "currency" | "isAvailable" | "sortOrder" | "dietaryTags" | "nutrition" | "allergens" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orderItems?: boolean | Prisma.Product$orderItemsArgs<ExtArgs>
   category?: boolean | Prisma.Product$categoryArgs<ExtArgs>
@@ -1309,6 +1367,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     currency: string
     isAvailable: boolean
     sortOrder: number
+    dietaryTags: string[]
     nutrition: runtime.JsonValue | null
     allergens: runtime.JsonValue | null
     createdAt: Date
@@ -1750,6 +1809,7 @@ export interface ProductFieldRefs {
   readonly currency: Prisma.FieldRef<"Product", 'String'>
   readonly isAvailable: Prisma.FieldRef<"Product", 'Boolean'>
   readonly sortOrder: Prisma.FieldRef<"Product", 'Int'>
+  readonly dietaryTags: Prisma.FieldRef<"Product", 'String[]'>
   readonly nutrition: Prisma.FieldRef<"Product", 'Json'>
   readonly allergens: Prisma.FieldRef<"Product", 'Json'>
   readonly createdAt: Prisma.FieldRef<"Product", 'DateTime'>
