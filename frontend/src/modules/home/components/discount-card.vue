@@ -20,10 +20,10 @@
 
 <style scoped>
 .discount-card {
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease
 }
 
 .discount-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px)
 }
 </style>

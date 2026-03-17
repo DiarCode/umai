@@ -4,18 +4,18 @@ import { useBasketStore } from "@/core/store/basket-store";
 
 const props = defineProps<{
   dish: {
-    id: number;
-    name: string;
-    price: number;
-  };
-}>();
+    id: number
+    name: string
+    price: number
+  }
+}>()
 
-const basketStore = useBasketStore();
+const basketStore = useBasketStore()
 
 const quantity = computed(() => {
-  const item = basketStore.items.find((i) => i.id === props.dish.id);
-  return item?.quantity || 0;
-});
+  const item = basketStore.items.find((i) => i.id === props.dish.id)
+  return item?.quantity || 0
+})
 </script>
 
 <template>

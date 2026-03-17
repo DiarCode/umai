@@ -29,17 +29,14 @@ const handleNavigation = async (routeName: string) => {
       <div class="space-y-2 p-4">
         <button
           @click="handleNavigation('menu')"
-          class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition font-medium"
+          class="w-full text-left px-4 py-2 rounded-lg transition font-medium"
         >
           Главная страница
         </button>
 
-        <button
-          @click="handleNavigation('contacts')"
-          class="w-full text-left px-4 py-2 hover:bg-gray-100 rounded-lg transition font-medium"
-        >
+        <h1 class="w-full text-left px-4 py-2 rounded-lg transition font-medium">
           Наши контакты
-        </button>
+        </h1>
       </div>
     </nav>
   </div>

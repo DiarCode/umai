@@ -2,15 +2,23 @@
 import type { Component } from "vue";
 
 defineProps<{
-  label: string;
-  icon: Component;
-  bgColor: string;
-}>();
+  label: string
+  icon: Component
+  bgColor: string
+}>()
+
+const emit = defineEmits<{
+  (e: "action"): void
+}>()
+
+function handleClick() {
+  emit("action")}
 </script>
 
 <template>
   <button
-    @click="$emit('click')"
+    type="button"
+    @click="handleClick"
     class="flex-1 text-white rounded-3xl flex items-center justify-center px-2 py-1"
     :class="bgColor"
   >

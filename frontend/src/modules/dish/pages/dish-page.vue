@@ -8,30 +8,33 @@ import BtnBack from "../components/btn-back.vue";
 import ActionButton from "../components/action-button.vue";
 import ARViewer from "../components/ARViewer.vue";
 
-const route = useRoute();
-const dishId = route.params.id as string;
+const route = useRoute()
+const dishId = route.params.id as string
 
 onMounted(() => {
-  window.scrollTo(0, 0);
-});
+  window.scrollTo(0, 0)
+})
 
 const dish = computed(() => {
-  return mockMenu.find((d) => String(d.id) === dishId);
-});
+  return mockMenu.find((d) => String(d.id) === dishId)
+})
 
-// показывать fullscreen AR viewer
-const show3D = ref(false);
+const show3D = ref(false)
 
 function open3D() {
   if (!dish.value?.model3d) {
-    console.warn("3D model not available for this dish");
-    return;
+    console.warn("3D model not available for this dish")
+    return
   }
-  show3D.value = true;
+  show3D.value = true
 }
 
 function close3D() {
-  show3D.value = false;
+  show3D.value = false
+}
+
+function onAIHelp() {
+  alert("AI помощник пока не реализован")
 }
 </script>
 
@@ -62,14 +65,14 @@ function close3D() {
         label="AI помощник"
         :icon="Sparkles"
         bgColor="bg-blue-500"
-        @click="$emit?.('ai-help')"
+        @action="onAIHelp"
       />
 
       <ActionButton
         label="3D Model"
         :icon="Box"
         :bgColor="dish?.model3d ? 'bg-black' : 'bg-gray-400 cursor-not-allowed'"
-        @click="open3D"
+        @action="open3D"
       />
     </div>
 
@@ -81,7 +84,7 @@ function close3D() {
 
     <ARViewer
       v-if="show3D && dish?.model3d"
-      :glb="dish!.model3d"
+      :glb="dish.model3d"
       :poster="dish?.image"
       @close="close3D"
     />

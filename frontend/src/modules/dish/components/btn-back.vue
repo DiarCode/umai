@@ -2,17 +2,17 @@
 import { useRouter, useRoute } from "vue-router";
 import { ArrowLeft } from "lucide-vue-next";
 
-const router = useRouter();
-const route = useRoute(); 
+const router = useRouter()
+const route = useRoute()
 
-const code = route.params.code as string;
+const code = route.params.code as string
 
 const goBack = () => {
   router.push({
     name: "menu",
     params: { code },
-  });
-};
+  })
+}
 </script>
 <template>
     <button

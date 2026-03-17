@@ -2,12 +2,16 @@
 import { ref } from "vue";
 
 const props = defineProps<{
-  glb?: string;
-  poster?: string;
-}>();
+  glb?: string
+  poster?: string
+}>()
 
-const modelViewerRef = ref<HTMLElement | null>(null);
-const loading = ref(true);
+const modelViewerRef = ref<HTMLElement | null>(null)
+const loading = ref(true)
+
+const emit = defineEmits<{
+  (e: 'close'): void
+}>()
 </script>
 
 <template>
@@ -40,6 +44,12 @@ const loading = ref(true);
     >
       <span class="text-white text-lg">Loading 3D...</span>
     </div>
+    <button
+      @click="emit('close')"
+      class="absolute top-4 right-4 bg-white text-black rounded-full w-10 h-10 text-xl flex items-center justify-center z-50"
+    >
+      ✕
+    </button>
   </model-viewer>
 </template>
 <style scoped>

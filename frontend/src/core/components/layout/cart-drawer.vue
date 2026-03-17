@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import { useBasketStore } from "@/core/store/basket-store"
 
 const basket = useBasketStore()
-const router = useRouter()
-const emit = defineEmits<{
-  (e: 'close'): void
-}>()
-
-const handleCheckout = async () => {
-  await router.push('/checkout')
-  emit('close')
-}
 </script>
 
 <template>
@@ -68,8 +58,7 @@ const handleCheckout = async () => {
         <span class="text-orange-500">{{ basket.totalPrice }} ₸</span>
       </div>
       <button
-        @click="handleCheckout"
-        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition font-medium"
+        class="w-full bg-blue-500 text-white py-2 rounded-lg transition font-medium"
       >
         Заказать
       </button>

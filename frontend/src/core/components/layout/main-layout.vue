@@ -6,12 +6,12 @@ import BurgerMenu from "./burger-menu.vue";
 import CartDrawer from "./cart-drawer.vue";
 import { Sheet, SheetContent } from "../ui/sheet";
 
-const isOpenMenu = ref(false);
-const isOpenBasket = ref(false);
+const isOpenMenu = ref(false)
+const isOpenBasket = ref(false)
 
 const closeMenus = () => {
-  isOpenMenu.value = false;
-  isOpenBasket.value = false;
+  isOpenMenu.value = false
+  isOpenBasket.value = false
 }
 </script>
 

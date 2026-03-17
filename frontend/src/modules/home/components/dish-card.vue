@@ -5,22 +5,22 @@ import { useBasketStore } from "@/core/store/basket-store";
 
 const props = defineProps<{
   dish: {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    image?: string;
-    model3d?: string;
-    categoryId: string;
-  };
-}>();
+    id: number
+    name: string
+    description: string
+    price: number
+    image?: string
+    model3d?: string
+    categoryId: string
+  }
+}>()
 
-const router = useRouter();
-const route = useRoute();
-const basketStore = useBasketStore();
+const router = useRouter()
+const route = useRoute()
+const basketStore = useBasketStore()
 
 const navigateToDish = () => {
-  sessionStorage.setItem("menuScroll", String(window.scrollY));
+  sessionStorage.setItem("menuScroll", String(window.scrollY))
 
   router.push({
     name: "dish",
@@ -28,20 +28,20 @@ const navigateToDish = () => {
       code: route.params.code,
       id: props.dish.id
     }
-  });
-};
+  })
+}
 
 const itemQuantityInCart = computed(() => {
-  const item = basketStore.items.find(i => i.id === props.dish.id);
-  return item?.quantity || 0;
-});
+  const item = basketStore.items.find(i => i.id === props.dish.id)
+  return item?.quantity || 0
+})
 
-const isInCart = computed(() => itemQuantityInCart.value > 0);
+const isInCart = computed(() => itemQuantityInCart.value > 0)
 
 const handleAddToCart = (e: Event) => {
-  e.stopPropagation();
-  basketStore.addToCart(props.dish);
-};
+  e.stopPropagation()
+  basketStore.addToCart(props.dish)
+}
 
 </script>
 

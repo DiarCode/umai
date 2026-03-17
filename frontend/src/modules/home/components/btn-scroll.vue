@@ -2,26 +2,25 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { ArrowUp } from "lucide-vue-next";
 
-const showButton = ref(false);
+const showButton = ref(false)
 
 const handleScroll = () => {
-  showButton.value = window.scrollY > 300;
-};
+  showButton.value = window.scrollY > 300
+}
 
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
     behavior: "smooth",
-  });
-};
+  })
+}
 
 onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-
+  window.addEventListener("scroll", handleScroll)
+})
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
+  window.removeEventListener("scroll", handleScroll)
+})
 </script>
 
 <template>

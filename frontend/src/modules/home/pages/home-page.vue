@@ -10,26 +10,26 @@ import { onMounted } from "vue";
 import BtnScroll from "../components/btn-scroll.vue";
 
 onMounted(() => {
-  const savedScroll = sessionStorage.getItem("menuScroll");
+  const savedScroll = sessionStorage.getItem("menuScroll")
 
   if (savedScroll) {
-    window.scrollTo(0, Number(savedScroll));
-    sessionStorage.removeItem("menuScroll");
+    window.scrollTo(0, Number(savedScroll))
+    sessionStorage.removeItem("menuScroll")
   }
-});
+})
 
-const activeCategory = ref("all");
-const dishes = ref(mockMenu);
+const activeCategory = ref("all")
+const dishes = ref(mockMenu)
 
 const filteredDishes = computed(() => {
-  const allDishes = dishes.value ?? [];
+  const allDishes = dishes.value ?? []
 
   if (activeCategory.value === "all") {
-    return allDishes;
+    return allDishes
   }
 
-  return allDishes.filter((dish) => dish.categoryId === activeCategory.value);
-});
+  return allDishes.filter((dish) => dish.categoryId === activeCategory.value)
+})
 </script>
 
 <template>

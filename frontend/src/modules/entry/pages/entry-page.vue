@@ -2,7 +2,6 @@
 import { useRoute, useRouter } from 'vue-router'
 import { useRestaurant } from '../composables/use-restaurant'
 import RestaurantInfo from '../components/restaurant-info.vue'
-import NotFound from '../components/not-found.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -18,7 +17,7 @@ const openMenu = () => {
 
 <template>
   <div class="min-h-screen flex items-center justify-center p-4">
-    <div v-if="isFound" class="bg-white rounded-2xl shadow-xl p-8 text-center">
+    <div class="bg-white rounded-2xl shadow-xl p-8 text-center">
       <RestaurantInfo :restaurantData="restaurant!" />
 
       <p v-if="isOpen" class="text-green-600 mt-4">Ресторан открыт</p>
@@ -32,6 +31,5 @@ const openMenu = () => {
         Открыть меню
       </button>
     </div>
-    <NotFound v-else :code="code" />
   </div>
 </template>
