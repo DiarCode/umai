@@ -56,3 +56,9 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 /generated/prisma
+
+# Prisma generated
+src/common/generated/prisma/
+
+# optional: tests
+src/modules/menu/menu.service.spec.ts
