@@ -31,6 +31,9 @@ jobs:
       - name: Install backend dependencies
         run: bun install
 
+      - name: Generate Prisma Client
+        run: bunx prisma generate
+
       - name: Run Eslint check
         run: bun run lint
 
