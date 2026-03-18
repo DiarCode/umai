@@ -1,3 +1,3 @@
 export class MenuParamDto {
-  restaurantSlug: string
+  restaurantSlug: string;
 }

@@ -1,4 +1,4 @@
 export class MenuQueryDto {
-  category?: string
-  dietary?: string
+  category?: string;
+  dietary?: string;
 }

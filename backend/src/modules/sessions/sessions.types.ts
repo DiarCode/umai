@@ -1,11 +1,11 @@
 export interface QrResponse {
-  guestToken: string
+  guestToken: string;
   restaurant: {
-    id: string
-    name: string
-  }
+    id: string;
+    name: string;
+  };
   table: {
-    id: string
-    label: string
-  }
+    id: string;
+    label: string;
+  };
 }

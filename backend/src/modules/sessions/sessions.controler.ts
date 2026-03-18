@@ -1,6 +1,14 @@
-import { Body, Controller, Get, Post, Req, Res, NotFoundException} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  NotFoundException,
+} from '@nestjs/common';
 import { SessionsService } from './sessions.service';
-import type { FastifyReply, FastifyRequest} from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import { CreateSessionFromQrDto } from './dto/sessions.dto';
 import { CookieService } from '../../common/cookies/cookie.service';
 
@@ -17,20 +25,20 @@ export class SessionsController {
 
     CookieService.assignGuestToken(reply, result.guestToken);
 
-  return {
-    restaurant: result.restaurant,
-    table: result.table,
-  };
-}
-
-@Get('me')
-async getSession(@Req() req: FastifyRequest) {
-  const token = req.cookies?.guest_token;
-
-  if (!token) {
-    throw new NotFoundException('Session not found');
+    return {
+      restaurant: result.restaurant,
+      table: result.table,
+    };
   }
 
-  return this.sessionsService.getSession(token);
-}
+  @Get('me')
+  async getSession(@Req() req: FastifyRequest) {
+    const token = req.cookies?.guest_token;
+
+    if (!token) {
+      throw new NotFoundException('Session not found');
+    }
+
+    return this.sessionsService.getSession(token);
+  }
 }

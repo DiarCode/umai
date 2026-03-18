@@ -1,10 +1,10 @@
-import { IsUUID, IsString, Matches } from 'class-validator'
+import { IsUUID, IsString, Matches } from 'class-validator';
 
 export class ProductParamDto {
   @IsString()
   @Matches(/^[a-z0-9-]+$/)
-  restaurantSlug: string
+  restaurantSlug: string;
 
   @IsUUID()
-  id: string
+  id: string;
 }

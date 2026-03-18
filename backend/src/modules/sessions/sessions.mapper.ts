@@ -1,6 +1,18 @@
-import { QrResponse } from './sessions.types'
+import { QrResponse } from './sessions.types';
 
-export function mapToQrResponse(table: any, guestToken: string): QrResponse {
+type TableWithRestaurant = {
+  id: string;
+  label: string;
+  restaurant: {
+    id: string;
+    name: string;
+  };
+};
+
+export function mapToQrResponse(
+  table: TableWithRestaurant,
+  guestToken: string,
+): QrResponse {
   return {
     guestToken,
     restaurant: {
@@ -11,5 +23,5 @@ export function mapToQrResponse(table: any, guestToken: string): QrResponse {
       id: table.id,
       label: table.label,
     },
-  }
+  };
 }
