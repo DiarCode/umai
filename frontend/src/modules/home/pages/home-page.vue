@@ -42,7 +42,7 @@ const filteredDishes = computed(() => {
     <section>
       <div class="flex items-center mr-3">
         <Flame class="w-5 h-5 inline-block mr-1" />
-        <h2 class="text-lg font-bold bg-gray-50 r">Специальные предложения</h2>
+        <h2 class="text-lg font-bold bg-gray-50">Специальные предложения</h2>
       </div>
       <DiscountCard />
     </section>

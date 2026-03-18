@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
-import { useRestaurant } from '../composables/use-restaurant'
-import RestaurantInfo from '../components/restaurant-info.vue'
+import { useRoute, useRouter } from "vue-router";
+import { computed } from "vue";
+import { useRestaurant } from "../composables/use-restaurant";
+import RestaurantInfo from "../components/restaurant-info.vue";
 
 const route = useRoute()
 const router = useRouter()
-const code = String(route.params.code || '')
+const code = computed(() => String(route.params.code || ''))
 
-const { restaurant, isFound, isOpen } = useRestaurant(code)
+const { restaurant, isFound, isOpen } = useRestaurant(code.value)
 
 const openMenu = () => {
   if (!isFound.value || !isOpen.value) return
-  router.push({ name: 'menu', params: { code } })
+  router.push({ name: 'menu', params: { code: code.value } }) 
 }
 </script>
 

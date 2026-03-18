@@ -6,7 +6,6 @@ const props = defineProps<{
   poster?: string
 }>()
 
-const modelViewerRef = ref<HTMLElement | null>(null)
 const loading = ref(true)
 
 const emit = defineEmits<{

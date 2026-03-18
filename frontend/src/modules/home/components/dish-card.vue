@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed} from 'vue'
+import { computed, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useBasketStore } from "@/core/store/basket-store";
 
@@ -18,6 +18,8 @@ const props = defineProps<{
 const router = useRouter()
 const route = useRoute()
 const basketStore = useBasketStore()
+
+const imageSrc = ref(props.dish.image)
 
 const navigateToDish = () => {
   sessionStorage.setItem("menuScroll", String(window.scrollY))
@@ -43,6 +45,13 @@ const handleAddToCart = (e: Event) => {
   basketStore.addToCart(props.dish)
 }
 
+watch(() => props.dish.image, (newVal) => {
+  imageSrc.value = newVal
+})
+
+const handleImageError = () => {
+  imageSrc.value = undefined
+}
 </script>
 
 <template>
@@ -53,16 +62,16 @@ const handleAddToCart = (e: Event) => {
   >
     <div class="relative overflow-hidden bg-gray-200 h-40">
       <div
-        v-if="!props.dish.image"
+        v-if="!imageSrc"
         class="w-full h-full from-blue-200 to-purple-200 flex items-center justify-center"
       >
         <span class="text-4xl">🍽️</span>
       </div>
       <img
         v-else
-        :src="props.dish.image"
+        :src="imageSrc"
         :alt="props.dish.name"
-        @error="props.dish.image = undefined"
+        @error="handleImageError"
         class="w-full h-full object-cover"
       />
       
@@ -75,13 +84,13 @@ const handleAddToCart = (e: Event) => {
     </div>
 
     <div class="p-4">
-      <h3 class="font-bold text-lg truncate">{{ dish.name }}</h3>
+      <h3 class="font-bold text-lg truncate">{{ props.dish.name }}</h3>
       <p class="text-gray-600 text-sm mb-3 line-clamp-2">
-        {{ dish.description }}
+        {{ props.dish.description }}
       </p>
 
       <div class="flex justify-between items-center">
-        <span class="text-xl font-bold">{{ dish.price }} ₸</span>
+        <span class="text-xl font-bold">{{ props.dish.price }} ₸</span>
         <button
           class="bg-black text-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-orange-600 transition font-bold text-lg"
           @click="handleAddToCart"

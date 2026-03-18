@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
@@ -8,14 +9,17 @@ const emit = defineEmits<{
   (e: 'close'): void
 }>()
 
-const code = route.params.code as string
+const code = computed(() => route.params.code as string)
 
 const handleNavigation = async (routeName: string) => {
-  await router.push({
-    name: routeName,
-    params: { code }
-  })
-  emit('close')
+try {
+    await router.push({
+      name: routeName,
+      params: { code: code.value } 
+    })
+  } finally {
+    emit('close')
+  }
 }
 </script>
 

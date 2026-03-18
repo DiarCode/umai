@@ -2,6 +2,11 @@
 import { useBasketStore } from "@/core/store/basket-store"
 
 const basket = useBasketStore()
+
+const orderBtn = () => {
+  alert("Заказ оформлен!")
+  console.log("Заказ оформлен!")
+}
 </script>
 
 <template>
@@ -58,6 +63,7 @@ const basket = useBasketStore()
         <span class="text-orange-500">{{ basket.totalPrice }} ₸</span>
       </div>
       <button
+        @click="orderBtn"
         class="w-full bg-blue-500 text-white py-2 rounded-lg transition font-medium"
       >
         Заказать

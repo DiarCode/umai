@@ -1,6 +1,6 @@
-import { computed } from 'vue'
-import type { Restaurant } from '../types/entry.type'
-import { restaurants } from '../services/entry-service'
+import { computed } from "vue";
+import type { Restaurant } from "../types/entry.type";
+import { restaurants } from "../services/entry-service";
 
 export const useRestaurant = (code: string) => {
   const normalizedCode = (code || '').trim().toLowerCase()

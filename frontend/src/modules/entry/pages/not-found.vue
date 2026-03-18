@@ -3,8 +3,14 @@ import { useRoute } from "vue-router"
 
 const route = useRoute()
 const code = String(route.params.code || "")
+const type = String(route.query.type || "restaurant")
+const dishId = String(route.query.id || "")
 
-console.log("NotFound code from URL:", code)
+const title = type === "dish" ? "Блюдо не найдено" : "Ресторан не найден"
+const message =
+  type === "dish"
+    ? `Блюдо с ID ${dishId} не существует в этом ресторане.`
+    : `Ресторан с кодом ${code} не существует.`
 </script>
 
 <template>
@@ -23,15 +29,19 @@ console.log("NotFound code from URL:", code)
         </div>
       </div>
 
-      <h2 class="text-2xl font-bold text-slate-900 mb-2">Ресторан не найден</h2>
+      <h2 class="text-2xl font-bold text-slate-900 mb-2">{{ title }}</h2>
 
       <p class="text-slate-600 mb-4">
-        Ресторан с кодом
-        <span class="font-mono font-semibold text-orange-600">
-          {{ code }}
-        </span>
-        не существует.
+        {{ message }}
       </p>
+
+      <button
+      v-if="type === 'dish' "
+        @click="$router.push({ name: 'menu', params: { code } })"
+        class="bg-blue-500 text-white px-4 py-2 rounded-lg"
+      >
+        Вернуться в меню
+      </button>
     </div>
   </div>
 </template>

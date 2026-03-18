@@ -9,19 +9,20 @@ import ActionButton from "../components/action-button.vue";
 import ARViewer from "../components/ARViewer.vue";
 
 const route = useRoute()
-const dishId = route.params.id as string
+const dishId = computed(() => route.params.id as string) 
+
+const showAI = ref(false)
+const show3D = ref(false)
 
 onMounted(() => {
   window.scrollTo(0, 0)
 })
 
 const dish = computed(() => {
-  return mockMenu.find((d) => String(d.id) === dishId)
+  return mockMenu.find((d) => String(d.id) === dishId.value) 
 })
 
-const show3D = ref(false)
-
-function open3D() {
+const open3D = () => {
   if (!dish.value?.model3d) {
     console.warn("3D model not available for this dish")
     return
@@ -29,11 +30,12 @@ function open3D() {
   show3D.value = true
 }
 
-function close3D() {
+const close3D = () => {
   show3D.value = false
 }
 
-function onAIHelp() {
+const onAIHelp = () => {
+  showAI.value = true
   alert("AI помощник пока не реализован")
 }
 </script>

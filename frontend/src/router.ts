@@ -1,5 +1,6 @@
-import { createRouter, createWebHistory } from "vue-router"
-import { restaurants } from "./modules/entry/services/entry-service"
+import { createRouter, createWebHistory } from "vue-router";
+import { restaurants } from "./modules/entry/services/entry-service";
+import { mockMenu } from "./modules/dish/services/menu.service";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,29 +36,40 @@ const router = createRouter({
     {
       path: "/not-found/:code",
       name: "not-found",
-      component: () => import("@/modules/entry/pages/not-found.vue"), // проверь, что файл тут
+      component: () => import("@/modules/entry/pages/not-found.vue"),
     },
   ],
-})
+});
 router.beforeEach((to, from, next) => {
-  const code = to.params.code as string | undefined
+  const code = to.params.code as string | undefined;
 
-  if (to.name === 'not-found') {
+  if (to.name === "not-found") {
     return next()
   }
 
   if (!code) return next()
 
-  const restaurant = restaurants.find(r => String(r.code).toLowerCase() === code.toLowerCase())
+  const restaurant = restaurants.find((r) => String(r.code).toLowerCase() === code.toLowerCase())
 
   if (!restaurant) {
-    return next({ name: 'not-found', params: { code } })
+    return next({ name: "not-found", params: { code, type: "restaurant" } })
   }
 
-  if (restaurant.status === 'closed' && (to.name === 'menu' || to.name === 'dish')) {
+  if (restaurant.status === "closed" && (to.name === "menu" || to.name === "dish")) {
     return next(`/restaurant/${code}`)
   }
 
+  if (to.name === "dish") {
+    const dishId = to.params.id as string
+    const dishExists = mockMenu.some((d) => String(d.id) === dishId)
+    if (!dishExists) {
+      return next({
+        name: "not-found",
+        params: { code }, 
+        query: { type: "dish", id: dishId }, 
+      });
+    }
+  }
   next()
 })
-export default router
+export default router;

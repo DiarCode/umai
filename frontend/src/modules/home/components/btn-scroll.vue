@@ -28,7 +28,7 @@ onUnmounted(() => {
     v-if="showButton"
     @click="scrollToTop"
     class="fixed bottom-6 left-4 z-50 flex items-center justify-center
-           w-15 h-15 bg-black text-white rounded-full shadow-lg
+           w-16 h-16 bg-black text-white rounded-full shadow-lg
            border-4 border-white"
   >
     <ArrowUp class="w-6 h-6" />

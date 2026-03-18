@@ -11,7 +11,7 @@ const emit = defineEmits<{
   (e: "action"): void
 }>()
 
-function handleClick() {
+const handleClick = () => {
   emit("action")}
 </script>
 
