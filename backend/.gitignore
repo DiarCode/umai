@@ -62,3 +62,5 @@ src/common/generated/prisma/
 
 # optional: tests
 src/modules/menu/menu.service.spec.ts
+
+src\modules\orders\orders.service.spec.ts
