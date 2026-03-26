@@ -1,12 +1,12 @@
-import { computed } from "vue";
-import type { Restaurant } from "../types/entry.type";
-import { restaurants } from "../services/entry-service";
+import { computed } from 'vue'
+import type { Restaurant } from '../types/entry.type'
+import { restaurants } from '../services/entry-service'
 
 export const useRestaurant = (code: string) => {
   const normalizedCode = (code || '').trim().toLowerCase()
 
   const restaurant = computed<Restaurant | undefined>(() =>
-    restaurants.find(r => r.code === normalizedCode)
+    restaurants.find((r) => r.code === normalizedCode),
   )
 
   const isFound = computed(() => !!restaurant.value)
@@ -16,6 +16,6 @@ export const useRestaurant = (code: string) => {
   return {
     restaurant,
     isFound,
-    isOpen
+    isOpen,
   }
 }

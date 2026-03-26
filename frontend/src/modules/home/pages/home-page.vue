@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import DiscountCard from "../components/discount-card.vue";
-import DishCard from "../components/dish-card.vue";
-import CategoriesSlider from "../components/categories-slider.vue";
-import { mockCategories } from "../services/categories.service";
-import { mockMenu } from "../../dish/services/menu.service";
-import {Flame} from 'lucide-vue-next'
-import { onMounted } from "vue";
-import BtnScroll from "../components/btn-scroll.vue";
+import { ref, computed } from 'vue'
+import DiscountCard from '../components/discount-card.vue'
+import DishCard from '../components/dish-card.vue'
+import CategoriesSlider from '../components/categories-slider.vue'
+import { mockCategories } from '../services/categories.service'
+import { mockMenu } from '../../dish/services/menu.service'
+import { Flame } from 'lucide-vue-next'
+import { onMounted } from 'vue'
+import BtnScroll from '../components/btn-scroll.vue'
 
 onMounted(() => {
-  const savedScroll = sessionStorage.getItem("menuScroll")
+  const savedScroll = sessionStorage.getItem('menuScroll')
 
   if (savedScroll) {
     window.scrollTo(0, Number(savedScroll))
-    sessionStorage.removeItem("menuScroll")
+    sessionStorage.removeItem('menuScroll')
   }
 })
 
-const activeCategory = ref("all")
+const activeCategory = ref('all')
 const dishes = ref(mockMenu)
 
 const filteredDishes = computed(() => {
   const allDishes = dishes.value ?? []
 
-  if (activeCategory.value === "all") {
+  if (activeCategory.value === 'all') {
     return allDishes
   }
 

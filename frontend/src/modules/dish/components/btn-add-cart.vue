@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useBasketStore } from "@/core/store/basket-store";
+import { computed } from 'vue'
+import { useBasketStore } from '@/core/store/basket-store'
 
 const props = defineProps<{
   dish: {
@@ -20,13 +20,9 @@ const quantity = computed(() => {
 
 <template>
   <div class="fixed bottom-4 left-4 right-4 min-[425px]:left-6 min-[425px]:right-6">
-    
     <div v-if="quantity === 0">
       <button
-        class="w-full bg-black text-white 
-               py-3 px-3 text-sm 
-               min-[425px]:py-4 min-[425px]:px-6 min-[425px]:text-base
-               rounded-2xl"
+        class="w-full bg-black text-white py-3 px-3 text-sm min-[425px]:py-4 min-[425px]:px-6 min-[425px]:text-base rounded-2xl"
         @click="basketStore.addToCart(props.dish)"
       >
         Добавить {{ props.dish.price }} ₸
@@ -35,11 +31,7 @@ const quantity = computed(() => {
 
     <div
       v-else
-      class="flex items-center justify-between 
-             bg-orange-600 text-white 
-             py-3 px-3 text-sm
-             min-[425px]:py-4 min-[425px]:px-6 min-[425px]:text-base
-             rounded-2xl"
+      class="flex items-center justify-between bg-orange-600 text-white py-3 px-3 text-sm min-[425px]:py-4 min-[425px]:px-6 min-[425px]:text-base rounded-2xl"
     >
       <button
         @click="basketStore.decrease(props.dish.id)"
@@ -61,6 +53,5 @@ const quantity = computed(() => {
         +
       </button>
     </div>
-
   </div>
 </template>

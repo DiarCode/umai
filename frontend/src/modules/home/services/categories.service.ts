@@ -1,4 +1,4 @@
-import type {Category} from '../types/categories-slider'
+import type { Category } from '../types/categories-slider'
 
 export const mockCategories: Category[] = [
   {

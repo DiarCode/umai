@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { RouterView } from "vue-router";
-import Header from "./header-app.vue";
-import BurgerMenu from "./burger-menu.vue";
-import CartDrawer from "./cart-drawer.vue";
-import { Sheet, SheetContent } from "../ui/sheet";
+import { ref } from 'vue'
+import { RouterView } from 'vue-router'
+import Header from './header-app.vue'
+import BurgerMenu from './burger-menu.vue'
+import CartDrawer from './cart-drawer.vue'
+import { Sheet, SheetContent } from '../ui/sheet'
 
 const isOpenMenu = ref(false)
 const isOpenBasket = ref(false)

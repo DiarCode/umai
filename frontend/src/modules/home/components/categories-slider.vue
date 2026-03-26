@@ -8,11 +8,11 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: "update:modelValue", value: string): void
+  (e: 'update:modelValue', value: string): void
 }>()
 
 const selectCategory = (id: string) => {
-  emit("update:modelValue", id)
+  emit('update:modelValue', id)
 }
 </script>
 

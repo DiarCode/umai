@@ -3,6 +3,6 @@ export interface Restaurant {
   code: string
   name: string
   logo?: string
-  status: 'open' | 'closed',
+  status: 'open' | 'closed'
   description?: string
 }

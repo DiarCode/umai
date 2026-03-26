@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useBasketStore } from "@/core/store/basket-store";
+import { computed, ref, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useBasketStore } from '@/core/store/basket-store'
 
 const props = defineProps<{
   dish: {
@@ -22,19 +22,19 @@ const basketStore = useBasketStore()
 const imageSrc = ref(props.dish.image)
 
 const navigateToDish = () => {
-  sessionStorage.setItem("menuScroll", String(window.scrollY))
+  sessionStorage.setItem('menuScroll', String(window.scrollY))
 
   router.push({
-    name: "dish",
+    name: 'dish',
     params: {
       code: route.params.code,
-      id: props.dish.id
-    }
+      id: props.dish.id,
+    },
   })
 }
 
 const itemQuantityInCart = computed(() => {
-  const item = basketStore.items.find(i => i.id === props.dish.id)
+  const item = basketStore.items.find((i) => i.id === props.dish.id)
   return item?.quantity || 0
 })
 
@@ -45,9 +45,12 @@ const handleAddToCart = (e: Event) => {
   basketStore.addToCart(props.dish)
 }
 
-watch(() => props.dish.image, (newVal) => {
-  imageSrc.value = newVal
-})
+watch(
+  () => props.dish.image,
+  (newVal) => {
+    imageSrc.value = newVal
+  },
+)
 
 const handleImageError = () => {
   imageSrc.value = undefined
@@ -74,7 +77,7 @@ const handleImageError = () => {
         @error="handleImageError"
         class="w-full h-full object-cover"
       />
-      
+
       <div
         v-if="isInCart"
         class="absolute top-2 right-2 bg-orange-500 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm"

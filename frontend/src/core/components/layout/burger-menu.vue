@@ -12,10 +12,10 @@ const emit = defineEmits<{
 const code = computed(() => route.params.code as string)
 
 const handleNavigation = async (routeName: string) => {
-try {
+  try {
     await router.push({
       name: routeName,
-      params: { code: code.value } 
+      params: { code: code.value },
     })
   } finally {
     emit('close')
@@ -38,9 +38,7 @@ try {
           Главная страница
         </button>
 
-        <h1 class="w-full text-left px-4 py-2 rounded-lg transition font-medium">
-          Наши контакты
-        </h1>
+        <h1 class="w-full text-left px-4 py-2 rounded-lg transition font-medium">Наши контакты</h1>
       </div>
     </nav>
   </div>

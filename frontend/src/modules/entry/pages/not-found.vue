@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useRoute } from "vue-router"
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const code = String(route.params.code || "")
-const type = String(route.query.type || "restaurant")
-const dishId = String(route.query.id || "")
+const code = String(route.params.code || '')
+const type = String(route.query.type || 'restaurant')
+const dishId = String(route.query.id || '')
 
-const title = type === "dish" ? "Блюдо не найдено" : "Ресторан не найден"
+const title = type === 'dish' ? 'Блюдо не найдено' : 'Ресторан не найден'
 const message =
-  type === "dish"
+  type === 'dish'
     ? `Блюдо с ID ${dishId} не существует в этом ресторане.`
     : `Ресторан с кодом ${code} не существует.`
 </script>
@@ -36,7 +36,7 @@ const message =
       </p>
 
       <button
-      v-if="type === 'dish' "
+        v-if="type === 'dish'"
         @click="$router.push({ name: 'menu', params: { code } })"
         class="bg-blue-500 text-white px-4 py-2 rounded-lg"
       >
