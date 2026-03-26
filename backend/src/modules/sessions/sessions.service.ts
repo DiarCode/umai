@@ -3,7 +3,7 @@ import {
   NotFoundException,
   ForbiddenException,
 } from '@nestjs/common';
-import { PrismaService } from '../../../common/prisma/prisma.service';
+import { PrismaService } from '../../common/prisma/prisma.service';
 import { randomUUID } from 'crypto';
 import { QrResponse } from './sessions.types';
 import { mapToQrResponse } from './sessions.mapper';
