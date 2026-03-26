@@ -7,6 +7,7 @@ import { AppConfigModule } from './common/config/config.module';
 import { LoggerModule } from 'nestjs-pino';
 import { SessionsModule } from './modules/sessions/sessions.module';
 import { MenuModule } from './modules/menu/menu.module';
+import { OrdersModule } from './modules/orders/orders.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MenuModule } from './modules/menu/menu.module';
     PrismaModule,
     SessionsModule,
     MenuModule,
+    OrdersModule,
   ],
 })
 export class AppModule implements NestModule {
