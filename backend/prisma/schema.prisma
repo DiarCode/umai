@@ -134,6 +134,7 @@ model Product {
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
   orderItems   OrderItem[]
+  cartItems CartItem[]
   category     Category?      @relation(fields: [categoryId], references: [id])
   restaurant   Restaurant     @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
   assets       ProductAsset[]
@@ -207,6 +208,8 @@ model CustomerSession {
   table        RestaurantTable @relation(fields: [tableId], references: [id], onDelete: Cascade)
   orders       Order[]
 
+  cartItems CartItem[]
+
   @@index([restaurantId])
   @@index([tableId])
   @@index([expiresAt])
@@ -266,6 +269,22 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+model CartItem {
+  id        String   @id @default(uuid()) @db.Uuid
+  sessionId String   @db.Uuid
+  productId String   @db.Uuid
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  session   CustomerSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  product   Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@index([productId])
+}
+
 
 model Payment {
   id          String          @id @default(uuid()) @db.Uuid
