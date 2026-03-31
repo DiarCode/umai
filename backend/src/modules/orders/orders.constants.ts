@@ -9,11 +9,14 @@ export enum OrderStatus {
   CANCELLED = 'CANCELLED',
 }
 
-export const ORDER_STATUS_TRANSITIONS: Record<string, string[]> = {
-  PLACED: ['CONFIRMED', 'CANCELLED'],
-  CONFIRMED: ['PREPARING', 'CANCELLED'],
-  PREPARING: ['READY'],
-  READY: ['COMPLETED'],
-  COMPLETED: [],
-  CANCELLED: [],
+export const ORDER_STATUS_TRANSITIONS: Record<
+  OrderStatus,
+  OrderStatus[]
+> = {
+  [OrderStatus.PLACED]: [OrderStatus.CONFIRMED, OrderStatus.CANCELLED],
+  [OrderStatus.CONFIRMED]: [OrderStatus.PREPARING, OrderStatus.CANCELLED],
+  [OrderStatus.PREPARING]: [OrderStatus.READY],
+  [OrderStatus.READY]: [OrderStatus.COMPLETED],
+  [OrderStatus.COMPLETED]: [],
+  [OrderStatus.CANCELLED]: [],
 };

@@ -4,8 +4,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
-import { TAX_RATE, SERVICE_FEE_RATE, OrderStatus } from './orders.constants';
+import { Prisma, OrderStatus } from '@prisma/client';
+import { TAX_RATE, SERVICE_FEE_RATE,ORDER_STATUS_TRANSITIONS } from './orders.constants';
 
 @Injectable()
 export class OrdersService {
@@ -34,6 +34,14 @@ export class OrdersService {
       }
 
       const subtotal = session.cartItems.reduce((sum, item) => {
+        if (!item.product) {
+          throw new BadRequestException(`Product not found`);
+        }
+
+        if (!item.product.isAvailable) {
+          throw new BadRequestException(`Product ${item.product.name} is not available`);
+        }
+
         return sum + item.quantity * Number(item.product.price);
       }, 0);
 
@@ -86,4 +94,54 @@ export class OrdersService {
       return order;
     });
   }
+
+async updateOrderStatus(orderId: string, newStatus: OrderStatus) {
+  
+  const order = await this.prisma.order.findUnique({
+    where: { id: orderId },
+  });
+
+  if (!order) {
+    throw new NotFoundException('Order not found');
+  }
+
+  const currentStatus = order.status as OrderStatus;
+  if (currentStatus === OrderStatus.COMPLETED || currentStatus === OrderStatus.CANCELLED) {
+    throw new BadRequestException(`Cannot change status of a completed or cancelled order` );
+  } 
+  const allowedTransitions =
+    ORDER_STATUS_TRANSITIONS[currentStatus] ?? [];
+
+  
+  if (!allowedTransitions.includes(newStatus)) {
+    throw new BadRequestException(
+      `Cannot change status from ${currentStatus} to ${newStatus}`,
+    );
+  }
+
+
+  return this.prisma.order.update({
+    where: { id: orderId },
+    data: { status: newStatus },
+  });
+}
+
+async getRestaurantOrders(
+  restaurantId: string,
+  status?: OrderStatus,
+) {
+  return this.prisma.order.findMany({
+    where: {
+      restaurantId,
+      ...(status && { status }),
+    },
+    include: {
+      items: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+}
+  
 }
