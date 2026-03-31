@@ -1,16 +1,16 @@
-import { Test, TestingModule } from '@nestjs/testing'
-import { OrdersService } from './orders.service'
-import { PrismaService } from '../../common/prisma/prisma.service'
-import { NotFoundException, BadRequestException } from '@nestjs/common'
+import { Test, TestingModule } from '@nestjs/testing';
+import { OrdersService } from './orders.service';
+import { PrismaService } from '../../common/prisma/prisma.service';
+import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 describe('OrdersService', () => {
-  let service: OrdersService
-  let prisma: any
+  let service: OrdersService;
+  let prisma: any;
 
   beforeEach(async () => {
     prisma = {
       $transaction: jest.fn(),
-    }
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -20,10 +20,10 @@ describe('OrdersService', () => {
           useValue: prisma,
         },
       ],
-    }).compile()
+    }).compile();
 
-    service = module.get<OrdersService>(OrdersService)
-  })
+    service = module.get<OrdersService>(OrdersService);
+  });
 
   it('should throw if session not found', async () => {
     prisma.$transaction.mockImplementation(async (cb) =>
@@ -32,12 +32,12 @@ describe('OrdersService', () => {
           findUnique: jest.fn().mockResolvedValue(null),
         },
       }),
-    )
+    );
 
     await expect(service.createOrder('token')).rejects.toThrow(
       NotFoundException,
-    )
-  })
+    );
+  });
 
   it('should throw if cart is empty', async () => {
     prisma.$transaction.mockImplementation(async (cb) =>
@@ -50,12 +50,12 @@ describe('OrdersService', () => {
           }),
         },
       }),
-    )
+    );
 
     await expect(service.createOrder('token')).rejects.toThrow(
       BadRequestException,
-    )
-  })
+    );
+  });
 
   it('should create order successfully', async () => {
     const mockSession = {
@@ -72,7 +72,7 @@ describe('OrdersService', () => {
           },
         },
       ],
-    }
+    };
 
     const tx = {
       customerSession: {
@@ -85,14 +85,14 @@ describe('OrdersService', () => {
       cartItem: {
         deleteMany: jest.fn(),
       },
-    }
+    };
 
-    prisma.$transaction.mockImplementation(async (cb) => cb(tx))
+    prisma.$transaction.mockImplementation(async (cb) => cb(tx));
 
-    const result = await service.createOrder('token')
+    const result = await service.createOrder('token');
 
-    expect(tx.order.create).toHaveBeenCalled()
-    expect(tx.cartItem.deleteMany).toHaveBeenCalled()
-    expect(result).toEqual({ id: 'order1' })
-  })
-})
+    expect(tx.order.create).toHaveBeenCalled();
+    expect(tx.cartItem.deleteMany).toHaveBeenCalled();
+    expect(result).toEqual({ id: 'order1' });
+  });
+});

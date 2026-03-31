@@ -4,7 +4,7 @@ import {
   CategoryDto,
   ProductDto,
 } from './dto/menu-response.dto';
-import { Prisma } from '../../common/generated/prisma';
+import { Prisma } from '@prisma/client';
 
 const ASSETS_BASE_URL = process.env.ASSETS_BASE_URL || '';
 
