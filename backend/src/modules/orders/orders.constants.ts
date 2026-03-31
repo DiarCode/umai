@@ -1,2 +1,19 @@
 export const TAX_RATE = 0.1;
 export const SERVICE_FEE_RATE = 0.05;
+export enum OrderStatus {
+  PLACED = 'PLACED',
+  CONFIRMED = 'CONFIRMED',
+  PREPARING = 'PREPARING',
+  READY = 'READY',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
+export const ORDER_STATUS_TRANSITIONS: Record<string, string[]> = {
+  PLACED: ['CONFIRMED', 'CANCELLED'],
+  CONFIRMED: ['PREPARING', 'CANCELLED'],
+  PREPARING: ['READY'],
+  READY: ['COMPLETED'],
+  COMPLETED: [],
+  CANCELLED: [],
+};

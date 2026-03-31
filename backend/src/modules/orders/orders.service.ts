@@ -4,8 +4,8 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from '../../common/prisma/prisma.service';
-import { Prisma } from '../../common/generated/prisma';
-import { TAX_RATE, SERVICE_FEE_RATE } from './orders.constants';
+import { Prisma } from '@prisma/client';
+import { TAX_RATE, SERVICE_FEE_RATE, OrderStatus } from './orders.constants';
 
 @Injectable()
 export class OrdersService {
@@ -54,22 +54,24 @@ export class OrdersService {
           restaurantId: session.restaurantId,
           tableSessionId: session.id,
           orderNumber,
-          status: 'PLACED',
+          status: OrderStatus.PLACED,
           currency: session.restaurant.currency,
           subtotal: new Prisma.Decimal(subtotal),
           tax: new Prisma.Decimal(tax),
           serviceFee: new Prisma.Decimal(serviceFee),
           total: new Prisma.Decimal(total),
           items: {
-            create: session.cartItems.map((item) => ({
+            create: session.cartItems.map((item) => {
+              const unitPrice = new Prisma.Decimal(item.product.price);
+              const quantity = new Prisma.Decimal(item.quantity);
+              return {
               productId: item.productId,
               quantity: item.quantity,
               nameSnapshot: item.product.name,
-              unitPriceSnapshot: new Prisma.Decimal(item.product.price),
-              totalPriceSnapshot: new Prisma.Decimal(
-                item.quantity * Number(item.product.price),
-              ),
-            })),
+              unitPriceSnapshot: unitPrice,
+              totalPriceSnapshot: unitPrice.mul(quantity),
+              };
+            }),
           },
         },
         include: {
