@@ -35,7 +35,7 @@ export class MenuService {
             products: {
               where: {
                 isAvailable: true,
-                ...(dietary && {
+                ...(normalizedDietary && {
                   dietaryTags: {
                     has: normalizedDietary,
                   },
