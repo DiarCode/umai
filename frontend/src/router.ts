@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { restaurants } from './modules/entry/services/entry-service'
+import { fetchRestaurantBySlug } from './modules/entry/services/entry-service'
 import { mockMenu } from './modules/dish/services/menu.service'
 
 const router = createRouter({
@@ -40,7 +40,8 @@ const router = createRouter({
     },
   ],
 })
-router.beforeEach((to, from, next) => {
+
+router.beforeEach(async (to, from, next) => {
   const code = to.params.code as string | undefined
 
   if (to.name === 'not-found') {
@@ -49,27 +50,33 @@ router.beforeEach((to, from, next) => {
 
   if (!code) return next()
 
-  const restaurant = restaurants.find((r) => String(r.code).toLowerCase() === code.toLowerCase())
+  try {
+    const restaurant = await fetchRestaurantBySlug(code)
 
-  if (!restaurant) {
+    if (!restaurant) {
+      return next({ name: 'not-found', params: { code, type: 'restaurant' } })
+    }
+
+    if (restaurant.status === 'closed' && (to.name === 'menu' || to.name === 'dish')) {
+      return next(`/restaurant/${code}`)
+    }
+
+    if (to.name === 'dish') {
+      const dishId = to.params.id as string
+      const dishExists = mockMenu.some((d) => String(d.id) === dishId)
+      if (!dishExists) {
+        return next({
+          name: 'not-found',
+          params: { code },
+          query: { type: 'dish', id: dishId },
+        })
+      }
+    }
+    next()
+  } catch (error) {
+    console.error('Error fetching restaurant:', error)
     return next({ name: 'not-found', params: { code, type: 'restaurant' } })
   }
-
-  if (restaurant.status === 'closed' && (to.name === 'menu' || to.name === 'dish')) {
-    return next(`/restaurant/${code}`)
-  }
-
-  if (to.name === 'dish') {
-    const dishId = to.params.id as string
-    const dishExists = mockMenu.some((d) => String(d.id) === dishId)
-    if (!dishExists) {
-      return next({
-        name: 'not-found',
-        params: { code },
-        query: { type: 'dish', id: dishId },
-      })
-    }
-  }
-  next()
 })
+
 export default router
