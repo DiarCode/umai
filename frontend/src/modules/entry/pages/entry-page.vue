@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
 import { useRestaurantQuery } from '../composables/use-restaurant-query'
 import RestaurantInfo from '../components/restaurant-info.vue'
 
 const route = useRoute()
 const router = useRouter()
-const code = computed(() => String(route.params.code || ''))
+const code = String(route.params.code || '')
 
-const { data, isLoading, isOpen } = useRestaurantQuery(code.value)
+const { data, isLoading, isOpen } = useRestaurantQuery(code)
+
 
 const openMenu = () => {
   if (!isOpen.value) return
-  router.push({ name: 'menu', params: { code: code.value } })
+  router.push({ name: 'menu', params: { code: code } })
 }
 </script>
 

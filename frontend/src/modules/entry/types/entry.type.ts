@@ -7,8 +7,8 @@ export interface Product {
   currency: string
   assets: {
     photo: string | null
+    model3d: string | null
   }
-  status: 'open' | 'closed'
 }
 
 export interface Category {
@@ -38,4 +38,5 @@ export interface RestaurantResponse {
   description: string
   logo?: string
   restaurant: RestaurantInfo
+  categories: Category[]
 }

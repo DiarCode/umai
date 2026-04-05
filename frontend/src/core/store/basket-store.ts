@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 interface BasketItem {
-  id: number
+  id: string
   name: string
   price: number
   image?: string
@@ -26,12 +26,12 @@ export const useBasketStore = defineStore('basket', {
       }
     },
 
-    increase(id: number) {
+    increase(id: string) {
       const item = this.items.find((i) => i.id === id)
       if (item) item.quantity++
     },
 
-    decrease(id: number) {
+    decrease(id: string) {
       const item = this.items.find((i) => i.id === id)
       if (!item) return
 
