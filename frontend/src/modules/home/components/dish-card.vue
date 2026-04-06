@@ -10,8 +10,8 @@ const props = defineProps<{
     description?: string | null
     price: number
     assets: {
-      photo?: string
-      model3d?: string
+      photo: string | null
+      model3d: string | null
     }
   }
 }>()
@@ -20,7 +20,7 @@ const router = useRouter()
 const route = useRoute()
 const basketStore = useBasketStore()
 
-const imageSrc = ref(props.dish.assets.photo)
+const imageSrc = ref(props.dish.assets.photo )
 
 const navigateToDish = () => {
   sessionStorage.setItem("menuScroll", String(window.scrollY))
@@ -36,7 +36,7 @@ const navigateToDish = () => {
 
 const itemQuantityInCart = computed(() => {
   const item = basketStore.items.find((i) => String(i.id) === props.dish.id)
-  return item?.quantity || 0;
+  return item?.quantity || 0
 });
 
 const isInCart = computed(() => itemQuantityInCart.value > 0);
@@ -49,13 +49,13 @@ const handleAddToCart = (e: Event) => {
 watch(
   () => props.dish.assets.photo,
   (newVal) => {
-    imageSrc.value = newVal;
+    imageSrc.value = newVal
   },
-);
+)
 
 const handleImageError = () => {
-  imageSrc.value = undefined
-};
+  imageSrc.value = null
+}
 </script>
 
 <template>
