@@ -1,26 +1,19 @@
-import type { Restaurant } from '../types/entry.type'
+import { apiClient } from '@/api/apiClient'
+import type { RestaurantResponse, RestaurantApiResponse } from '../types/entry.type'
 
-export const restaurants: Restaurant[] = [
-  {
-    id: '1',
-    code: 'pizza-place',
-    name: 'Pizza Place',
-    logo: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE2o3qZjCGPaAuBdfj8LsJyWwH02tRA432Uw&s',
-    status: 'open',
-    description: 'Лучшие пиццы в городе с разнообразными начинками и хрустящей корочкой.',
-  },
-  {
-    id: '2',
-    code: 'sushi-bar',
-    name: 'Sushi Bar',
-    status: 'open',
-    description: 'Свежайший суши и роллы, приготовленные с любовью и заботой о качестве.',
-  },
-  {
-    id: '3',
-    code: 'burger-house',
-    name: 'Burger House',
-    status: 'closed',
-    description: 'Вкусные гамбургеры и свежие салаты.',
-  },
-]
+export async function fetchRestaurantBySlug(restaurantSlug: string): Promise<RestaurantResponse> {
+  const response = await apiClient.get<RestaurantApiResponse>(`/v1/menu/${restaurantSlug}`)
+  const data = response.data
+
+  console.log("API:", data)
+
+  const restaurant: RestaurantResponse = {
+    status: "open",
+    description: data.restaurant.name,
+    logo: data.restaurant.logo || null,
+    restaurant: data.restaurant,
+    categories: data.categories || [],
+  };
+
+  return restaurant;
+}

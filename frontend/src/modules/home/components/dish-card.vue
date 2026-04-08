@@ -5,13 +5,14 @@ import { useBasketStore } from '@/core/store/basket-store'
 
 const props = defineProps<{
   dish: {
-    id: number
+    id: string
     name: string
-    description: string
+    description?: string | null
     price: number
-    image?: string
-    model3d?: string
-    categoryId: string
+    assets: {
+      photo: string | null
+      model3d: string | null
+    }
   }
 }>()
 
@@ -19,13 +20,13 @@ const router = useRouter()
 const route = useRoute()
 const basketStore = useBasketStore()
 
-const imageSrc = ref(props.dish.image)
+const imageSrc = ref(props.dish.assets.photo )
 
 const navigateToDish = () => {
-  sessionStorage.setItem('menuScroll', String(window.scrollY))
+  sessionStorage.setItem("menuScroll", String(window.scrollY))
 
   router.push({
-    name: 'dish',
+    name: "dish",
     params: {
       code: route.params.code,
       id: props.dish.id,
@@ -34,26 +35,26 @@ const navigateToDish = () => {
 }
 
 const itemQuantityInCart = computed(() => {
-  const item = basketStore.items.find((i) => i.id === props.dish.id)
+  const item = basketStore.items.find((i) => String(i.id) === props.dish.id)
   return item?.quantity || 0
-})
+});
 
-const isInCart = computed(() => itemQuantityInCart.value > 0)
+const isInCart = computed(() => itemQuantityInCart.value > 0);
 
 const handleAddToCart = (e: Event) => {
   e.stopPropagation()
   basketStore.addToCart(props.dish)
-}
+};
 
 watch(
-  () => props.dish.image,
+  () => props.dish.assets.photo,
   (newVal) => {
     imageSrc.value = newVal
   },
 )
 
 const handleImageError = () => {
-  imageSrc.value = undefined
+  imageSrc.value = null
 }
 </script>
 

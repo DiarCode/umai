@@ -4,7 +4,7 @@ import { useBasketStore } from '@/core/store/basket-store'
 
 const props = defineProps<{
   dish: {
-    id: number
+    id: string
     name: string
     price: number
   }

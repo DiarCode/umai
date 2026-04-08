@@ -1,25 +1,28 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router'
-import { computed } from 'vue'
-import { useRestaurant } from '../composables/use-restaurant'
+import { useRestaurantQuery } from '../composables/use-restaurant-query'
 import RestaurantInfo from '../components/restaurant-info.vue'
 
 const route = useRoute()
 const router = useRouter()
-const code = computed(() => String(route.params.code || ''))
+const code = String(route.params.code || '')
 
-const { restaurant, isFound, isOpen } = useRestaurant(code.value)
+const { data, isLoading, isOpen } = useRestaurantQuery(code)
+
 
 const openMenu = () => {
-  if (!isFound.value || !isOpen.value) return
-  router.push({ name: 'menu', params: { code: code.value } })
+  if (!isOpen.value) return
+  router.push({ name: 'menu', params: { code: code } })
 }
 </script>
 
 <template>
   <div class="min-h-screen flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl p-8 text-center">
-      <RestaurantInfo :restaurantData="restaurant!" />
+    <div v-if="isLoading" class="bg-white rounded-2xl shadow-xl p-8 text-center">
+      <p class="text-gray-600 text-lg font-semibold">⏳ Загрузка...</p>
+    </div>
+    <div v-else-if="data" class="bg-white rounded-2xl shadow-xl p-8 text-center">
+      <RestaurantInfo :restaurantData="data" />
 
       <p v-if="isOpen" class="text-green-600 mt-4">Ресторан открыт</p>
       <p v-else class="text-red-600 mt-4">Ресторан закрыт</p>
