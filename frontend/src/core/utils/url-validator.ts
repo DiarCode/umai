@@ -1,7 +1,6 @@
 export function isValidImageUrl(url: string | null | undefined): boolean {
   if (!url) return false;
 
-  // Allow safe data URIs for images
   if (url.startsWith('data:image/')) {
     return true;
   }

@@ -30,7 +30,7 @@ export const useBasketStore = defineStore("basket", {
       const existing = this.items.find((i) => i.id === dish.id);
 
       if (existing) {
-        if (existing.quantity >= 99) return; // лимит
+        if (existing.quantity >= 99) return;
         existing.quantity++;
       } else {
         this.items.push({ ...dish, quantity: 1 });

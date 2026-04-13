@@ -21,7 +21,6 @@ const router = useRouter();
 const route = useRoute();
 const basketStore = useBasketStore();
 
-// Use safe image URL after validation
 const imageSrc = computed(() => {
   const url = props.dish.assets.photo;
   return isValidImageUrl(url) ? url : null;
