@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { Component } from 'vue'
+import type { Component } from "vue";
 
 defineProps<{
-  label: string
-  icon: Component
-  bgColor: string
-}>()
+  label: string;
+  icon: Component;
+  bgColor: string;
+}>();
 
 const emit = defineEmits<{
-  (e: 'action'): void
-}>()
+  (e: "action"): void;
+}>();
 
 const handleClick = () => {
-  emit('action')
-}
+  emit("action");
+};
 </script>
 
 <template>

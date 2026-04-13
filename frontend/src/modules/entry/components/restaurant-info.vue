@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import type { Restaurant } from '../types/entry.type'
+import { computed } from "vue";
+import type { RestaurantResponse } from "../types/entry.type";
+import { isValidImageUrl } from "@/core/utils/url-validator";
 
-defineProps<{
-  restaurantData: Restaurant
-}>()
+const props = defineProps<{
+  restaurantData: RestaurantResponse;
+}>();
+
+const safeLogo = computed(() => {
+  return isValidImageUrl(props.restaurantData.logo) ? props.restaurantData.logo : null;
+});
 </script>
 
 <template>
   <div class="text-center">
     <div
-      v-if="restaurantData.logo"
+      v-if="safeLogo"
       class="w-24 h-24 bg-white rounded-full mx-auto mb-4 overflow-hidden border"
     >
       <img
-        :src="restaurantData.logo"
-        :alt="restaurantData.name"
+        :src="safeLogo"
+        :alt="restaurantData.restaurant.name"
         class="w-full h-full object-cover"
       />
     </div>
@@ -29,10 +35,10 @@ defineProps<{
       </svg>
     </div>
     <h1 class="text-3xl font-bold text-slate-900 mb-2">
-      {{ restaurantData.name }}
+      {{ restaurantData.restaurant.name }}
     </h1>
     <p class="text-slate-600 text-sm">
-      {{ restaurantData.description || 'Описание недоступно' }}
+      {{ restaurantData.description || "Описание недоступно" }}
     </p>
   </div>
 </template>

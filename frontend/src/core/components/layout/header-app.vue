@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { Menu, ShoppingCart } from 'lucide-vue-next'
-import { useBasketStore } from '@/core/store/basket-store'
+import { Menu, ShoppingCart } from "lucide-vue-next";
+import { useBasketStore } from "@/core/store/basket-store";
 
-const basket = useBasketStore()
+const basket = useBasketStore();
 
 const emit = defineEmits<{
-  (e: 'openMenu'): void
-  (e: 'openBasket'): void
-}>()
+  (e: "openMenu"): void;
+  (e: "openBasket"): void;
+}>();
 </script>
 
 <template>

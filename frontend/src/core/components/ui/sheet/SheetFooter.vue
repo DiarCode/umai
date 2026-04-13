@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue'
-import { cn } from '@/core/utils/tailwind.utils'
+import type { HTMLAttributes } from "vue";
+import { cn } from "@/core/utils/tailwind.utils";
 
-const props = defineProps<{ class?: HTMLAttributes['class'] }>()
+const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 </script>
 
 <template>

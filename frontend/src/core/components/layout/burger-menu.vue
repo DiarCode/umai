@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
 const emit = defineEmits<{
-  (e: 'close'): void
-}>()
+  (e: "close"): void;
+}>();
 
-const code = computed(() => route.params.code as string)
+const code = computed(() => route.params.code as string);
 
 const handleNavigation = async (routeName: string) => {
   try {
     await router.push({
       name: routeName,
       params: { code: code.value },
-    })
+    });
   } finally {
-    emit('close')
+    emit("close");
   }
-}
+};
 </script>
 
 <template>

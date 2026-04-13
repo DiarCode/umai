@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router'
-import { computed } from 'vue'
-import { ArrowLeft } from 'lucide-vue-next'
+import { useRouter, useRoute } from "vue-router";
+import { computed } from "vue";
+import { ArrowLeft } from "lucide-vue-next";
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const code = computed(() => route.params.code as string)
+const code = computed(() => route.params.code as string);
 
 const goBack = () => {
   router.push({
-    name: 'menu',
+    name: "menu",
     params: { code: code.value },
-  })
-}
+  });
+};
 </script>
 <template>
   <button

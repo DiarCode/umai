@@ -1,35 +1,44 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import DiscountCard from '../components/discount-card.vue'
-import DishCard from '../components/dish-card.vue'
-import CategoriesSlider from '../components/categories-slider.vue'
-import { mockCategories } from '../services/categories.service'
-import { mockMenu } from '../../dish/services/menu.service'
-import { Flame } from 'lucide-vue-next'
-import { onMounted } from 'vue'
-import BtnScroll from '../components/btn-scroll.vue'
+import { ref, computed, watchEffect, onMounted } from "vue";
+import DiscountCard from "../components/discount-card.vue";
+import DishCard from "../components/dish-card.vue";
+import CategoriesSlider from "../components/categories-slider.vue";
+import BtnScroll from "../components/btn-scroll.vue";
+import { Flame } from "lucide-vue-next";
+import { useRestaurantContext } from "@/modules/entry/composables/useRestaurantContext";
+
+const { data } = useRestaurantContext("restaurant");
 
 onMounted(() => {
-  const savedScroll = sessionStorage.getItem('menuScroll')
+  const savedScroll = sessionStorage.getItem("menuScroll");
 
   if (savedScroll) {
-    window.scrollTo(0, Number(savedScroll))
-    sessionStorage.removeItem('menuScroll')
+    window.scrollTo(0, Number(savedScroll));
+    sessionStorage.removeItem("menuScroll");
   }
-})
+});
 
-const activeCategory = ref('all')
-const dishes = ref(mockMenu)
+const activeCategory = ref<string | null>(null);
+
+const categories = computed(() => data.value?.categories || []);
+
+
+const dishes = computed(() => {
+  return categories.value.flatMap((category) =>
+    (category.products || []).map((product) => ({
+      ...product,
+      categorySlug: category.slug,
+    })),
+  );
+});
 
 const filteredDishes = computed(() => {
-  const allDishes = dishes.value ?? []
-
-  if (activeCategory.value === 'all') {
-    return allDishes
+  if (!activeCategory.value) {
+    return dishes.value;
   }
 
-  return allDishes.filter((dish) => dish.categoryId === activeCategory.value)
-})
+  return dishes.value.filter((dish) => dish.categorySlug === activeCategory.value);
+});
 </script>
 
 <template>
@@ -49,7 +58,7 @@ const filteredDishes = computed(() => {
 
     <section>
       <h2 class="text-lg font-bold mb-3">Категории</h2>
-      <CategoriesSlider v-model="activeCategory" :categories="mockCategories" />
+      <CategoriesSlider v-model="activeCategory" :categories="categories" />
     </section>
 
     <section>
