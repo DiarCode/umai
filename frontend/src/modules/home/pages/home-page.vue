@@ -1,60 +1,44 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
-import DiscountCard from '../components/discount-card.vue'
-import DishCard from '../components/dish-card.vue'
-import CategoriesSlider from '../components/categories-slider.vue'
-import BtnScroll from '../components/btn-scroll.vue'
-import { Flame } from 'lucide-vue-next'
-import { onMounted } from 'vue'
-import { useRestaurantQuery } from '@/modules/entry/composables/use-restaurant-query'
-import {watchEffect} from 'vue'
+import { ref, computed, watchEffect, onMounted } from "vue";
+import DiscountCard from "../components/discount-card.vue";
+import DishCard from "../components/dish-card.vue";
+import CategoriesSlider from "../components/categories-slider.vue";
+import BtnScroll from "../components/btn-scroll.vue";
+import { Flame } from "lucide-vue-next";
+import { useRestaurantContext } from "@/modules/entry/composables/useRestaurantContext";
 
-
-const route = useRoute()
-const code = String(route.params.code)
-const {data} = useRestaurantQuery(code || '')
-
+const { data } = useRestaurantContext("restaurant");
 
 onMounted(() => {
-  const savedScroll = sessionStorage.getItem('menuScroll')
+  const savedScroll = sessionStorage.getItem("menuScroll");
 
   if (savedScroll) {
-    window.scrollTo(0, Number(savedScroll))
-    sessionStorage.removeItem('menuScroll')
+    window.scrollTo(0, Number(savedScroll));
+    sessionStorage.removeItem("menuScroll");
   }
-})
+});
 
-const activeCategory = ref('all')
+const activeCategory = ref<string | null>(null);
 
-const categories = computed(() => data.value?.categories || [])
-watchEffect(() => {
-  console.log("Категории из запроса :", categories.value)
-})      
+const categories = computed(() => data.value?.categories || []);
+
 
 const dishes = computed(() => {
-  return categories.value.flatMap(category =>
-    (category.products || []).map(product => ({
+  return categories.value.flatMap((category) =>
+    (category.products || []).map((product) => ({
       ...product,
-      categorySlug: category.slug 
-    }))
-  )
-})
-
-watchEffect(() => {
-  console.log("Все блюда :", dishes.value)
-})
+      categorySlug: category.slug,
+    })),
+  );
+});
 
 const filteredDishes = computed(() => {
-  if (activeCategory.value === 'all') {
-    return dishes.value
+  if (!activeCategory.value) {
+    return dishes.value;
   }
 
-  return dishes.value.filter(
-    dish => dish.categorySlug === activeCategory.value
-  )
-})
-
+  return dishes.value.filter((dish) => dish.categorySlug === activeCategory.value);
+});
 </script>
 
 <template>

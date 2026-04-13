@@ -1,29 +1,38 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useBasketStore } from '@/core/store/basket-store'
+import { computed, ref } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { useBasketStore } from "@/core/store/basket-store";
+import { isValidImageUrl } from "../../../core/utils/url-validator";
 
 const props = defineProps<{
   dish: {
-    id: string
-    name: string
-    description?: string | null
-    price: number
+    id: string;
+    name: string;
+    description?: string | null;
+    price: number;
     assets: {
-      photo: string | null
-      model3d: string | null
-    }
-  }
-}>()
+      photo: string | null;
+      model3d: string | null;
+    };
+  };
+}>();
 
-const router = useRouter()
-const route = useRoute()
-const basketStore = useBasketStore()
+const router = useRouter();
+const route = useRoute();
+const basketStore = useBasketStore();
 
-const imageSrc = ref(props.dish.assets.photo )
+// Use safe image URL after validation
+const imageSrc = computed(() => {
+  const url = props.dish.assets.photo;
+  return isValidImageUrl(url) ? url : null;
+});
 
 const navigateToDish = () => {
-  sessionStorage.setItem("menuScroll", String(window.scrollY))
+  try {
+    sessionStorage.setItem("menuScroll", String(window.scrollY));
+  } catch (e) {
+    console.warn("Scroll save failed:", e);
+  }
 
   router.push({
     name: "dish",
@@ -31,31 +40,26 @@ const navigateToDish = () => {
       code: route.params.code,
       id: props.dish.id,
     },
-  })
-}
+  });
+};
 
 const itemQuantityInCart = computed(() => {
-  const item = basketStore.items.find((i) => String(i.id) === props.dish.id)
-  return item?.quantity || 0
+  const item = basketStore.items.find((i) => String(i.id) === props.dish.id);
+  return item?.quantity || 0;
 });
 
 const isInCart = computed(() => itemQuantityInCart.value > 0);
 
+const imageLoadError = ref(false);
+
 const handleAddToCart = (e: Event) => {
-  e.stopPropagation()
-  basketStore.addToCart(props.dish)
+  e.stopPropagation();
+  basketStore.addToCart(props.dish);
 };
 
-watch(
-  () => props.dish.assets.photo,
-  (newVal) => {
-    imageSrc.value = newVal
-  },
-)
-
 const handleImageError = () => {
-  imageSrc.value = null
-}
+  imageLoadError.value = true;
+};
 </script>
 
 <template>
@@ -66,7 +70,7 @@ const handleImageError = () => {
   >
     <div class="relative overflow-hidden bg-gray-200 h-40">
       <div
-        v-if="!imageSrc"
+        v-if="!imageSrc || imageLoadError"
         class="w-full h-full from-blue-200 to-purple-200 flex items-center justify-center"
       >
         <span class="text-4xl">🍽️</span>

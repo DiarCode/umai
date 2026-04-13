@@ -1,6 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router"
-import { fetchRestaurantBySlug } from "./modules/entry/services/entry-service"
-
+import { createRouter, createWebHistory } from "vue-router";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -32,53 +30,19 @@ const router = createRouter({
       ],
     },
     {
-      path: "/not-found/:code",
+      path: "/not-found/:code?",
       name: "not-found",
       component: () => import("@/modules/entry/pages/not-found.vue"),
     },
+    {
+      path: "/server-error/:code?",
+      name: "server-error",
+      component: () => import("@/modules/entry/pages/server-error.vue"),
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: { name: "not-found" },
+    },
   ],
 });
-
-router.beforeEach(async (to, from, next) => {
-  const code = to.params.code as string | undefined;
-
-  if (!code) return next();
-
-  if (to.name === "not-found") return next();
-
-  try {
-    const restaurant = await fetchRestaurantBySlug(code);
-
-    if (!restaurant) {
-      return next({ name: "not-found", params: { code, type: "restaurant" } });
-    }
-
-    if (restaurant.status !== "open" && (to.name === "menu" || to.name === "dish")) {
-      return next({ name: "entry", params: { code } });
-    }
-
-    if (to.name === "dish") {
-      const dishId = to.params.id as string | undefined
-
-      if (!dishId) return next({ name: "not-found", params: { code } });
-
-      const allProducts = restaurant.categories?.flatMap(cat => cat.products ?? []) ?? [];
-      const productExists = allProducts.some(p => String(p.id) === dishId)
-
-      if (!productExists) {
-        return next({
-          name: "not-found",
-          params: { code },
-          query: { type: "dish", id: dishId },
-        })
-      }
-    }
-
-    next();
-  } catch (error) {
-    console.error("Error fetching restaurant:", error)
-    return next({ name: "not-found", params: { code, type: "restaurant" } })
-  }
-});
-
 export default router;

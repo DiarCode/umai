@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useBasketStore } from '@/core/store/basket-store'
+import { computed } from "vue";
+import { useBasketStore } from "@/core/store/basket-store";
 
 const props = defineProps<{
   dish: {
-    id: string
-    name: string
-    price: number
-  }
-}>()
+    id: string;
+    name: string;
+    price: number;
+  };
+}>();
 
-const basketStore = useBasketStore()
+const basketStore = useBasketStore();
 
 const quantity = computed(() => {
-  const item = basketStore.items.find((i) => i.id === props.dish.id)
-  return item?.quantity || 0
-})
+  const item = basketStore.items.find((i) => i.id === props.dish.id);
+  return item?.quantity || 0;
+});
 </script>
 
 <template>

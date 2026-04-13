@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useBasketStore } from '@/core/store/basket-store'
+import { useBasketStore } from "@/core/store/basket-store";
 
-const basket = useBasketStore()
+const basket = useBasketStore();
 
 const orderBtn = () => {
-  alert('Заказ оформлен!')
-  console.log('Заказ оформлен!')
-}
+  alert("Заказ оформлен!");
+  console.log("Заказ оформлен!");
+};
 </script>
 
 <template>

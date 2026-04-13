@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from "vue";
 
 const props = defineProps<{
-  glb?: string 
-  poster?: string 
-}>()
+  glb?: string;
+  poster?: string;
+}>();
 
-const loading = ref(true)
+const loading = ref(true);
 
 const emit = defineEmits<{
-  (e: 'close'): void
-}>()
+  (e: "close"): void;
+}>();
 </script>
 
 <template>

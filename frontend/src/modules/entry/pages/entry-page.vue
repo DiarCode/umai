@@ -1,19 +1,13 @@
 <script setup lang="ts">
-import { useRoute, useRouter } from 'vue-router'
-import { useRestaurantQuery } from '../composables/use-restaurant-query'
-import RestaurantInfo from '../components/restaurant-info.vue'
+import { useRestaurantContext } from "../composables/useRestaurantContext";
+import RestaurantInfo from "../components/restaurant-info.vue";
 
-const route = useRoute()
-const router = useRouter()
-const code = String(route.params.code || '')
-
-const { data, isLoading, isOpen } = useRestaurantQuery(code)
-
+const { data, isLoading, isOpen, code, router } = useRestaurantContext("restaurant");
 
 const openMenu = () => {
-  if (!isOpen.value) return
-  router.push({ name: 'menu', params: { code: code } })
-}
+  if (!isOpen.value) return;
+  router.push({ name: "menu", params: { code: code.value } });
+};
 </script>
 
 <template>
@@ -21,6 +15,7 @@ const openMenu = () => {
     <div v-if="isLoading" class="bg-white rounded-2xl shadow-xl p-8 text-center">
       <p class="text-gray-600 text-lg font-semibold">⏳ Загрузка...</p>
     </div>
+
     <div v-else-if="data" class="bg-white rounded-2xl shadow-xl p-8 text-center">
       <RestaurantInfo :restaurantData="data" />
 
